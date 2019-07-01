@@ -18,7 +18,6 @@ class Firebase {
     } 
 
     fetchEvents(setEventsCallback) {
-        console.log("Fetching events...")
         this.db.collection('events').onSnapshot(snapshot => {
             const events = snapshot.docs.map(doc => {
                 return doc.data();
@@ -29,13 +28,11 @@ class Firebase {
     }
 
     fetchGroupNames(setGroupNamesCallback) {
-        console.log("Fetching group names...")
         this.db.collection('groups').onSnapshot(snapshot => {
             const groupNames = snapshot.docs.map(doc => {
                 return doc.data();
             });
             console.log("Group names fetched successfully!")
-            console.log(groupNames)
             setGroupNamesCallback(groupNames)
         })
     }

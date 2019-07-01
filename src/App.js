@@ -21,7 +21,7 @@ function App() {
     firestore.fetchEvents(setEvents);
     firestore.fetchGroupNames(setGroupNames)
   }, [setEvents, setGroupNames])
-
+  
   return (
     <AppContext.Provider value={[ state, setState ]}>
       <div className="app">

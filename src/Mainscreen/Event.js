@@ -5,17 +5,40 @@ import IconLabel from './IconLabel';
 import { AppContext } from '../App';
 import './event.scss'
 
+const selectField = (event, field, lang) => {
+    const language = lang ? lang : 'NO';
+    const key = `${field}_${language}`
+
+    if (!event[key]) return '';
+    else if (field === 'from') return `${language === 'NO' ? 'Fra' : 'From'} ${event[key]}`
+    else return event[key];
+}
+
+const selectTime = ({ start_time, end_time }) => {
+    if (!start_time) return '';
+    if (!end_time) return start_time;
+
+    return `${start_time} – ${end_time}`;
+}
+
+const selectGroups = ({ groups }, lang) => {
+    const language = lang ? lang : 'NO';
+    if (groups === 'all') return language === 'NO' ? 'Alle grupper' : 'All groups';
+    
+    const prefix = language === 'NO' ? 'Gruppe ' : 'Group ';
+    return `${prefix} ${groups}`;   
+}
+
 const Event = ({ data }) => {
+    const event = data;
     const [ open, setOpen ] = useState(false);
     const [ state ] = useContext(AppContext);
     const lang = state.lang;
-    const title = lang === 'NO' ? data.title_nor : data.title_eng;
-    let description = lang === 'NO' ? data.desc_nor : data.desc_eng;
-    const start_time = data.start_time;
-    const end_time = data.end_time ? ` – ${data.end_time}` : '';
-    const time = start_time + end_time;
-    const groups = data.groups === 'all' ? (lang === 'NO' ? 'Alle grupper' : 'All groups') : `Gruppe ${data.groups}`
-    const from = lang === 'NO' ? `Fra ${data.from_nor}` : `From ${data.from_eng}`;
+    const title = selectField(event, 'title', lang);
+    const description = selectField(event, 'desc', lang);
+    const from = selectField(event, 'from', lang)
+    const time = selectTime(event);
+    const groups = selectGroups(event, lang);
     const address = data.address;
     const googleMaps = data.google_maps;
     const chevron = open ? SolidIcons["faChevronUp"] : SolidIcons["faChevronDown"];
