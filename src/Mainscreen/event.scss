@@ -1,0 +1,63 @@
+@import '../colors.scss';
+
+.event {
+    padding: 5% 10%;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 1px solid $border-lightgray;
+}
+
+.event-title {
+    font-size: 1rem;
+    font-weight: bold;
+    margin: 0;
+    margin-bottom: 5px;
+}
+
+.event-description {
+    font-size: 0.8rem;
+    margin: 0;
+    color: $text-lightgray;
+    margin-top: 10px;
+}
+
+.event-time {
+    margin: 0;
+    color: $text-lightgray;
+}
+
+.icon-label-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 6px;
+    font-size: 0.8rem;
+}
+
+.event-icon {
+    color: $text-lightgray;
+    font-size: 14px;
+}
+
+.icon-link {
+    color: blue !important;
+}
+
+.event-icon-label {
+    margin-left: 10px;
+    color: $text-lightgray;
+}
+
+.event-groups {
+    margin: 0;
+    color: $text-lightgray;
+}
+
+.event-chevron {
+    color: $text-lightgray;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 5px;
+    cursor: pointer;
+}

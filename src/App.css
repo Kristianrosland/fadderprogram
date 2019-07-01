@@ -1,33 +1,80 @@
-.App {
-  text-align: center;
+.app {
+    position: absolute;
+    height: 100%;
+    width: 100%; 
+    font-family: Lato;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
+.welcome-screen {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.welcome-screen-top {
+    height: 30%;
 }
 
-.App-link {
-  color: #61dafb;
+.dropdown-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
+    padding-top: 10%; 
+    padding-bottom: 10%; 
+    flex: 1;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.welcome-screen-main-title {
+    width: 100%;
+    color: black;
+    margin-bottom: 0;
+    text-align: center;
+    font-family: Lato;
+}
+
+.welcome-screen-sub-title {
+    width: 90%;
+    color: black;
+    text-align: center;
+    font-weight: 100;
+    padding: 0 5%;
+}
+
+.person-img {
+    width: 70%;
+    margin-bottom: 15%;
+}
+
+.ready-button {
+    display: flex;
+    flex-direction: row;
+    margin-top: auto;
+    width: 100%;
+    cursor: pointer;
+}
+
+.ready-button-text {
+    font-size: 1.3rem;
+    margin-left: auto;
+}
+
+.language-button {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    width: 40px;
+    height: 28px;
+}
+
+.nor-button {
+    background-image: url(https://cdn.countryflags.com/thumbs/norway/flag-400.png);
+}
+
+.uk-button {
+    background-image: url(https://www.gettysburgflag.com/media/catalog/product/cache/2/thumbnail/520x416/602f0fa2c1f0d1ba5e241f914e856ff9/1/2/1280px-flag_of_the_united_kingdom.svg.png);
 }
