@@ -71,6 +71,23 @@
     height: 28px;
 }
 
+.language-select {
+    position: absolute;
+    right: 8px;
+    top: 8px;
+    font-size: 1rem;
+    display: flex;
+    flex-direction: row;
+    p {
+        font-size: 0.75rem;
+        margin: 0 2px;
+    }
+}
+
+.selected-lang {
+    font-weight: bold;
+}
+
 .nor-button {
     background-image: url(https://cdn.countryflags.com/thumbs/norway/flag-400.png);
 }

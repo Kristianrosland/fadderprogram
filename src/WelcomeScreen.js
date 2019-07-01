@@ -54,7 +54,14 @@ const WelcomeScreen = ({ group, setGroup, setCookie, groupNames }) => {
             </div>
             <div className="dropdown-wrapper">
                 <img className="person-img" src="https://image.flaticon.com/icons/svg/145/145867.svg" alt="person" />
-                <Select readonly placeholder={placeholder} styles={customStyles} value={currentSelectedLabel} onChange={(v) => setSelected(v)} options={groups} />
+                <Select 
+                    inputProps={{ readOnly:true }}
+                    placeholder={ placeholder } 
+                    styles={ customStyles } 
+                    value={ currentSelectedLabel } 
+                    onChange={(v) => setSelected(v)} 
+                    options={ groups } 
+                />
                 <div className="ready-button" onClick={submit}>
                     <p className="ready-button-text"> { buttonLabel } </p>
                 </div>
