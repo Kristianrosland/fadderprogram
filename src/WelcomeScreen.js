@@ -61,6 +61,7 @@ const WelcomeScreen = ({ group, setGroup, setCookie, groupNames }) => {
                     value={ currentSelectedLabel } 
                     onChange={(v) => setSelected(v)} 
                     options={ groups } 
+                    isSearchable={ false }
                 />
                 <div className="ready-button" onClick={submit}>
                     <p className="ready-button-text"> { buttonLabel } </p>
