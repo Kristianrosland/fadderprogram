@@ -19,7 +19,6 @@
     "react-cookie": "^4.0.0",
     "react-dom": "^16.8.6",
     "react-dropdown": "^1.6.4",
-    "react-perfect-scrollbar": "^1.5.3",
     "react-scripts": "3.0.1",
     "react-select": "^3.0.4"
   },
