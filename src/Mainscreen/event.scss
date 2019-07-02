@@ -1,11 +1,12 @@
 @import '../colors.scss';
 
 .event {
-    padding: 5% 10%;
+    //padding: 5% 10%;
     height: auto;
     display: flex;
     flex-direction: column;
     border-bottom: 1px solid $border-lightgray;
+
 }
 
 .event-title {
