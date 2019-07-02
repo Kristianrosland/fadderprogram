@@ -31,7 +31,7 @@ const MainScreen = ({ group, events }) => {
     return (
         <div className="mainscreen-wrapper">
             <div className="mainscreen-header"> 
-                <label> { state.lang === 'NO' ? group.label_nor : group.label_eng } </label>
+                { <label> { state.lang === 'NO' ? group.label_nor : group.label_eng } </label> }
             </div>
             <div className="mainscreen-event-container">
                 { eventList }
