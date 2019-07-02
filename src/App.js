@@ -25,7 +25,7 @@ function App() {
   return (
     <AppContext.Provider value={[ state, setState ]}>
       <div className="app">
-        <SelectLanguage state={state} changeLanguage={changeLanguage} />
+        { /* <SelectLanguage state={state} changeLanguage={changeLanguage} /> */ }
         { !group && <WelcomeScreen groupNames={groupNames} setGroup={setGroup} setCookie={setCookie} /> }
         { group && <MainScreen events={events} group={group} setGroup={setGroup} removeCookie={removeCookie}/> }
       </div>
