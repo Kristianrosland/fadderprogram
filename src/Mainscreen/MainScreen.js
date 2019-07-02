@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react';
 import NavBarButton from './NavBarButton';
-import 'react-perfect-scrollbar/dist/css/styles.css';
 import { AppContext } from '../App';
 import Event from './Event';
 import { weekdays, translateDayIdx, eventTimeComparator} from '../utils'
