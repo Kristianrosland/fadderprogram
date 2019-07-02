@@ -14,6 +14,7 @@ html {
     height: 100%;
     width: 100%; 
     font-family: $default-font;
+    overflow: scroll;
 }
 
 .welcome-screen {
@@ -70,7 +71,7 @@ html {
     color: $text-gray;
 }
 
-/*.language-select {
+.language-select {
     position: absolute;
     right: 8px;
     top: 8px;
@@ -81,7 +82,7 @@ html {
         font-size: 0.75rem;
         margin: 0 2px;
     }
-}*/
+}
 
 .selected-lang {
     font-weight: bold;
