@@ -1,7 +1,6 @@
 import React, { useState, useContext } from 'react';
 import NavBarButton from './NavBarButton';
 import 'react-perfect-scrollbar/dist/css/styles.css';
-import PerfectScrollbar from 'react-perfect-scrollbar'
 import { AppContext } from '../App';
 import Event from './Event';
 import { weekdays, translateDayIdx, eventTimeComparator} from '../utils'
@@ -34,9 +33,9 @@ const MainScreen = ({ group, events }) => {
             <div className="mainscreen-header"> 
                 <label> { state.lang === 'NO' ? group.label_nor : group.label_eng } </label>
             </div>
-            <PerfectScrollbar className="mainscreen-event-container">
+            <div className="mainscreen-event-container">
                 { eventList }
-            </PerfectScrollbar>
+            </div>
             <div className="mainscreen-navbar-container">
                 { navBarButtons }
             </div>
