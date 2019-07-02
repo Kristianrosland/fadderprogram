@@ -12,19 +12,12 @@
 .event-title {
     font-size: 1rem;
     font-weight: bold;
-    margin: 0;
-    margin-bottom: 5px;
+    margin: 0 0 5px 0;
 }
 
 .event-description {
     font-size: 0.8rem;
-    margin: 0;
-    color: $text-lightgray;
-    margin-top: 10px;
-}
-
-.event-time {
-    margin: 0;
+    margin: 10px 0 0 0;
     color: $text-lightgray;
 }
 
@@ -47,11 +40,6 @@
 
 .event-icon-label {
     margin-left: 10px;
-    color: $text-lightgray;
-}
-
-.event-groups {
-    margin: 0;
     color: $text-lightgray;
 }
 
