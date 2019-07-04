@@ -44,16 +44,18 @@ const Event = ({ data }) => {
     const chevron = open ? SolidIcons["faChevronUp"] : SolidIcons["faChevronDown"];
 
     return (
-        <div className="event">
-            <label className="event-title"> { title } </label>
-            { time && <IconLabel icon="faClock" label={time} />}
-            { address && <IconLabel icon="faMap" label={address} link={googleMaps ? googleMaps : null}/> }
-            { data.groups && <IconLabel icon="faUser" label={groups} /> }
-            { from && <IconLabel icon="faComment" label={from} /> }
-            <p className="event-description">{ description }</p>
-            { /* <div className="event-chevron" onClick={() => setOpen(!open)}>
-                <FontAwesomeIcon icon={chevron} />
-            </div> */ }
+        <div className="event-wrapper">
+            <div className="event">
+                <label className="event-title"> { title } </label>
+                { time && <IconLabel icon="faClock" label={time} />}
+                { address && <IconLabel icon="faMap" label={address} link={googleMaps ? googleMaps : null}/> }
+                { data.groups && <IconLabel icon="faUser" label={groups} /> }
+                { from && <IconLabel icon="faComment" label={from} /> }
+                <p className="event-description">{ description }</p>
+                { /* <div className="event-chevron" onClick={() => setOpen(!open)}>
+                    <FontAwesomeIcon icon={chevron} />
+                </div> */ }
+            </div>
         </div>
     );
 };
