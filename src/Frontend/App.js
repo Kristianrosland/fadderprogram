@@ -10,12 +10,16 @@ const firestore = new Firebase();
 const AppContext = React.createContext();
 
 function App() {
-  const [ cookies, setCookie, removeCookie ] = useCookies(['group']);
+  const [ cookies, setCookie, removeCookie ] = useCookies(['group', 'language']);
   const [ group, setGroup ] = useState(cookies.group)
   const [ events, setEvents ] = useState(undefined)
   const [ groupNames, setGroupNames ] = useState(undefined)
-  const [ state, setState ] = useState({ lang: 'NO' });
-  const changeLanguage = () => setState({ ...state, lang: state.lang === 'NO' ? 'EN' : 'NO' })
+  const [ state, setState ] = useState({ lang: cookies.language ? cookies.language : 'NO' });
+  const changeLanguage = () => {
+    const newLang = state.lang === 'NO' ? 'EN' : 'NO';
+    setCookie('language', newLang)
+    setState({ ...state, lang: newLang });
+  }
 
   useEffect(() => {
     firestore.fetchEvents(setEvents);

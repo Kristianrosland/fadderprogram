@@ -32,17 +32,17 @@ const selectGroups = ({ groups }, lang) => {
 /****************************/
 /**** SubEvent component ****/
 /****************************/
-const SubEvent = ({ event: { title_NO, start_time, end_time, google_maps } }) => {
+const SubEvent = ({ event, event: { title_NO, start_time, end_time, google_maps }, lang }) => {
     const showUrl = google_maps && google_maps.startsWith('https');
 
     return (
         <div className="sub-event">
             <div className="sub-event-time-and-title">
-                <p className="sub-event-time"> { `${start_time} ${end_time ? `– ${end_time}` : ''}` } </p>
-                <p className="sub-event-title"> { title_NO } </p>
+                <p className="sub-event-time"> { selectTime(event) } </p>
+                <p className="sub-event-title"> { selectField(event, 'title', lang ) } </p>
                 { /*showUrl && <a className="sub-event-address sub-event-title" href={google_maps}> { title_NO }</a> */}
             </div>
-            { showUrl && <a className="sub-event-address" href={google_maps}> (kart) </a> }
+            { showUrl && <a className="sub-event-address" href={google_maps}> { lang === 'NO' ? '(kart)' : '(map)' } </a> }
         </div>
     );
 }
@@ -73,10 +73,11 @@ const Event = ({ data }) => {
                 { open && data.groups && <IconLabel icon="faUser" label={groups} /> }
                 { open && from && <IconLabel icon="faComment" label={from} /> }
                 { open && description && <p className="event-description"> { description } </p> }
-                { open && event.subEvents && event.subEvents.length > 0 && ( <div className="sub-event-wrapper">
-                        { event.subEvents.map((e, idx) => <SubEvent key={`${e.title}-${idx}`} event={e}/>) }
-                    </div>)
-                }
+                { open && event.subEvents && event.subEvents.length > 0 && ( 
+                    <div className="sub-event-wrapper">
+                        { event.subEvents.map((e, idx) => <SubEvent key={`${e.title}-${idx}`} event={e} lang={lang}/>) }
+                    </div>
+                )}
                 <div className="event-chevron" onClick={() => setOpen(!open)}>
                     <FontAwesomeIcon icon={chevron} />
                 </div>
