@@ -17,14 +17,14 @@ const MainScreen = ({ group, events }) => {
     
     const eventList = events
         ? events
-            .filter(e => translateDayIdx(e.day_nor) === day)
+            .filter(e => translateDayIdx(e.day_NO) === day)
             .filter(e => eventForGroupFilter(e, group))
             .sort(eventTimeComparator)
             .map((e,idx) => <Event key={`${e.title_nor}-${idx}`} data={e} />)
         : null;
 
     const navBarButtons = weekdays.map(
-        (el, idx) => <NavBarButton key={`${el.NO}-${idx}`} lang={state.lang} target={el} callback={setDay} selected={day === el.id} />
+        el => <NavBarButton key={el.NO} lang={state.lang} target={el} callback={setDay} selected={day === el.id} />
     )
 
     return (

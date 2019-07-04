@@ -3,7 +3,7 @@ import { useCookies } from 'react-cookie';
 import WelcomeScreen from './WelcomeScreen';
 import MainScreen from './Mainscreen/MainScreen';
 import SelectLanguage from './SelectLanguage';
-import Firebase from './Firestore'
+import Firebase from '../Firestore'
 import './App.scss';
 
 const firestore = new Firebase();

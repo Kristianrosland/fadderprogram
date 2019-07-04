@@ -13,7 +13,8 @@ export const translateDayIdx = day => {
             return id;
     }
     
-    return 0;
+    console.error(`Error: Could not translate day ${day} to index`);
+    return -1;
 }
 
 export const eventTimeComparator = (a, b) => {

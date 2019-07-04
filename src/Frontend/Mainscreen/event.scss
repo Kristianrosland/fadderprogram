@@ -9,7 +9,7 @@
 }
 
 .event {
-    padding: 5% 10%;
+    padding: 5% 10% 3% 10%;
     height: auto;
     display: flex;
     flex-direction: column;
@@ -39,7 +39,6 @@
     margin-top: 6px;
     font-size: 0.8rem;
     line-height: 1rem;
-    flex-basis: content;
 }
 
 .event-icon {
@@ -57,10 +56,14 @@
 }
 
 .event-chevron {
-    color: $text-lightgray;
+    @media only screen and (min-width: 600px) {
+        visibility: hidden;
+    }
+    width: 100%;
     display: flex;
     justify-content: center;
-    width: 100%;
+    color: $text-extra-lightgray;
+    font-size: 0.6rem;
     margin-top: 5px;
     cursor: pointer;
 }
