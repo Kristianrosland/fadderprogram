@@ -35,11 +35,9 @@ const MainScreen = ({ group, events }) => {
             <div className="mainscreen-event-container">
                 { eventList }
             </div>
-            { /*
             <div className="mainscreen-navbar-container">
                 { navBarButtons }
             </div>
-            */ } 
         </div>
     );
 };
