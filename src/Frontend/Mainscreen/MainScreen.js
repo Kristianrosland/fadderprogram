@@ -2,8 +2,24 @@ import React, { useState, useContext } from 'react';
 import NavBarButton from './NavBarButton';
 import { AppContext } from '../App';
 import Event from './Event';
+import Skeleton from 'react-loading-skeleton';
 import { weekdays, translateDayIdx, eventTimeComparator} from '../utils'
 import './Mainscreen.scss';
+
+const noisyWidth = baseWidth => baseWidth + (-10) + Math.random()*25
+
+const skeleton = (
+    <div className="skeleton-wrapper">
+        <Skeleton key={'skel-1'} height={24} width={noisyWidth(170)}/>
+        <div className="icon-label-skeletons">
+            <Skeleton key={'skel-2'} height={13} width={noisyWidth(110)}/>
+            <Skeleton key={'skel-3'} height={13} width={noisyWidth(210)}/>
+            <Skeleton key={'skel-4'} height={13} width={noisyWidth(100)}/>
+            <Skeleton key={'skel-5'} height={13} width={noisyWidth(155)}/>
+        </div>,
+        <Skeleton key={'skel-6'} height={13} width={noisyWidth(275)} count={3} />
+    </div>
+)
 
 const eventForGroupFilter = (event, group) => {
     if (!group || !group.value) return false; //If group is not set, show no events.
@@ -19,8 +35,8 @@ const MainScreen = ({ group, events }) => {
             .filter(e => translateDayIdx(e.day_NO) === day)
             .filter(e => eventForGroupFilter(e, group))
             .sort(eventTimeComparator)
-            .map((e,idx) => <Event key={e.id} data={e} />)
-        : null;
+            .map(e => <Event key={e.id} data={e} />)
+        : <> { skeleton } { skeleton } </>;
 
     const navBarButtons = weekdays.map(
         el => <NavBarButton key={el.NO} lang={state.lang} target={el} callback={setDay} selected={day === el.id} />

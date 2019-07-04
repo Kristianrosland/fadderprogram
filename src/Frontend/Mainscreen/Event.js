@@ -65,7 +65,7 @@ const Event = ({ data }) => {
     const chevron = open ? SolidIcons["faChevronUp"] : SolidIcons["faChevronDown"];
 
     return (
-        <div className={`event-wrapper ${open ? '' : 'closed'}`}>
+        <div className="event-wrapper">
             <div className="event">
                 <label className="event-title"> { title } </label>
                 { time && <IconLabel icon="faClock" label={time} />}
