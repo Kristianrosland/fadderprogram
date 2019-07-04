@@ -4,12 +4,14 @@ html {
     height: 100%;
     width: 100%;
     overflow: scroll;
+    -webkit-overflow-scrolling:touch;
 }
 
 #root {
     height: 100%;
     width: 100%;
     overflow: scroll;
+    -webkit-overflow-scrolling:touch;
 }
 
 .app {
@@ -17,6 +19,7 @@ html {
     width: 100%; 
     font-family: $default-font;
     overflow: scroll;
+    -webkit-overflow-scrolling:touch;
 }
 
 .welcome-screen {
