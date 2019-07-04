@@ -60,13 +60,14 @@
     flex-direction: column;
     border-top: 1px solid $border-lightgray;
     margin-top: 15px;
+    margin-bottom: 5px;
 }
 
 .sub-event {
     display: flex;
     flex-direction: row;
-    font-size: 0.70rem;
-    color: $text-lightgray;
+    font-size: 0.75rem;
+    color: $text-gray;
     width: 100%;
 }
 
@@ -74,20 +75,20 @@
     width: 90%;
     display: flex;
     flex-direction: row;
+    margin-top: 10px;
 }
 
 .sub-event-title {
-    margin: 5px 0 0 0;
-    margin-left: 0.6rem;
+    margin: 0 0 0 1rem;
 }
 
 .sub-event-time {
-    margin: 5px 0 0 0;
+    margin: 0;
     white-space: nowrap;
 }
 
 .sub-event-address {
-    margin: 5px;
+    margin: 10px 0 0 0;
     margin-left: auto;
     text-decoration: underline;
     color: blue !important;

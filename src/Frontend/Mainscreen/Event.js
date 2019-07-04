@@ -33,13 +33,16 @@ const selectGroups = ({ groups }, lang) => {
 /**** SubEvent component ****/
 /****************************/
 const SubEvent = ({ event: { title_NO, start_time, end_time, google_maps } }) => {
+    const showUrl = google_maps && google_maps.startsWith('https');
+
     return (
         <div className="sub-event">
             <div className="sub-event-time-and-title">
                 <p className="sub-event-time"> { `${start_time} ${end_time ? `– ${end_time}` : ''}` } </p>
-                <p className="sub-event-title"> { title_NO }</p>
+                <p className="sub-event-title"> { title_NO } </p>
+                { /*showUrl && <a className="sub-event-address sub-event-title" href={google_maps}> { title_NO }</a> */}
             </div>
-            { google_maps && google_maps.startsWith('https') && <a className="sub-event-address" href={google_maps}> (kart) </a> }
+            { showUrl && <a className="sub-event-address" href={google_maps}> (kart) </a> }
         </div>
     );
 }
@@ -70,7 +73,7 @@ const Event = ({ data }) => {
                 { open && data.groups && <IconLabel icon="faUser" label={groups} /> }
                 { open && from && <IconLabel icon="faComment" label={from} /> }
                 { open && description && <p className="event-description"> { description } </p> }
-                { open && event.subEvents && ( <div className="sub-event-wrapper">
+                { open && event.subEvents && event.subEvents.length > 0 && ( <div className="sub-event-wrapper">
                         { event.subEvents.map((e, idx) => <SubEvent key={`${e.title}-${idx}`} event={e}/>) }
                     </div>)
                 }
