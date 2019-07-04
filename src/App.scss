@@ -3,17 +3,20 @@
 html {
     height: 100%;
     width: 100%;
+    overflow: scroll;
 }
 
 #root {
     height: 100%;
     width: 100%;
+    overflow: scroll;
 }
 
 .app {
     height: 100%;
     width: 100%; 
     font-family: $default-font;
+    overflow: scroll;
 }
 
 .welcome-screen {

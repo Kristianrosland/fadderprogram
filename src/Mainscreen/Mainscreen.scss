@@ -5,6 +5,7 @@
     flex-direction: column;
     width: 100%;
     height: 100%;
+    overflow: scroll;
 }
 
 .mainscreen-header {
@@ -27,7 +28,7 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    overflow: auto;
+    overflow: scroll;
     -webkit-overflow-scrolling:touch;
     color: $text-gray;
 }
