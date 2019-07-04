@@ -19,7 +19,7 @@ const MainScreen = ({ group, events }) => {
             .filter(e => translateDayIdx(e.day_NO) === day)
             .filter(e => eventForGroupFilter(e, group))
             .sort(eventTimeComparator)
-            .map((e,idx) => <Event key={`${e.title_nor}-${idx}`} data={e} />)
+            .map((e,idx) => <Event key={e.id} data={e} />)
         : null;
 
     const navBarButtons = weekdays.map(

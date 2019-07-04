@@ -3,7 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as SolidIcons from '@fortawesome/free-solid-svg-icons';
 import IconLabel from './IconLabel';
 import { AppContext } from '../App';
-import './event.scss'
+import { eventTimeComparator } from '../utils';
+import './event.scss';
 
 const selectField = (event, field, lang) => {
     const language = lang ? lang : 'NO';
@@ -32,7 +33,7 @@ const selectGroups = ({ groups }, lang) => {
 /****************************/
 /**** SubEvent component ****/
 /****************************/
-const SubEvent = ({ event, event: { title_NO, start_time, end_time, google_maps }, lang }) => {
+const SubEvent = ({ event, event: { google_maps }, lang }) => {
     const showUrl = google_maps && google_maps.startsWith('https');
 
     return (
@@ -40,7 +41,6 @@ const SubEvent = ({ event, event: { title_NO, start_time, end_time, google_maps 
             <div className="sub-event-time-and-title">
                 <p className="sub-event-time"> { selectTime(event) } </p>
                 <p className="sub-event-title"> { selectField(event, 'title', lang ) } </p>
-                { /*showUrl && <a className="sub-event-address sub-event-title" href={google_maps}> { title_NO }</a> */}
             </div>
             { showUrl && <a className="sub-event-address" href={google_maps}> { lang === 'NO' ? '(kart)' : '(map)' } </a> }
         </div>
@@ -75,7 +75,9 @@ const Event = ({ data }) => {
                 { open && description && <p className="event-description"> { description } </p> }
                 { open && event.subEvents && event.subEvents.length > 0 && ( 
                     <div className="sub-event-wrapper">
-                        { event.subEvents.map((e, idx) => <SubEvent key={`${e.title}-${idx}`} event={e} lang={lang}/>) }
+                        { event.subEvents
+                            .sort(eventTimeComparator)
+                            .map(e => <SubEvent key={`${e.parent_event_id}-${e.title_NO}`} event={e} lang={lang}/>) }
                     </div>
                 )}
                 <div className="event-chevron" onClick={() => setOpen(!open)}>
