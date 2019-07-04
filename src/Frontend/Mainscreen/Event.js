@@ -29,10 +29,24 @@ const selectGroups = ({ groups }, lang) => {
     return `${prefix} ${groups}`;   
 }
 
-const SubEvent = props => {
-    return props.event.title;
+/****************************/
+/**** SubEvent component ****/
+/****************************/
+const SubEvent = ({ event: { title_NO, start_time, end_time, google_maps } }) => {
+    return (
+        <div className="sub-event">
+            <div className="sub-event-time-and-title">
+                <p className="sub-event-time"> { `${start_time} ${end_time ? `– ${end_time}` : ''}` } </p>
+                <p className="sub-event-title"> { title_NO }</p>
+            </div>
+            { google_maps && google_maps.startsWith('https') && <a className="sub-event-address" href={google_maps}> (kart) </a> }
+        </div>
+    );
 }
 
+/*****************************/
+/****** Event component ******/
+/*****************************/
 const Event = ({ data }) => {
     const event = data;
     const [ open, setOpen ] = useState(true);
@@ -47,9 +61,6 @@ const Event = ({ data }) => {
     const googleMaps = data.google_maps;
     const chevron = open ? SolidIcons["faChevronUp"] : SolidIcons["faChevronDown"];
 
-    if (event.hasSubevents)
-        console.log(event)
-
     return (
         <div className={`event-wrapper ${open ? '' : 'closed'}`}>
             <div className="event">
@@ -59,10 +70,13 @@ const Event = ({ data }) => {
                 { open && data.groups && <IconLabel icon="faUser" label={groups} /> }
                 { open && from && <IconLabel icon="faComment" label={from} /> }
                 { open && description && <p className="event-description"> { description } </p> }
+                { open && event.subEvents && ( <div className="sub-event-wrapper">
+                        { event.subEvents.map((e, idx) => <SubEvent key={`${e.title}-${idx}`} event={e}/>) }
+                    </div>)
+                }
                 <div className="event-chevron" onClick={() => setOpen(!open)}>
                     <FontAwesomeIcon icon={chevron} />
                 </div>
-                { event.subevents && event.subevents.map((e, idx) => <SubEvent key={`${e.title}-${idx}`} event={e}/>)}
             </div>
         </div>
     );

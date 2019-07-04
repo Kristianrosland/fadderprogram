@@ -12,9 +12,8 @@ const eventForGroupFilter = (event, group) => {
 }
 
 const MainScreen = ({ group, events }) => {
-    const [ day, setDay ] = useState(0)
+    const [ day, setDay ] = useState(2) //TODO
     const [ state ] = useContext(AppContext);
-    
     const eventList = events
         ? events
             .filter(e => translateDayIdx(e.day_NO) === day)

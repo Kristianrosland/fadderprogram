@@ -19,11 +19,21 @@ class Firebase {
 
     fetchEvents(setEventsCallback) {
         this.db.collection('events').onSnapshot(snapshot => {
-            const events = snapshot.docs.map(doc => {
-                return doc.data();
-            });
-            console.log("Events fetched successfully!")
-            setEventsCallback(events);
+            const events = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data(), subEvents: [] }));
+            this.db.collection('subevents').onSnapshot(subSnapshot => {
+                subSnapshot.docs.map(d => d.data()).forEach(subEvent => {
+                    const subId = subEvent.parent_event_id;
+                    for (const event of events) {
+                        if (event.id === subId) {
+                            event.subEvents.push(subEvent);
+                        }
+                    }
+                })
+                console.log("Events fetched successfully!")
+                setEventsCallback(events);
+            })
+            
+
         })
     }
 

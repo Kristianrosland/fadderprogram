@@ -55,6 +55,45 @@
     color: $text-lightgray;
 }
 
+.sub-event-wrapper {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid $border-lightgray;
+    margin-top: 15px;
+}
+
+.sub-event {
+    display: flex;
+    flex-direction: row;
+    font-size: 0.70rem;
+    color: $text-lightgray;
+    width: 100%;
+}
+
+.sub-event-time-and-title {
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+}
+
+.sub-event-title {
+    margin: 5px 0 0 0;
+    margin-left: 0.6rem;
+}
+
+.sub-event-time {
+    margin: 5px 0 0 0;
+    white-space: nowrap;
+}
+
+.sub-event-address {
+    margin: 5px;
+    margin-left: auto;
+    text-decoration: underline;
+    color: blue !important;
+}
+
+
 .event-chevron {
     @media only screen and (min-width: 600px) {
         visibility: hidden;
