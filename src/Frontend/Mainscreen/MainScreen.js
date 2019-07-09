@@ -23,8 +23,8 @@ const skeleton = (
 
 const eventForGroupFilter = (event, group) => {
     if (!group || !group.value) return false; //If group is not set, show no events.
-    if (!event.groups || event.groups.toLowerCase() === 'all') return true;
-    return event.groups.replace(' ', '').split(',').indexOf(group.value) >= 0; 
+    if (!event.groups || event.groups.indexOf('all') >= 0) return true;
+    return event.groups.indexOf(group.value) >= 0; 
 }
 
 const MainScreen = ({ group, events }) => {

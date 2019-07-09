@@ -31,3 +31,27 @@ export const eventTimeComparator = (a, b) => {
         return a.start_time > b.start_time ? 1 : -1;
     }
 }
+
+export const selectField = (event, field, lang) => {
+    const language = lang ? lang : 'NO';
+    const key = `${field}_${language}`
+
+    if (!event[key]) return '';
+    else if (field === 'from') return `${language === 'NO' ? 'Fra' : 'From'} ${event[key]}`
+    else return event[key];
+}
+
+export const selectTime = ({ start_time, end_time }) => {
+    if (!start_time) return '';
+    if (!end_time) return start_time;
+
+    return `${start_time} – ${end_time}`;
+}
+
+export const selectGroups = ({ groups }, lang) => {
+    const language = lang ? lang : 'NO';
+    if (groups.indexOf('all') >= 0) return language === 'NO' ? 'Alle grupper' : 'All groups';
+    
+    const prefix = language === 'NO' ? 'Gruppe ' : 'Group ';
+    return `${prefix} ${groups.join(', ')}`;   
+}

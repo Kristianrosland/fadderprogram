@@ -3,32 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as SolidIcons from '@fortawesome/free-solid-svg-icons';
 import IconLabel from './IconLabel';
 import { AppContext } from '../App';
-import { eventTimeComparator } from '../utils';
+import { eventTimeComparator, selectField, selectTime, selectGroups } from '../utils';
 import './event.scss';
-
-const selectField = (event, field, lang) => {
-    const language = lang ? lang : 'NO';
-    const key = `${field}_${language}`
-
-    if (!event[key]) return '';
-    else if (field === 'from') return `${language === 'NO' ? 'Fra' : 'From'} ${event[key]}`
-    else return event[key];
-}
-
-const selectTime = ({ start_time, end_time }) => {
-    if (!start_time) return '';
-    if (!end_time) return start_time;
-
-    return `${start_time} – ${end_time}`;
-}
-
-const selectGroups = ({ groups }, lang) => {
-    const language = lang ? lang : 'NO';
-    if (groups === 'all') return language === 'NO' ? 'Alle grupper' : 'All groups';
-    
-    const prefix = language === 'NO' ? 'Gruppe ' : 'Group ';
-    return `${prefix} ${groups}`;   
-}
 
 /****************************/
 /**** SubEvent component ****/

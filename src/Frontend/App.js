@@ -3,13 +3,12 @@ import { useCookies } from 'react-cookie';
 import WelcomeScreen from './WelcomeScreen';
 import MainScreen from './Mainscreen/MainScreen';
 import SelectLanguage from './SelectLanguage';
-import Firebase from '../Firestore'
 import './App.scss';
 
-const firestore = new Firebase();
 const AppContext = React.createContext();
 
-function App() {
+function App(props) {
+  const { firestore } = props;
   const [ cookies, setCookie, removeCookie ] = useCookies(['group', 'language']);
   const [ group, setGroup ] = useState(cookies.group)
   const [ events, setEvents ] = useState(undefined)
@@ -24,7 +23,7 @@ function App() {
   useEffect(() => {
     firestore.fetchEvents(setEvents);
     firestore.fetchGroupNames(setGroupNames)
-  }, [setEvents, setGroupNames])
+  }, [firestore, setEvents, setGroupNames])
   
   return (
     <AppContext.Provider value={[ state, setState ]}>

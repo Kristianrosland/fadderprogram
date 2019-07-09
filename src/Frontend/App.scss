@@ -1,4 +1,4 @@
-@import './colors.scss';
+@import './constants.scss';
 
 html {
     height: 100%;
@@ -70,10 +70,13 @@ html {
     color: $text-gray;
 }
 
-.language-select {
+.language-pos-absolute {
     position: absolute;
     right: 8px;
     top: 8px;
+}
+
+.language-select {
     font-size: 1rem;
     display: flex;
     flex-direction: row;

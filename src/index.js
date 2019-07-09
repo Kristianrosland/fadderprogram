@@ -6,12 +6,15 @@ import App from './Frontend/App';
 import * as serviceWorker from './serviceWorker';
 import { CookiesProvider } from 'react-cookie';
 import BackOffice from './BackOffice/BackOffice';
+import Firebase from './Firestore';
+
+const firestore = new Firebase();
 
 ReactDOM.render(
     <BrowserRouter>
         <Switch>
-            <Route exact path="/admin" component={BackOffice} />
-            <Route path="/" render={() => <CookiesProvider> <App /> </CookiesProvider> } />
+            <Route exact path="/admin" component={() => <BackOffice firestore={firestore} />} />
+            <Route path="/" render={() => <CookiesProvider> <App firestore={firestore}/> </CookiesProvider> } />
         </Switch>
     </BrowserRouter>
 , document.getElementById('root'));

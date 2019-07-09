@@ -1,5 +1,6 @@
 import app from 'firebase/app';
 import 'firebase/firestore';
+import 'firebase/auth';
 
 export const config = {
     apiKey: "AIzaSyBz86p_Wdi_WBkLpcxhMaph4geiv69bcNc",
@@ -15,6 +16,7 @@ class Firebase {
     constructor() {
         app.initializeApp(config);
         this.db = app.firestore();
+        this.auth = app.auth()
     } 
 
     fetchEvents(setEventsCallback) {
@@ -28,12 +30,9 @@ class Firebase {
                             event.subEvents.push(subEvent);
                         }
                     }
-                })
-                console.log("Events fetched successfully!")
+                }, console.log)
                 setEventsCallback(events);
-            })
-            
-
+            }, console.log)
         })
     }
 
@@ -42,9 +41,49 @@ class Firebase {
             const groupNames = snapshot.docs.map(doc => {
                 return doc.data();
             });
-            console.log("Group names fetched successfully!")
             setGroupNamesCallback(groupNames)
+        }, console.log)
+    }
+
+    login(email, password, errorCallback) {
+        this.auth.signInWithEmailAndPassword(email, password).catch((error) => {
+            errorCallback(error);
+        });  
+    }
+
+    logout(callback) {
+        this.auth.signOut().then(callback(undefined));
+    }
+
+    registerForAuthUpdates(callback, loadingCallback) {
+
+        this.auth.onAuthStateChanged(user => {
+            if (user) {
+                callback(user);
+                loadingCallback(false);
+            } else {
+                callback(undefined);
+                loadingCallback(false);
+            }
         })
+    }
+
+    fetchGroupsThatUserAdministrates(userId, callback) {
+        this.db.collection('writePermissions').doc(userId).get().then(doc => {
+            if (doc.exists) {
+                const groups = doc.data().groups;
+                if (groups === 'all') { callback(groups); }
+                else {
+                    callback(groups);    
+                }
+            }
+        })
+    }
+
+    addEvent(event) {
+        if (event) {
+            this.db.collection('events').add(event)
+        }
     }
 }
 

@@ -1,0 +1,55 @@
+/* FONT STUFF */
+$default-font: Lato;
+$text-gray: #47525E;
+$text-lightgray: #8190A5;
+$text-extra-lightgray: #bbbec3;
+
+$editable-event-background: #EEEEEE;
+$border-lightgray: #D2DAE6;
+$navbar-selected: #165EFF;
+$navbar-not-selected: #E5E9F2;
+
+$green-color: #4CD47F;
+$red-color: red;
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+$small: 0.5rem;
+$medium: 1.5rem;
+$large: 2.5rem;
+
+.margin-right-small { margin-right: $small !important; }
+.margin-right-medium { margin-right: $medium !important; }
+.margin-right-large { margin-right: $large !important; }
+
+.margin-left-small { margin-left: $small !important; }
+.margin-left-medium { margin-left: $medium !important; }
+.margin-left-large { margin-left: $large !important; }
+
+.margin-top-small { margin-top: $small !important; }
+.margin-top-medium { margin-top: $medium !important; } 
+.margin-top-large { margin-top: $large !important; } 
+
+.margin-bottom-small { margin-bottom: $small !important; }
+.margin-bottom-medium { margin-bottom: $medium !important; }
+.margin-bottom-large { margin-bottom: $large !important; }
+
+.full-width {
+    width: 100% !important;
+}

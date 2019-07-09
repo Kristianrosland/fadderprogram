@@ -1,0 +1,95 @@
+@import '../Frontend/constants.scss';
+
+.event-manager-wrapper {
+    padding: 0 5%;
+}
+
+.event-group {
+    margin-bottom: 20px;
+}
+
+.add-event-button-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0 2rem 0;
+}
+
+$shadow-radius: 0.075rem;
+.add-event-button {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 50%;
+    background-image: linear-gradient(to right, #006175 0%, #00a950 100%);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: $shadow-radius $shadow-radius  rgba(0,0,0,0.3);
+	-moz-box-shadow: $shadow-radius $shadow-radius  rgba(0,0,0,0.3);
+	-webkit-box-shadow: $shadow-radius $shadow-radius  rgba(0,0,0,0.3);
+	-o-box-shadow: $shadow-radius $shadow-radius  rgba(0,0,0,0.3);
+    p {
+        font-size: 4.2rem;
+        font-weight: bold;
+        margin: 0 0 3px 2px;
+    }
+}
+
+.event-group-day-label {
+    font-size: 1rem;
+    text-transform: uppercase;
+    font-weight: bold;
+    margin: 0 0 5px 4px;
+}
+
+.editable-event-wrapper {
+    width: 100%;
+    min-height: 6.5rem;
+    margin-bottom: 5px;
+    background-color: $editable-event-background;
+    border-radius: 10px;
+    padding: 2% 5%;
+    display: flex;
+    flex-direction: column;
+}
+
+.editable-event-title {
+    font-weight: bold;
+}
+
+.editable-event-info-label {
+    font-size: 0.7rem;
+    line-height: 0.85rem;
+    margin-top: 3px;
+}
+
+.check-label-wrapper {
+    display: flex;
+    flex-direction: row;
+    margin-top: 15px;
+    margin-right: 15px;
+    width: auto;
+    label {
+        margin-left: 3px;
+        font-size: 0.70rem;
+    }
+
+    svg {
+        margin-top: 2px;
+        width: 0.5rem !important;
+    }
+}
+
+.check-green {
+    color: $text-gray;
+}
+
+.times-red {
+    color: $text-gray;
+}
+
+.title-language-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
