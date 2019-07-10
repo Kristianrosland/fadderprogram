@@ -80,9 +80,15 @@ class Firebase {
         })
     }
 
-    addEvent(event) {
+    addEvent(event, uid) {
         if (event) {
-            this.db.collection('events').add(event)
+            return this.db.collection('events').add({...event, createdBy: uid })
+        }
+    }
+
+    removeEvent(event_id) {
+        if (event_id) {
+            return this.db.collection('events').doc(event_id).delete();
         }
     }
 }

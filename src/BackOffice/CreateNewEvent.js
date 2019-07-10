@@ -1,8 +1,9 @@
 import React, { useState, useRef } from 'react';
-import { Form, TextArea, Button, Checkbox, Loader, Input  } from 'semantic-ui-react';
+import { Form, TextArea, Button, Input, Checkbox } from 'semantic-ui-react';
 import './createNewEvent.scss';
+import { translateDay } from '../Frontend/utils';
 
-const CreateNewEvent = ({ availableGroups, doneCallback }) => {
+const CreateNewEvent = ({ availableGroups, cancelCallback, submitCallback }) => {
     const [ titleNO, setTitleNO ] = useState('');
     const [ titleEN, setTitleEN ] = useState('');
     const [ descNO, setDescNO ] = useState('');
@@ -16,6 +17,7 @@ const CreateNewEvent = ({ availableGroups, doneCallback }) => {
     const [ groups, setGroups ] = useState([]);
     const [ day, setDay ] = useState('')
     const [ errors, setErrors ] = useState({ titleNO: false, titleEN: false, descNO: false, descEN: false, day: false, address: false, timeStart: false, timeEnd: false, groups: false })
+    const [ submitting, setSubmitting ] = useState(false);
 
     const startTimeMinuteRef = useRef(null);
     const endTimeMinuteRef = useRef(null);
@@ -79,14 +81,26 @@ const CreateNewEvent = ({ availableGroups, doneCallback }) => {
 
     const submit = () => {
         if (validateFieldsAndSetErrors(setErrors)) {
-            console.log("Valid!")
-        } else {
-            console.log(errors)
-        }
-    }
+            setSubmitting(true);
+            const event = {
+                title_NO: titleNO,
+                title_EN: titleEN,
+                desc_NO: descNO, 
+                desc_EN: descEN,
+                day_NO: day,
+                day_EN: translateDay(day),
+                from_NO: 'fadderstyret',
+                from_EN: 'the mentor board',
+                start_time: `${startTimeHour}:${startTimeMinute}`,
+                groups: groups,
+            };
 
-    if (!availableGroups) {
-        return <Loader />
+            if (address.length >= 3) { event.address = address; }
+            if (endTimeHour.length === 2 && endTimeMinute.length === 2) { event.end_time = `${endTimeHour}:${endTimeMinute}` }
+            if (googleMaps && googleMaps.startsWith('https://')) { event.google_maps = googleMaps; }
+            
+            submitCallback(event);
+        }
     }
 
     return (
@@ -94,7 +108,7 @@ const CreateNewEvent = ({ availableGroups, doneCallback }) => {
             <div className="create-event-header"> 
                 Legg til et nytt event. Felter merket med {redStar} er obligatoriske. 
             </div>
-            <Form className="create-event-form">
+            <Form className="create-event-form" onSubmit={submit} loading={!availableGroups || submitting}>
 
                 { /** TITTEL  **/ }
                 <Form.Group grouped className="form-input-group">
@@ -123,14 +137,14 @@ const CreateNewEvent = ({ availableGroups, doneCallback }) => {
                 <Form.Field error={errors.day}>
                     <label className="form-field-header"> Dag { redStar } </label>
                     <Button.Group className="full-width" >
-                        <Button primary={day === 'mandag'} onClick={() => { setDay('mandag'); setErrors({ ...errors, day: false }) }}> Man </Button>
-                        <Button primary={day === 'tirsdag'} onClick={() => { setDay('tirsdag'); setErrors({ ...errors, day: false }) }}> Tirs </Button>
-                        <Button primary={day === 'onsdag'} onClick={() => { setDay('onsdag'); setErrors({ ...errors, day: false })}}> Ons </Button>
+                        <Button primary={day === 'mandag'} type='button' onClick={() => { setDay('mandag'); setErrors({ ...errors, day: false }) }}> Man </Button>
+                        <Button primary={day === 'tirsdag'} type='button' onClick={() => { setDay('tirsdag'); setErrors({ ...errors, day: false }) }}> Tirs </Button>
+                        <Button primary={day === 'onsdag'} type='button' onClick={() => { setDay('onsdag'); setErrors({ ...errors, day: false })}}> Ons </Button>
                     </Button.Group>
                     <Button.Group className="full-width margin-top-small">
-                        <Button primary={day === 'torsdag'} onClick={() => { setDay('torsdag'); setErrors({ ...errors, day: false })}}> Tors </Button>
-                        <Button primary={day === 'fredag'} onClick={() => { setDay('fredag'); setErrors({ ...errors, day: false })}}> Fre </Button>
-                        <Button primary={day === 'lørdag'} onClick={() => { setDay('lørdag'); setErrors({ ...errors, day: false })}}> Lør </Button>
+                        <Button primary={day === 'torsdag'} type='button' onClick={() => { setDay('torsdag'); setErrors({ ...errors, day: false })}}> Tors </Button>
+                        <Button primary={day === 'fredag'} type='button' onClick={() => { setDay('fredag'); setErrors({ ...errors, day: false })}}> Fre </Button>
+                        <Button primary={day === 'lørdag'} type='button' onClick={() => { setDay('lørdag'); setErrors({ ...errors, day: false })}}> Lør </Button>
                     </Button.Group>
                 </Form.Field>
 
@@ -264,10 +278,10 @@ const CreateNewEvent = ({ availableGroups, doneCallback }) => {
                 </Form.Group>
 
                 { /** SUBMIT **/ }
-                <Button onClick={() => doneCallback(false)} className="full-width margin-bottom-small margin-top-medium">
+                <Button onClick={() => cancelCallback()} className="full-width margin-bottom-small margin-top-medium">
                     Avbryt
                 </Button>
-                <Button primary onClick={submit} className="full-width margin-bottom-large">
+                <Button primary type='submit' className="full-width margin-bottom-large">
                     Ferdig
                 </Button>
             </Form>

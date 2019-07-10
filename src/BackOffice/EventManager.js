@@ -22,7 +22,10 @@ const EventManager = ({ user, events = [], firestore }) => {
 
     if (createNew) {
         return <CreateNewEvent 
-                    doneCallback={() => { setCreateNew(false); window.scrollTo(0, 0);  } } 
+                    cancelCallback={() => { setCreateNew(false); } } 
+                    submitCallback={event => { 
+                        firestore.addEvent(event, user.uid).then(setCreateNew(false)); 
+                    }}
                     availableGroups={groups} 
                 />
     }
@@ -34,7 +37,13 @@ const EventManager = ({ user, events = [], firestore }) => {
                 <AddEventButton handleClick={() => setCreateNew(true) } />
             </div>
             { groups && events && weekdays_NO.map(day => {
-                const dayEvents = groupedEvents[day].map(e => <EditableEvent key={e.id} event={e} />);
+                const dayEvents = groupedEvents[day].map(e => 
+                    <EditableEvent 
+                        key={e.id} event={e} 
+                        canManage={e.groups.reduce((acc, curr) => acc && groups.indexOf(curr) >= 0 ,true)} 
+                        deleteCallback={(id) => firestore.removeEvent(id)}
+                        editCallback={(id) => console.log(id)} />
+                );
                 return (
                     <div key={day} className="event-group">
                         <div className="event-group-day-label"> { day } </div>

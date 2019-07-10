@@ -17,6 +17,19 @@ export const translateDayIdx = day => {
     return -1;
 }
 
+export const translateDay = day => {
+    switch(day) {
+        case 'mandag': return 'monday';
+        case 'tirsdag': return 'tuesday';
+        case 'onsdag': return 'wednesday';
+        case 'torsdag': return 'thursday';
+        case 'fredag': return 'friday';
+        case 'lørdag': return 'saturday';
+        case 'søndag': return 'sunday';
+        default: return day;
+    }
+}
+
 export const eventTimeComparator = (a, b) => {
     if (!a.start_time && !b.start_time) return 0;
     if (!a.start_time) return -1;
