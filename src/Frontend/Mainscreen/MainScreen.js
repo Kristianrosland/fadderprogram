@@ -3,7 +3,7 @@ import NavBarButton from './NavBarButton';
 import { AppContext } from '../App';
 import Event from './Event';
 import Skeleton from 'react-loading-skeleton';
-import { weekdays, translateDayIdx, eventTimeComparator} from '../utils'
+import { weekdays, translateDayIdx, dayToday, eventTimeComparator} from '../utils'
 import './Mainscreen.scss';
 
 const noisyWidth = baseWidth => baseWidth + (-10) + Math.random()*25
@@ -28,7 +28,7 @@ const eventForGroupFilter = (event, group) => {
 }
 
 const MainScreen = ({ group, events }) => {
-    const [ day, setDay ] = useState(0)
+    const [ day, setDay ] = useState(dayToday())
     const [ state ] = useContext(AppContext);
     const eventList = events
         ? events

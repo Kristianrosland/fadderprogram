@@ -91,6 +91,12 @@ class Firebase {
             return this.db.collection('events').doc(event_id).delete();
         }
     }
+
+    updateEvent(event) {
+        if (event) {
+            return this.db.collection('events').doc(event.id).set(event);
+        }
+    }
 }
 
 export default Firebase;

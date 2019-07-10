@@ -12,6 +12,7 @@ const AddEventButton = ({ handleClick }) => {
 const EventManager = ({ user, events = [], firestore }) => {
     const [ groups, setGroups ] = useState(undefined);
     const [ createNew, setCreateNew ] = useState(false);
+    const [ editEvent, setEditEvent ] = useState(undefined);
 
     useEffect(() => {
         firestore.fetchGroupsThatUserAdministrates(user.uid, setGroups);
@@ -20,11 +21,16 @@ const EventManager = ({ user, events = [], firestore }) => {
     const filteredEvents = !groups ? [] : events.filter(e => eventFilter(groups, e));
     const groupedEvents = groupEventsByDay(filteredEvents);
 
-    if (createNew) {
+    if (createNew || editEvent) {
         return <CreateNewEvent 
-                    cancelCallback={() => { setCreateNew(false); } } 
+                    existingEvent={events.filter(e => e.id === editEvent)[0]}
+                    editing={editEvent !== undefined}
+                    cancelCallback={() => { setCreateNew(false); setEditEvent(undefined); } } 
                     submitCallback={event => { 
                         firestore.addEvent(event, user.uid).then(setCreateNew(false)); 
+                    }}
+                    updateCallback={event => {
+                        firestore.updateEvent(event).then(setEditEvent(undefined));
                     }}
                     availableGroups={groups} 
                 />
@@ -42,7 +48,7 @@ const EventManager = ({ user, events = [], firestore }) => {
                         key={e.id} event={e} 
                         canManage={e.groups.reduce((acc, curr) => acc && groups.indexOf(curr) >= 0 ,true)} 
                         deleteCallback={(id) => firestore.removeEvent(id)}
-                        editCallback={(id) => console.log(id)} />
+                        editCallback={(id) => setEditEvent(id) } />
                 );
                 return (
                     <div key={day} className="event-group">

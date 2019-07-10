@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { selectField, selectTime, selectGroups } from '../Frontend/utils';
 import SelectLanguage from '../Frontend/SelectLanguage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faTimes, faTrashAlt, faPen } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faTimes, faTrashAlt, faPen  } from '@fortawesome/free-solid-svg-icons';
 
 const CheckLabel = ({ check, label }) => {
     const icon = check ? faCheck : faTimes;

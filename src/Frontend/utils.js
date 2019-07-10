@@ -45,6 +45,11 @@ export const eventTimeComparator = (a, b) => {
     }
 }
 
+export const dayToday = () => {
+    const day = new Date().getDay() - 1;
+    return day === -1 ? 0 : day;
+}
+
 export const selectField = (event, field, lang) => {
     const language = lang ? lang : 'NO';
     const key = `${field}_${language}`

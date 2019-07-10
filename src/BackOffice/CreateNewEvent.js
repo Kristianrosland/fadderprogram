@@ -3,19 +3,20 @@ import { Form, TextArea, Button, Input, Checkbox } from 'semantic-ui-react';
 import './createNewEvent.scss';
 import { translateDay } from '../Frontend/utils';
 
-const CreateNewEvent = ({ availableGroups, cancelCallback, submitCallback }) => {
-    const [ titleNO, setTitleNO ] = useState('');
-    const [ titleEN, setTitleEN ] = useState('');
-    const [ descNO, setDescNO ] = useState('');
-    const [ descEN, setDescEN ] = useState('');
-    const [ address, setAddress ] = useState('');
-    const [ googleMaps, setGoogleMaps ] = useState('');
-    const [ startTimeHour, setStartTimeHour ] = useState('')
-    const [ startTimeMinute, setStartTimeMinute ] = useState('')
-    const [ endTimeHour, setEndTimeHour ] = useState('')
-    const [ endTimeMinute, setEndTimeMinute ] = useState('')
-    const [ groups, setGroups ] = useState([]);
-    const [ day, setDay ] = useState('')
+const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCallback, submitCallback, updateCallback }) => {
+    const { title_NO = '', title_EN = '', desc_NO = '', desc_EN = '', google_maps = '', start_time = '', end_time = '', day_NO = ''} = existingEvent;
+    const [ titleNO, setTitleNO ] = useState(title_NO);
+    const [ titleEN, setTitleEN ] = useState(title_EN);
+    const [ descNO, setDescNO ] = useState(desc_NO);
+    const [ descEN, setDescEN ] = useState(desc_EN);
+    const [ address, setAddress ] = useState(existingEvent.address ? existingEvent.address : '');
+    const [ googleMaps, setGoogleMaps ] = useState(google_maps);
+    const [ startTimeHour, setStartTimeHour ] = useState(start_time.length === 5 ? start_time.split(':')[0] : '')
+    const [ startTimeMinute, setStartTimeMinute ] = useState(start_time.length === 5 ? start_time.split(':')[1] : '')
+    const [ endTimeHour, setEndTimeHour ] = useState(end_time.length === 5 ? end_time.split(':')[0] : '')
+    const [ endTimeMinute, setEndTimeMinute ] = useState(end_time.length === 5 ? end_time.split(':')[1] : '')
+    const [ groups, setGroups ] = useState(existingEvent.groups ? existingEvent.groups : []);
+    const [ day, setDay ] = useState(day_NO)
     const [ errors, setErrors ] = useState({ titleNO: false, titleEN: false, descNO: false, descEN: false, day: false, address: false, timeStart: false, timeEnd: false, groups: false })
     const [ submitting, setSubmitting ] = useState(false);
 
@@ -99,7 +100,11 @@ const CreateNewEvent = ({ availableGroups, cancelCallback, submitCallback }) => 
             if (endTimeHour.length === 2 && endTimeMinute.length === 2) { event.end_time = `${endTimeHour}:${endTimeMinute}` }
             if (googleMaps && googleMaps.startsWith('https://')) { event.google_maps = googleMaps; }
             
-            submitCallback(event);
+            if (editing) {
+                updateCallback({ ...event, id: existingEvent.id });
+            } else {
+                submitCallback(event);
+            }
         }
     }
 
@@ -278,11 +283,11 @@ const CreateNewEvent = ({ availableGroups, cancelCallback, submitCallback }) => 
                 </Form.Group>
 
                 { /** SUBMIT **/ }
-                <Button onClick={() => cancelCallback()} className="full-width margin-bottom-small margin-top-medium">
+                <Button type='button' onClick={() => cancelCallback()} className="full-width margin-bottom-small margin-top-medium">
                     Avbryt
                 </Button>
                 <Button primary type='submit' className="full-width margin-bottom-large">
-                    Ferdig
+                    { editing ? 'Lagre' : 'Ferdig' } 
                 </Button>
             </Form>
 
