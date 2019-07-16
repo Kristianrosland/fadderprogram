@@ -68,8 +68,8 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
         const errs = {
             titleNO: titleNO === '' || titleNO.length > 35,
             titleEN: titleEN === '' || titleEN.length > 35,
-            descNO: descNO === '' || descNO.length > 200,
-            descEN: descEN === '' || descEN.length > 200,
+            descNO: descNO === '',
+            descEN: descEN === '',
             timeStart: startTimeHour.length !== 2 || startTimeMinute.length !== 2,
             timeEnd: endTimeHour !== '' && (endTimeHour.length !== 2 || endTimeMinute.length !== 2),
             day: day === '' || ['mandag', 'tirsdag', 'onsdag', 'torsdag', 'fredag', 'lørdag'].indexOf(day) === -1,
