@@ -1,16 +1,20 @@
 import React, { useState, useRef } from 'react';
 import { Form, TextArea, Button, Input, Checkbox } from 'semantic-ui-react';
-import './createNewEvent.scss';
 import { translateDay } from '../Frontend/utils';
+import ErrorLabel from './ErrorLabel';
+import './createNewEvent.scss';
 
 const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCallback, submitCallback, updateCallback }) => {
-    const { title_NO = '', title_EN = '', desc_NO = '', desc_EN = '', google_maps = '', start_time = '', end_time = '', day_NO = ''} = existingEvent;
+    const { title_NO = '', title_EN = '', desc_NO = '', desc_EN = '', google_maps = '', start_time = '', end_time = '', day_NO = '', linkText_NO='', linkText_EN=''} = existingEvent;
     const [ titleNO, setTitleNO ] = useState(title_NO);
     const [ titleEN, setTitleEN ] = useState(title_EN);
     const [ descNO, setDescNO ] = useState(desc_NO);
     const [ descEN, setDescEN ] = useState(desc_EN);
     const [ address, setAddress ] = useState(existingEvent.address ? existingEvent.address : '');
     const [ googleMaps, setGoogleMaps ] = useState(google_maps);
+    const [ linkTextNO, setLinkTextNO ] = useState(linkText_NO);
+    const [ linkTextEN, setLinkTextEN ] = useState(linkText_EN);
+    const [ link, setLink ] = useState(existingEvent.link ? existingEvent.link : '');
     const [ startTimeHour, setStartTimeHour ] = useState(start_time.length === 5 ? start_time.split(':')[0] : '')
     const [ startTimeMinute, setStartTimeMinute ] = useState(start_time.length === 5 ? start_time.split(':')[1] : '')
     const [ endTimeHour, setEndTimeHour ] = useState(end_time.length === 5 ? end_time.split(':')[0] : '')
@@ -66,13 +70,14 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
 
     const validateFieldsAndSetErrors = callback => {
         const errs = {
-            titleNO: titleNO === '' || titleNO.length > 35,
-            titleEN: titleEN === '' || titleEN.length > 35,
+            titleNO: titleNO === '',
+            titleEN: titleEN === '',
             descNO: descNO === '',
             descEN: descEN === '',
             timeStart: startTimeHour.length !== 2 || startTimeMinute.length !== 2,
             timeEnd: endTimeHour !== '' && (endTimeHour.length !== 2 || endTimeMinute.length !== 2),
             day: day === '' || ['mandag', 'tirsdag', 'onsdag', 'torsdag', 'fredag', 'lørdag'].indexOf(day) === -1,
+            link: (linkTextEN || linkTextNO) && !link,
             groups: groups.length === 0,
         };
 
@@ -99,6 +104,11 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
             if (address.length >= 3) { event.address = address; }
             if (endTimeHour.length === 2 && endTimeMinute.length === 2) { event.end_time = `${endTimeHour}:${endTimeMinute}` }
             if (googleMaps && googleMaps.startsWith('https://')) { event.google_maps = googleMaps; }
+            if (link) {
+                event.link = link;
+                if (linkTextNO) event.linkText_NO = linkTextNO;
+                if (linkTextEN) event.linkText_EN = linkTextEN;
+            }
             
             if (editing) {
                 updateCallback({ ...event, id: existingEvent.id });
@@ -120,6 +130,7 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
                     <label className="form-field-header"> Tittel {redStar} </label>
                     <Form.Field error={errors.titleNO}>
                         <label className="form-field-title"> Norsk </label>
+                        { errors.titleNO && <ErrorLabel textKey={'ERROR_TITLE_NO'} /> }
                         <Input 
                             value={titleNO} 
                             onChange={e => { setTitleNO(e.target.value); setErrors({ ...errors, titleNO: false }) }} 
@@ -129,6 +140,7 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
                     </Form.Field>
                     <Form.Field error={errors.titleEN}>
                         <label className="form-field-title"> Engelsk </label>
+                        { errors.titleEN && <ErrorLabel textKey={'ERROR_TITLE_EN'} /> }
                         <input 
                             value={titleEN} 
                             onChange={e => { setTitleEN(e.target.value); setErrors({ ...errors, titleEN: false }) }}  
@@ -141,6 +153,7 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
                 { /** DAG **/ }
                 <Form.Field error={errors.day}>
                     <label className="form-field-header"> Dag { redStar } </label>
+                    { errors.day && <ErrorLabel textKey={'ERROR_DAY'} /> }
                     <Button.Group className="full-width" >
                         <Button primary={day === 'mandag'} type='button' onClick={() => { setDay('mandag'); setErrors({ ...errors, day: false }) }}> Man </Button>
                         <Button primary={day === 'tirsdag'} type='button' onClick={() => { setDay('tirsdag'); setErrors({ ...errors, day: false }) }}> Tirs </Button>
@@ -159,6 +172,7 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
                     <div className="flex-row">
                         <div className="flex-column">
                             <div className="form-field-title"> Start {redStar} </div>
+                            { errors.timeStart && <ErrorLabel textKey={'ERROR_START_TIME'} /> }
                             <div className="flex-row">
                                 <Form.Field error={errors.timeStart}>
                                     <input 
@@ -219,11 +233,13 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
                     <label className="form-field-header"> Beskrivelse {redStar} </label>
                     <Form.Field error={errors.descNO}>
                         <label className="form-field-title"> Norsk </label>
-                        <TextArea error={errors.desc} placeholder='Maks 200 tegn' value={descNO}  onChange={e => { setDescNO(e.target.value); setErrors({ ...errors, descNO: false }) }}/>
+                        { errors.descNO && <ErrorLabel textKey={'ERROR_DESC_NO'} /> }
+                        <TextArea error={errors.desc} value={descNO}  onChange={e => { setDescNO(e.target.value); setErrors({ ...errors, descNO: false }) }}/>
                     </Form.Field>
                     <Form.Field error={errors.descEN}>
                         <label className="form-field-title"> Engelsk </label>
-                        <TextArea error={errors.desc} placeholder='Maks 200 tegn' value={descEN} onChange={e => { setDescEN(e.target.value); setErrors({ ...errors, descEN: false }) }}/>
+                        { errors.descEN && <ErrorLabel textKey={'ERROR_DESC_EN'} /> }
+                        <TextArea error={errors.desc} value={descEN} onChange={e => { setDescEN(e.target.value); setErrors({ ...errors, descEN: false }) }}/>
                     </Form.Field>
                 </Form.Group>
 
@@ -245,6 +261,7 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
                         { !googleMaps &&  
                             <div className="flex-row align-center">
                                 <Button
+                                    type='button'
                                     disabled={address.length < 3}
                                     content={'Generer lenke til Google maps'} 
                                     icon='map' labelPosition='left' 
@@ -255,9 +272,9 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
                         }
                     { googleMaps && 
                         <Button.Group className="margin-top-small">
-                            <Button onClick={() => setGoogleMaps('')}>Fjern</Button>
+                            <Button type='button' onClick={() => setGoogleMaps('')}>Fjern</Button>
                             <Button.Or text='' />
-                            <Button primary> 
+                            <Button type='button' primary> 
                                 <a className="google-maps-link" href={googleMaps} rel="noopener noreferrer" target="_blank"> 
                                     Test lenken 
                                 </a> 
@@ -266,9 +283,43 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
                     }
                 </Form.Group>
 
-                { /** GROUPS **/}
+                { /** LINK **/}
                 <Form.Group grouped className="form-input-group">
-                    <label className={'form-field-header'}> Gjelder for gruppe(r): </label>
+                    <label className="form-field-header"> Lenke </label>
+                    <Form.Field>
+                        <label className="form-field-title"> Norsk tekst som vises </label>
+                        <input 
+                            value={linkTextNO} 
+                            onChange={e => setLinkTextNO(e.target.value) } 
+                            type="text"
+                            autoComplete="off"
+                        />
+                    </Form.Field>
+                    <Form.Field>
+                        <label className="form-field-title"> Engelsk tekst som vises </label>
+                        <input 
+                            value={linkTextEN} 
+                            onChange={e => setLinkTextEN(e.target.value) } 
+                            type="text"
+                            autoComplete="off"
+                        />
+                    </Form.Field>
+                    <Form.Field  error={errors.link}>
+                        <label className="form-field-title"> Lenke </label>
+                        { errors.link && <ErrorLabel textKey={'ERROR_LINK'} /> }
+                        <input 
+                            value={link} 
+                            onChange={e => { setLink(e.target.value); setErrors({ ...errors, link: false }); }} 
+                            type="text"
+                            autoComplete="off"
+                        />
+                    </Form.Field>
+                </Form.Group>
+
+                { /** GROUPS **/ }
+                <Form.Group grouped className="form-input-group">
+                    <label className={'form-field-header'}> Gjelder for gruppe(r): {redStar} </label>
+                    { errors.groups && <ErrorLabel textKey={'ERROR_GROUPS'} /> }
                     <Form.Field>
                         { availableGroups.map(group => 
                             <Checkbox key={group} 

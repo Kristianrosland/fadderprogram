@@ -1,9 +1,10 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import * as Icons from '@fortawesome/free-regular-svg-icons';
+import * as RegularIcons from '@fortawesome/free-regular-svg-icons';
+import * as SolidIcons from '@fortawesome/free-solid-svg-icons';
 
 const IconLabel = ({icon, label, link}) => {
-    const mappedIcon = Icons[icon];
+    const mappedIcon = icon in RegularIcons ? RegularIcons[icon] : SolidIcons[icon];
 
     return (
         <div className="icon-label-wrapper">

@@ -38,6 +38,8 @@ const Event = ({ data }) => {
     const groups = selectGroups(event, lang);
     const address = data.address;
     const googleMaps = data.google_maps;
+    const link = data.link;
+    const linkText = selectField(event, 'linkText', lang);
     const chevron = open ? SolidIcons["faChevronUp"] : SolidIcons["faChevronDown"];
 
     return (
@@ -48,6 +50,7 @@ const Event = ({ data }) => {
                 { open && address && <IconLabel icon="faMap" label={address} link={googleMaps ? googleMaps : null}/> }
                 { open && data.groups && <IconLabel icon="faUser" label={groups} /> }
                 { open && from && <IconLabel icon="faComment" label={from} /> }
+                { open && link && linkText && <IconLabel icon="faLink" label={linkText} link={link}/> }
                 { open && description && <p className="event-description"> { description } </p> }
                 { open && event.subEvents && event.subEvents.length > 0 && ( 
                     <div className="sub-event-wrapper">
