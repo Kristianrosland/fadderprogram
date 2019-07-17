@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { Form, TextArea, Button, Input, Checkbox } from 'semantic-ui-react';
-import { translateDay } from '../Frontend/utils';
+import { translateDay, groupComparator } from '../Frontend/utils';
 import ErrorLabel from './ErrorLabel';
 import './createNewEvent.scss';
 
@@ -88,6 +88,7 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
     const submit = () => {
         if (validateFieldsAndSetErrors(setErrors)) {
             setSubmitting(true);
+            const isMentorBoard = availableGroups.indexOf('all') >= 0;
             const event = {
                 title_NO: titleNO,
                 title_EN: titleEN,
@@ -95,10 +96,10 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
                 desc_EN: descEN,
                 day_NO: day,
                 day_EN: translateDay(day),
-                from_NO: 'fadderstyret',
-                from_EN: 'the mentor board',
+                from_NO: isMentorBoard ? 'fadderstyret' : 'gruppeleder',
+                from_EN: isMentorBoard ? 'the mentor board' : 'group leader',
                 start_time: `${startTimeHour}:${startTimeMinute}`,
-                groups: groups,
+                groups: groups.sort(groupComparator),
             };
 
             if (address.length >= 3) { event.address = address; }

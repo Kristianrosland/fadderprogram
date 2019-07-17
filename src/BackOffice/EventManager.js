@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import EditableEvent from './EditableEvent';
 import { eventFilter, groupEventsByDay, weekdays_NO } from './utils';
-import { Loader } from 'semantic-ui-react';
+import { Loader, Button } from 'semantic-ui-react';
 import CreateNewEvent from './CreateNewEvent';
 import './eventManager.scss';
 
@@ -13,6 +13,7 @@ const EventManager = ({ user, events = [], firestore }) => {
     const [ groups, setGroups ] = useState(undefined);
     const [ createNew, setCreateNew ] = useState(false);
     const [ editEvent, setEditEvent ] = useState(undefined);
+    const [ eventToBeDeleted, setEventToBeDeleted ] = useState(undefined);
 
     useEffect(() => {
         firestore.fetchGroupsThatUserAdministrates(user.uid, setGroups);
@@ -20,6 +21,7 @@ const EventManager = ({ user, events = [], firestore }) => {
 
     const filteredEvents = !groups ? [] : events.filter(e => eventFilter(groups, e));
     const groupedEvents = groupEventsByDay(filteredEvents);
+    const logout = () => firestore.logout();
 
     if (createNew || editEvent) {
         return <CreateNewEvent 
@@ -38,6 +40,18 @@ const EventManager = ({ user, events = [], firestore }) => {
 
     return (
         <div className="event-manager-wrapper">
+            { eventToBeDeleted && 
+                <div className="delete-event-confirmation-dimmer"> 
+                    <div className="delete-event-confirmation-box"> 
+                        <div className="delete-event-content"> 
+                            <label>Er du sikker på at du vil slette {filteredEvents.filter(e => e.id === eventToBeDeleted)[0].title_NO}?</label>
+                            <div className="full-width flex-row">
+                                <Button secondary onClick={() => setEventToBeDeleted(undefined)}> Nei, gå tilbake </Button>
+                                <Button primary onClick={() => { firestore.removeEvent(eventToBeDeleted); setEventToBeDeleted(undefined); }}> Ja, slett! </Button>
+                            </div>
+                        </div>
+                    </div>
+                </div>}
             <Loader active={!groups} />
             <div className="add-event-button-wrapper">
                 <AddEventButton handleClick={() => setCreateNew(true) } />
@@ -47,7 +61,7 @@ const EventManager = ({ user, events = [], firestore }) => {
                     <EditableEvent 
                         key={e.id} event={e} 
                         canManage={e.groups.reduce((acc, curr) => acc && groups.indexOf(curr) >= 0 ,true)} 
-                        deleteCallback={(id) => firestore.removeEvent(id)}
+                        deleteCallback={(id) => setEventToBeDeleted(id)}
                         editCallback={(id) => setEditEvent(id) } />
                 );
                 return (
@@ -56,7 +70,8 @@ const EventManager = ({ user, events = [], firestore }) => {
                         { dayEvents }
                     </div>
                 )
-            })}            
+            })}
+            <Button type='button' className="full-width margin-top-medium margin-bottom-large" primary onClick={logout}> Logg ut </Button>            
         </div>
     );
 };

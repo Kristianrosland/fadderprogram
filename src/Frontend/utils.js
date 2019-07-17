@@ -45,6 +45,13 @@ export const eventTimeComparator = (a, b) => {
     }
 }
 
+export const groupComparator = (a, b) => {
+    if (a === b) return 0;
+    if (a === 'all') return -1;
+    if (b === 'all') return 1;
+    return parseInt(a) - parseInt(b);
+}
+
 export const dayToday = () => {
     const day = new Date().getDay() - 1;
     return day === -1 ? 0 : day;

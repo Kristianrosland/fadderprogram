@@ -51,8 +51,8 @@ class Firebase {
         });  
     }
 
-    logout(callback) {
-        this.auth.signOut().then(callback(undefined));
+    logout() {
+        this.auth.signOut();
     }
 
     registerForAuthUpdates(callback, loadingCallback) {

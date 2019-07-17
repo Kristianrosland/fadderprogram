@@ -105,3 +105,34 @@ $shadow-radius: 0.075rem;
     margin-left: 15px;
     width: 0.6rem;
 }
+
+
+.delete-event-confirmation-dimmer {
+    position: absolute;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.2);
+}
+
+.delete-event-confirmation-box {
+    position: absolute;
+    z-index: 1000;
+    top: 30%;
+    left: 10%;
+    width: 80%;
+    height: 10rem;
+    background-color: white;
+    border-radius: 5%;
+}
+
+.delete-event-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 8% 5% 5% 7%;
+}
