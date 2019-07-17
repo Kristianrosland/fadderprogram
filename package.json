@@ -2,6 +2,7 @@
   "name": "fadderuke",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://fadderprogram.no",
   "engines": {
     "npm": "6.4.1",
     "node": "8.12.0"
