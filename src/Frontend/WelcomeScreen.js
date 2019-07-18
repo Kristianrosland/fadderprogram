@@ -17,7 +17,7 @@ const WelcomeScreen = ({ group, setGroup, setCookie, groupNames }) => {
                     label_nor: label_nor, 
                     label_eng: label_eng })
                 ).sort((a, b) => parseInt(a.value) - parseInt(b.value)) 
-        : []
+        : [];
     
     const submit = () => {
         if (selected) {
@@ -46,7 +46,7 @@ const WelcomeScreen = ({ group, setGroup, setCookie, groupNames }) => {
     const header = resource('WELCOME', state);
     const subtitle = resource('WELCOME_SUBTITLE', state);
     const placeholder = resource('GROUP_PLACEHOLDER', state);
-    const buttonLabel = resource('WELCOME_SCREEN_BUTTON_LABEL', state)
+    const buttonLabel = resource('WELCOME_SCREEN_BUTTON_LABEL', state);
 
     return (
         <div className="welcome-screen">
@@ -64,6 +64,7 @@ const WelcomeScreen = ({ group, setGroup, setCookie, groupNames }) => {
                     onChange={(v) => setSelected(v)} 
                     options={ groups } 
                     isSearchable={ false }
+                    isDisabled={groups.length === 0}
                 />
                 <div className="ready-button" onClick={submit}>
                     <p className="ready-button-text"> { buttonLabel } <FontAwesomeIcon icon={faChevronRight} /> </p>
