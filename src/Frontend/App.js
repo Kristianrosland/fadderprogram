@@ -34,7 +34,7 @@ function App(props) {
           <FontAwesomeIcon className="phone-icon" icon={faPhone} />
           <div className="phonenumber-container">
             <span> Vakttelefon </span>
-            <span> 404 66 599 </span>
+            <span className="phone-number"> 404 66 599 </span>
           </div>
         </a>
         {  <SelectLanguage state={state} changeLanguage={changeLanguage} /> }

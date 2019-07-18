@@ -114,6 +114,7 @@ html {
 }
 
 .sticky-side-button {
+    z-index: 5000;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -125,11 +126,18 @@ html {
     top: 80%;
     right: -12rem;
     height: 3.8rem;
-    background-color: $navbar-selected;
+    background-color: $primary-color;
     border-radius: 2.5rem 0 0 2.5rem;
     width: 12rem;
     font-weight: bold;
     color: white;
+
+    @media all and (max-width: $breakpoint-tablet) {
+        width: 9rem;
+        right: -9rem;
+        height: 3rem;
+        border-radius: 2rem 0 0 2rem;
+    }
 }
 
 .sticky-side-button:hover {
@@ -140,12 +148,25 @@ html {
     display: flex;
     flex-direction: column;
     margin-left: 1rem;
+    @media all and (max-width: $breakpoint-tablet) {
+        font-size: 0.8rem;
+    }
 }
 
 .phone-icon {
     width: 80%;
     margin-left: 1rem;
     font-size: 1.5rem;
+    @media all and (max-width: $breakpoint-tablet) {
+        font-size: 1rem;
+        margin-left: 1rem;
+    }
+}
+
+.phone-number {
+    @media all and (max-width: $breakpoint-tablet) {
+        font-size: 0.9rem;
+    }
 }
 
 @-webkit-keyframes slide {
