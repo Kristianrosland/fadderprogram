@@ -10,7 +10,7 @@ export const eventFilter = (group, e) => {
     }
 }
 
-export const weekdays_NO = ['mandag', 'tirsdag', 'onsdag', 'torsdag', 'fredag', 'lørdag'];
+export const weekdays_NO = ['mandag', 'tirsdag', 'onsdag', 'torsdag', 'fredag', 'lørdag', 'søndag'];
 
 export const groupEventsByDay = events => {
     const grouped = {}

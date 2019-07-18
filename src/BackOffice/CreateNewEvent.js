@@ -76,7 +76,7 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
             descEN: descEN === '',
             timeStart: startTimeHour.length !== 2 || startTimeMinute.length !== 2,
             timeEnd: endTimeHour !== '' && (endTimeHour.length !== 2 || endTimeMinute.length !== 2),
-            day: day === '' || ['mandag', 'tirsdag', 'onsdag', 'torsdag', 'fredag', 'lørdag'].indexOf(day) === -1,
+            day: day === '' || ['mandag', 'tirsdag', 'onsdag', 'torsdag', 'fredag', 'lørdag', 'søndag'].indexOf(day) === -1,
             link: (linkTextEN || linkTextNO) && !link,
             groups: groups.length === 0,
         };
@@ -165,6 +165,10 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
                         <Button primary={day === 'fredag'} type='button' onClick={() => { setDay('fredag'); setErrors({ ...errors, day: false })}}> Fre </Button>
                         <Button primary={day === 'lørdag'} type='button' onClick={() => { setDay('lørdag'); setErrors({ ...errors, day: false })}}> Lør </Button>
                     </Button.Group>
+                    <Button.Group className="full-width margin-top-small">
+                        <Button primary={day === 'søndag'} type='button' onClick={() => { setDay('søndag'); setErrors({ ...errors, day: false })}}> Søndag </Button>
+                    </Button.Group>
+
                 </Form.Field>
 
                 { /** TID **/ }

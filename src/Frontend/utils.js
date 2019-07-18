@@ -4,7 +4,8 @@ export const weekdays = [
     { id: 2, NO: 'onsdag', EN: 'wednesday' },
     { id: 3, NO: 'torsdag', EN: 'thursday' },
     { id: 4, NO: 'fredag', EN: 'friday' },
-    { id: 5, NO: 'lørdag', EN: 'saturday' }
+    { id: 5, NO: 'lørdag', EN: 'saturday' },
+    { id: 6, NO: 'søndag', EN: 'sunday' }
 ];
 
 export const translateDayIdx = day => {
@@ -54,7 +55,7 @@ export const groupComparator = (a, b) => {
 
 export const dayToday = () => {
     const day = new Date().getDay() - 1;
-    return day === -1 ? 0 : day;
+    return day === -1 ? 6 : day;
 }
 
 export const selectField = (event, field, lang) => {
