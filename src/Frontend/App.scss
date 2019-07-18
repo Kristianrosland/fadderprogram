@@ -22,10 +22,15 @@ html {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
+    justify-content: space-evenly;
+    padding: 0 8% 10% 8%;
 
-.welcome-screen-top {
-    height: 30%;
+    @media all and (min-width: $breakpoint-tablet) {
+        padding: 0 5% 10% 5%;
+    }
+    @media all and (min-width: $breakpoint-desktop) {
+        padding: 0 25% 10% 25%;
+    }
 }
 
 .dropdown-wrapper {
@@ -33,8 +38,6 @@ html {
     flex-direction: column;
     align-items: center;
     width: 80%;
-    padding-top: 10%; 
-    padding-bottom: 10%; 
 }
 
 .welcome-screen-main-title {
@@ -54,13 +57,21 @@ html {
 
 .person-img {
     width: 70%;
-    margin-bottom: 15%;
+    height: 12rem;
+    @media all and (min-width: $breakpoint-mobile) {
+        height: 12.5rem;
+    }
+    @media all and (min-width: $breakpoint-tablet) {
+        height: 15rem;
+    }
+    @media all and (min-width: $breakpoint-desktop) {
+        height: 20rem;
+    }
 }
 
 .ready-button {
     display: flex;
     flex-direction: row;
-    margin-top: auto;
     width: 100%;
 }
 
@@ -68,7 +79,12 @@ html {
     font-size: 1.3rem;
     margin-left: auto;
     color: $text-gray;
+    svg {
+        margin-left: 0.5rem !important;
+        margin-top: 2px !important;
+    }
 }
+
 
 .language-pos-absolute {
     position: absolute;
@@ -78,6 +94,9 @@ html {
     @media all and (min-width: $breakpoint-tablet) {
         right: 1.5rem;
         top: 1rem;
+        p {
+            font-size: 1.15rem !important;
+        }
     }
 }
 
@@ -87,9 +106,6 @@ html {
     p {
         font-size: 0.75rem;
         margin: 0 2px;
-        @media all and (min-width: $breakpoint-tablet) {
-            font-size: 1.15rem;
-        }
     }
 }
 

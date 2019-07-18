@@ -10,6 +10,12 @@
 
 .login-form {
     width: 75%;
+    @media all and (min-width: $breakpoint-tablet) {
+        width: 40%;
+    }
+    @media all and (min-width: $breakpoint-desktop) {
+        width: 30%;
+    }
 }
 
 .login-button {

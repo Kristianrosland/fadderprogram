@@ -6,8 +6,8 @@ const textResources = {
     'WELCOME_SUBTITLE_EN': 'To provide you with relevant information, we need to know which group you belong to. You can go back and change this later!',
     'GROUP_PLACEHOLDER_NO': 'Velg gruppe...',
     'GROUP_PLACEHOLDER_EN': 'Select group...',
-    'WELCOME_SCREEN_BUTTON_LABEL_NO': 'Jeg er klar!',
-    'WELCOME_SCREEN_BUTTON_LABEL_EN': 'I\'m ready!',
+    'WELCOME_SCREEN_BUTTON_LABEL_NO': 'Jeg er klar',
+    'WELCOME_SCREEN_BUTTON_LABEL_EN': 'I\'m ready',
     
     /** Form error labels **/
     'ERROR_TITLE_NO_NO': 'Du må fylle inn norsk tittel',

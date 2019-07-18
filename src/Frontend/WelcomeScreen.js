@@ -1,4 +1,6 @@
 import React, { useState, useContext } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronRight  } from '@fortawesome/free-solid-svg-icons';
 import { AppContext } from './App';
 import resource from './textResources';
 import Select from 'react-select';
@@ -48,12 +50,12 @@ const WelcomeScreen = ({ group, setGroup, setCookie, groupNames }) => {
 
     return (
         <div className="welcome-screen">
-            <div className="welcome-screen-top">
+            <div>
                 <h1 className="welcome-screen-main-title"> { header } </h1>
                 <h3 className="welcome-screen-sub-title"> { subtitle } </h3>
             </div>
+            <img className="person-img" src="https://image.flaticon.com/icons/svg/145/145867.svg" alt="person" />
             <div className="dropdown-wrapper">
-                <img className="person-img" src="https://image.flaticon.com/icons/svg/145/145867.svg" alt="person" />
                 <Select 
                     inputProps={{ readOnly:true }}
                     placeholder={ placeholder } 
@@ -64,10 +66,9 @@ const WelcomeScreen = ({ group, setGroup, setCookie, groupNames }) => {
                     isSearchable={ false }
                 />
                 <div className="ready-button" onClick={submit}>
-                    <p className="ready-button-text"> { buttonLabel } </p>
+                    <p className="ready-button-text"> { buttonLabel } <FontAwesomeIcon icon={faChevronRight} /> </p>
                 </div>
             </div>
-
         </div>
     );
 };
