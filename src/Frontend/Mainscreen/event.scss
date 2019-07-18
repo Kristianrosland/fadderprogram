@@ -18,18 +18,31 @@
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
+
+    @media only screen and (min-width: $breakpoint-tablet) {
+        padding: 3% 15% 3% 15%;
+    }
 }
 
 .event-title {
     font-size: 1rem;
     font-weight: bold;
     margin: 0 0 5px 0;
+    @media only screen and (min-width: $breakpoint-tablet) {
+        font-size: 1.5rem;
+    }
 }
 
 .event-description {
     font-size: 0.8rem;
     margin: 10px 0 0 0;
     color: $text-lightgray;
+    @media only screen and (min-width: $breakpoint-tablet) {
+        font-size: 1.05rem;
+        margin: 1.67rem 0 0 0;
+        width: 80%;
+        line-height: 1.6rem;
+    }
 }
 
 .icon-label-wrapper {
@@ -39,6 +52,10 @@
     margin-top: 6px;
     font-size: 0.8rem;
     line-height: 1rem;
+    @media only screen and (min-width: $breakpoint-tablet) {
+        font-size: 1.05rem;
+        margin-top: 1rem;
+    }
 }
 
 .event-icon {

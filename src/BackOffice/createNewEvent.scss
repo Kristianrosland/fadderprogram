@@ -15,6 +15,9 @@
 
 .create-event-form {
     width: 80%;
+    @media only screen and (min-width: $breakpoint-desktop) {
+        width: 55%;
+    }
 }
 
 .form-field-header {

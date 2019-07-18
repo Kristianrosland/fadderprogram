@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './index.css';
 import App from './Frontend/App';
 import * as serviceWorker from './serviceWorker';
@@ -11,11 +11,11 @@ import Firebase from './Firestore';
 const firestore = new Firebase();
 
 ReactDOM.render(
-    <BrowserRouter>
+    <Router basename={process.env.PUBLIC_URL}>
         <Switch>
             <Route exact path="/admin" component={() => <BackOffice firestore={firestore} />} />
             <Route path="/" render={() => <CookiesProvider> <App firestore={firestore}/> </CookiesProvider> } />
         </Switch>
-    </BrowserRouter>
+    </Router>
 , document.getElementById('root'));
 serviceWorker.unregister();
