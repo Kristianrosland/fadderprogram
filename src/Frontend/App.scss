@@ -112,3 +112,42 @@ html {
 .selected-lang {
     font-weight: bold;
 }
+
+.sticky-side-button {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    position: fixed;
+    -webkit-animation: slide 0.5s forwards;
+    -webkit-animation-delay: 2s;
+    animation: slide 0.5s forwards;
+    animation-delay: 2s;
+    top: 80%;
+    right: -12rem;
+    height: 3.8rem;
+    background-color: $navbar-selected;
+    border-radius: 2.5rem 0 0 2.5rem;
+    width: 12rem;
+    font-weight: bold;
+    color: white;
+}
+
+.phonenumber-container {
+    display: flex;
+    flex-direction: column;
+    margin-left: 1rem;
+}
+
+.phone-icon {
+    width: 80%;
+    margin-left: 1rem;
+    font-size: 1.5rem;
+}
+
+@-webkit-keyframes slide {
+    100% { right: 0; }
+}
+
+@keyframes slide {
+    100% { right: 0; }
+}
