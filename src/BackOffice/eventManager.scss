@@ -2,10 +2,10 @@
 
 .event-manager-wrapper {
     padding: 0 5%;
-    @media only screen and (min-width: $breakpoint-tablet) {
+    @media all and (min-width: $breakpoint-tablet) {
         padding: 0 15%;
     }
-    @media only screen and (min-width: $breakpoint-desktop) {
+    @media all and (min-width: $breakpoint-desktop) {
         padding: 0 25%;
     }
 }

@@ -75,7 +75,7 @@ html {
     right: 8px;
     top: 8px;
     
-    @media only screen and (min-width: $breakpoint-tablet) {
+    @media all and (min-width: $breakpoint-tablet) {
         right: 1.5rem;
         top: 1rem;
     }
@@ -87,7 +87,7 @@ html {
     p {
         font-size: 0.75rem;
         margin: 0 2px;
-        @media only screen and (min-width: $breakpoint-tablet) {
+        @media all and (min-width: $breakpoint-tablet) {
             font-size: 1.15rem;
         }
     }

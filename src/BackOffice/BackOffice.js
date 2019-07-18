@@ -15,11 +15,11 @@ const BackOffice = ({ firestore }) => {
     }, [firestore])
 
     return (
-        <div className="backOffice-wrapper">
+        <div className="back-office-wrapper">
             <Dimmer active={loadingUser} ><Loader active={loadingUser} /></Dimmer>
             { !loadingUser &&
                 <>
-                    <div className="backOffice-header"> Adminpanel </div>
+                    <div className="back-office-header"> Adminpanel </div>
                     { !user && <LoginScreen firestore={firestore} /> }
                     { user && <EventManager user={user} firestore={firestore} events={events} /> }
                 </>

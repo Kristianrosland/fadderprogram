@@ -1,6 +1,6 @@
 @import '../Frontend/constants.scss';
 
-.backOffice-wrapper {
+.back-office-wrapper {
     width: 100%;
     height: 100%;
     font-family: Lato !important;
@@ -8,12 +8,12 @@
     -webkit-overflow-scrolling: touch;
 }
 
-.backOffice-header {
+.back-office-header {
     font-size: 2rem;
     width: 100%;
     text-align: center;
     padding: 10%;
-    @media only screen and (min-width: $breakpoint-tablet) {
+    @media all and (min-width: $breakpoint-tablet) {
         padding: 5%;
     }
 }
