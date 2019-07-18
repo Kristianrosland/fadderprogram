@@ -13,7 +13,7 @@ const firestore = new Firebase();
 ReactDOM.render(
     <Router basename={process.env.PUBLIC_URL}>
         <Route exact path="/admin" component={() => <BackOffice firestore={firestore} />} />
-        <Route path="/" render={() => <CookiesProvider> <App firestore={firestore}/> </CookiesProvider> } />
+        <Route exact path="/" render={() => <CookiesProvider> <App firestore={firestore}/> </CookiesProvider> } />
     </Router>
 , document.getElementById('root'));
 serviceWorker.unregister();
