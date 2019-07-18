@@ -27,12 +27,14 @@ const EventManager = ({ user, events = [], firestore }) => {
         return <CreateNewEvent 
                     existingEvent={events.filter(e => e.id === editEvent)[0]}
                     editing={editEvent !== undefined}
-                    cancelCallback={() => { setCreateNew(false); setEditEvent(undefined); } } 
+                    cancelCallback={() => { setCreateNew(false); setEditEvent(undefined); window.scrollTo(0,0); } } 
                     submitCallback={event => { 
                         firestore.addEvent(event, user.uid).then(setCreateNew(false)); 
+                        window.scrollTo(0,0);
                     }}
                     updateCallback={event => {
                         firestore.updateEvent(event).then(setEditEvent(undefined));
+                        window.scrollTo(0,0);
                     }}
                     availableGroups={groups} 
                 />

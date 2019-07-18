@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import NavBarButton from './NavBarButton';
 import { AppContext } from '../App';
 import Event from './Event';
@@ -32,6 +32,7 @@ const MainScreen = ({ group, events }) => {
     const [ day, setDay ] = useState(dayToday())
     const [ state ] = useContext(AppContext);
     const TEKNA_DAY = 4; // friday
+    const scrollRef = useRef();
     const eventList = events
         ? events
             .filter(e => translateDayIdx(e.day_NO) === day)
@@ -41,7 +42,7 @@ const MainScreen = ({ group, events }) => {
         : <> { skeleton } { skeleton } </>;
 
     const navBarButtons = weekdays.map(
-        el => <NavBarButton key={el.NO} lang={state.lang} target={el} callback={setDay} selected={day === el.id} />
+        el => <NavBarButton key={el.NO} lang={state.lang} target={el} callback={(day) => { setDay(day); scrollRef.current.scrollTop = 0; }} selected={day === el.id} />
     )
 
     return (
@@ -50,7 +51,7 @@ const MainScreen = ({ group, events }) => {
                 { <div className="tekna-container"> { day === TEKNA_DAY && <img className="header-tekna-logo" src={teknaLogo} alt="Tekna logo" /> } </div> }
                 { <label> { state.lang === 'NO' ? group.label_nor : group.label_eng } </label> }
             </div>
-            <div className="mainscreen-event-container">
+            <div className="mainscreen-event-container" ref={scrollRef}>
                 { eventList }
                 { day === TEKNA_DAY && <img className="event-list-tekna-logo" src={teknaLogo} alt="Tekna logo"/>}
             </div>
