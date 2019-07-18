@@ -44,7 +44,9 @@ const EventManager = ({ user, events = [], firestore }) => {
                 <div className="delete-event-confirmation-dimmer"> 
                     <div className="delete-event-confirmation-box"> 
                         <div className="delete-event-content"> 
-                            <label>Er du sikker på at du vil slette {filteredEvents.filter(e => e.id === eventToBeDeleted)[0].title_NO}?</label>
+                            <label>
+                                Er du sikker på at du vil slette <span className="font-bold">{filteredEvents.filter(e => e.id === eventToBeDeleted)[0].title_NO}</span> ?
+                            </label>
                             <div className="full-width flex-row">
                                 <Button secondary onClick={() => setEventToBeDeleted(undefined)}> Nei, gå tilbake </Button>
                                 <Button primary onClick={() => { firestore.removeEvent(eventToBeDeleted); setEventToBeDeleted(undefined); }}> Ja, slett! </Button>
