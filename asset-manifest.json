@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/static/css/main.ad4bdd43.chunk.css",
+    "main.css": "/static/css/main.ed060686.chunk.css",
     "main.js": "/static/js/main.778d5afd.chunk.js",
     "main.js.map": "/static/js/main.778d5afd.chunk.js.map",
     "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
@@ -8,9 +8,9 @@
     "static/js/2.181892c7.chunk.js": "/static/js/2.181892c7.chunk.js",
     "static/js/2.181892c7.chunk.js.map": "/static/js/2.181892c7.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.a42062bf853b670f014a967cda7c3d7b.js": "/precache-manifest.a42062bf853b670f014a967cda7c3d7b.js",
+    "precache-manifest.2ccf5628200eda457935f372bd3b66cf.js": "/precache-manifest.2ccf5628200eda457935f372bd3b66cf.js",
     "service-worker.js": "/service-worker.js",
-    "static/css/main.ad4bdd43.chunk.css.map": "/static/css/main.ad4bdd43.chunk.css.map",
+    "static/css/main.ed060686.chunk.css.map": "/static/css/main.ed060686.chunk.css.map",
     "static/media/tekna-logo.jpg": "/static/media/tekna-logo.04ca97dd.jpg"
   }
 }
