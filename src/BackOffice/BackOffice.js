@@ -15,7 +15,7 @@ const BackOffice = ({ firestore }) => {
     }, [firestore])
 
     return (
-        <div className="back-office-wrapper">
+        <div className="back-office-wrapper" id="app">
             <Dimmer active={loadingUser} ><Loader active={loadingUser} /></Dimmer>
             { !loadingUser &&
                 <>

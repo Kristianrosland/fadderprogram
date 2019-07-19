@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Button } from 'semantic-ui-react';
 import './loginScreen.scss';
 
@@ -6,6 +6,10 @@ const LoginScreen = ({ firestore }) => {
     const [ email, setEmail ] = useState('');
     const [ password, setPassword ] = useState('');
     const [ error, setError ] = useState('');
+
+    useEffect(() => {
+        window.scrollTo(0,0);
+    });
 
     const handleInput = (event, callback) => {
         callback(event.target.value);
