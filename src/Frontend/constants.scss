@@ -55,6 +55,7 @@ $large: 2.5rem;
 .margin-bottom-small { margin-bottom: $small !important; }
 .margin-bottom-medium { margin-bottom: $medium !important; }
 .margin-bottom-large { margin-bottom: $large !important; }
+.margin-bottom-XXL { margin-bottom: 7rem !important; }
 
 .full-width {
     width: 100% !important;
@@ -63,3 +64,10 @@ $large: 2.5rem;
 $breakpoint-mobile: 480px;
 $breakpoint-tablet: 768px;
 $breakpoint-desktop: 980px;
+
+.mobile-only {
+    display: none;
+    @media all and (max-width: $breakpoint-mobile) {
+        display: block;
+    }
+}

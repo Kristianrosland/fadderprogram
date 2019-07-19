@@ -64,6 +64,7 @@ const MainScreen = ({ group, events }) => {
             <div className="mainscreen-event-container" ref={scrollRef}>
                 { eventList }
                 { day === TEKNA_DAY && <img className="event-list-tekna-logo" src={teknaLogo} alt="Tekna logo"/>}
+                <div className="margin-bottom-XXL mobile-only"></div>
             </div>
             <div className="mainscreen-navbar-container">
                 { navBarButtons }
