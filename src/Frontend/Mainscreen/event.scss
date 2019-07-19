@@ -37,6 +37,7 @@
     font-size: 0.8rem;
     margin: 10px 0 0 0;
     color: $text-lightgray;
+    white-space: pre-wrap;
     @media all and (min-width: $breakpoint-tablet) {
         font-size: 1.05rem;
         margin: 1.67rem 0 0 0;
