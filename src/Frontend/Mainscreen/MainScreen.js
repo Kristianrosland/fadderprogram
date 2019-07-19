@@ -4,6 +4,8 @@ import { AppContext } from '../App';
 import Event from './Event';
 import Skeleton from 'react-loading-skeleton';
 import { weekdays, translateDayIdx, dayToday, eventTimeComparator} from '../utils'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPhone } from '@fortawesome/free-solid-svg-icons';
 import teknaLogo from './tekna-logo.jpg';
 import './Mainscreen.scss';
 
@@ -47,6 +49,13 @@ const MainScreen = ({ group, events }) => {
 
     return (
         <div className="mainscreen-wrapper">
+            <a href="tel:004740466599" className="sticky-side-button">
+                <FontAwesomeIcon className="phone-icon" icon={faPhone} />
+                <div className="phonenumber-container">
+                    <span> Vakttelefon </span>
+                    <span className="phone-number"> 404 66 599 </span>
+                </div>
+            </a>
             <div className="mainscreen-header"> 
                 { <div className="tekna-container"> { day === TEKNA_DAY && <img className="header-tekna-logo" src={teknaLogo} alt="Tekna logo" /> } </div> }
                 { <label> { state.lang === 'NO' ? group.label_nor : group.label_eng } </label> }
