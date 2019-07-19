@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/static/css/main.cdd1187b.chunk.css",
-    "main.js": "/static/js/main.0b6a8454.chunk.js",
-    "main.js.map": "/static/js/main.0b6a8454.chunk.js.map",
+    "main.css": "/static/css/main.ad4bdd43.chunk.css",
+    "main.js": "/static/js/main.778d5afd.chunk.js",
+    "main.js.map": "/static/js/main.778d5afd.chunk.js.map",
     "runtime~main.js": "/static/js/runtime~main.a8a9905a.js",
     "runtime~main.js.map": "/static/js/runtime~main.a8a9905a.js.map",
     "static/js/2.181892c7.chunk.js": "/static/js/2.181892c7.chunk.js",
     "static/js/2.181892c7.chunk.js.map": "/static/js/2.181892c7.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.3fe29ab8b8230de3babc9a7546c8e8aa.js": "/precache-manifest.3fe29ab8b8230de3babc9a7546c8e8aa.js",
+    "precache-manifest.a42062bf853b670f014a967cda7c3d7b.js": "/precache-manifest.a42062bf853b670f014a967cda7c3d7b.js",
     "service-worker.js": "/service-worker.js",
-    "static/css/main.cdd1187b.chunk.css.map": "/static/css/main.cdd1187b.chunk.css.map",
+    "static/css/main.ad4bdd43.chunk.css.map": "/static/css/main.ad4bdd43.chunk.css.map",
     "static/media/tekna-logo.jpg": "/static/media/tekna-logo.04ca97dd.jpg"
   }
 }
