@@ -18,6 +18,12 @@ const textResources = {
     'ERROR_DESC_EN_NO': 'Du må fylle inn engelsk beskrivelse',
     'ERROR_GROUPS_NO': 'Du må velge gruppe(r) arrangementet gjelder for',
     'ERROR_LINK_NO': 'Du kan ikke ha lenketekst uten lenke',
+
+    /** PHONE **/
+    'EMERGENCY_PHONE_NUMBER_NO': 'Vakttelefon',
+    'EMERGENCY_PHONE_NUMBER_EN': 'Mentor board',
+    'PHONE_NUMBER_NO': '404 66 599',
+    'PHONE_NUMBER_EN': '404 66 599'
 }
 
 const selectResource = (label, lang) => {

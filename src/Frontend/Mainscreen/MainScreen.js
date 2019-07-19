@@ -2,6 +2,7 @@ import React, { useState, useContext, useRef } from 'react';
 import NavBarButton from './NavBarButton';
 import { AppContext } from '../App';
 import Event from './Event';
+import resource from '../textResources';
 import Skeleton from 'react-loading-skeleton';
 import { weekdays, translateDayIdx, dayToday, eventTimeComparator} from '../utils'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -52,8 +53,8 @@ const MainScreen = ({ group, events }) => {
             <a href="tel:004740466599" className="sticky-side-button">
                 <FontAwesomeIcon className="phone-icon" icon={faPhone} />
                 <div className="phonenumber-container">
-                    <span> Vakttelefon </span>
-                    <span className="phone-number"> 404 66 599 </span>
+                    <span> {resource('EMERGENCY_PHONE_NUMBER', state)} </span>
+                    <span className="phone-number"> {resource('PHONE_NUMBER', state)} </span>
                 </div>
             </a>
             <div className="mainscreen-header"> 
