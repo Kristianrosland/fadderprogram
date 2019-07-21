@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Input } from 'semantic-ui-react';
 import ErrorLabel from './ErrorLabel';
 
-const TimeInput = ({ title, hour, setHour, minute, setMinute, mandatory, error, containerStyle, minuteRef }) => {
+const TimeInput = ({ title, hour, setHour, minutes, setMinute, mandatory, error, containerStyle, minuteRef }) => {
     return (
         <div className={`${containerStyle} flex-column`}>
             <div className="form-field-title"> {title} {mandatory} </div>
@@ -24,7 +24,7 @@ const TimeInput = ({ title, hour, setHour, minute, setMinute, mandatory, error, 
                         ref={minuteRef}
                         className="time-input"
                         placeholder="00"
-                        value={minute} 
+                        value={minutes} 
                         onChange={setMinute}
                         type="text"
                         autoComplete="off"

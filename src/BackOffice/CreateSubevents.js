@@ -26,6 +26,9 @@ const CreateSubevents = ({ existingEvents, submitCallback, cancelCallback, delet
         setGoogleMaps(`https://www.google.com/maps/search/?api=1&query=${input}`);
     }
 
+    console.log(startTime)
+    console.log(endTime)
+
     useEffect(() => {
         window.scrollTo(0, 0);
     }, [])
@@ -71,6 +74,14 @@ const CreateSubevents = ({ existingEvents, submitCallback, cancelCallback, delet
             if (endTime.hours.length === 2 && endTime.minutes.length === 2) { event.end_time =  `${endTime.hours}:${endTime.minutes}` }
 
             submitCallback(event)
+            setAddingNew(false);
+            setTitleNO('');
+            setTitleEN('');
+            setStartTime({ hours: '', minutes: ''})
+            setEndTime({ hours: '', minutes: ''})
+            setAddress('')
+            setGoogleMaps('');
+            setErrors({ startTime: false, endTime: false, titleNO: false, titleEN: false, address: false });
         }
     }
 
@@ -84,7 +95,7 @@ const CreateSubevents = ({ existingEvents, submitCallback, cancelCallback, delet
                         <label className="sub-event-title-label"> { e.title_EN } </label> 
                     </div>
                     <label className="sub-event-google-maps"> { e.google_maps } </label>
-                    <FontAwesomeIcon icon={faTrashAlt} onClick={() => deleteCallback(e.id)} />
+                    <FontAwesomeIcon className="margin-left-auto margin-right-large" icon={faTrashAlt} onClick={() => deleteCallback(e.id)} />
                 </div>
             ))}
 
@@ -96,7 +107,7 @@ const CreateSubevents = ({ existingEvents, submitCallback, cancelCallback, delet
                             <TimeInput 
                                 title='Start'
                                 hour={startTime.hours}
-                                minutes={startTime.minute}
+                                minutes={startTime.minutes}
                                 setHour={e => handleTimeInput('start', 'hours', e)}
                                 setMinute={e => handleTimeInput('start', 'minutes', e)}
                                 error={errors.startTime ? 'ERROR_START_TIME' : ''}
@@ -106,7 +117,7 @@ const CreateSubevents = ({ existingEvents, submitCallback, cancelCallback, delet
                             <TimeInput 
                                 title='Slutt'
                                 hour={endTime.hours}
-                                minutes={endTime.minute}
+                                minutes={endTime.minutes}
                                 setHour={e => handleTimeInput('end', 'hours', e)}
                                 setMinute={e => handleTimeInput('end', 'minutes', e)}
                                 containerStyle="margin-left-large"

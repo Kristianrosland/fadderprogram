@@ -11,8 +11,9 @@ function App(props) {
   const { firestore } = props;
   const [ cookies, setCookie, removeCookie ] = useCookies(['group', 'language']);
   const [ group, setGroup ] = useState(cookies.group)
-  const [ events, setEvents ] = useState(undefined)
-  const [ groupNames, setGroupNames ] = useState(undefined)
+  const [ events, setEvents ] = useState([])
+  const [ subEvents, setSubEvents ] = useState([])
+  const [ groupNames, setGroupNames ] = useState([])
   const [ state, setState ] = useState({ lang: cookies.language ? cookies.language : 'NO' });
   const changeLanguage = () => {
     const newLang = state.lang === 'NO' ? 'EN' : 'NO';
@@ -22,15 +23,18 @@ function App(props) {
 
   useEffect(() => {
     firestore.fetchEvents(setEvents);
+    firestore.fetchSubEvents(setSubEvents);
     firestore.fetchGroupNames(setGroupNames)
   }, [firestore, setEvents, setGroupNames])
+
+  const eventsWithSubevents = events.map(e => ({ ...e, subEvents: subEvents.filter(s => s.parent_event_id === e.id)}));
   
   return (
     <AppContext.Provider value={[ state, setState ]}>
       <div className="app">
         {  <SelectLanguage state={state} changeLanguage={changeLanguage} /> }
         { !group && <WelcomeScreen groupNames={groupNames} setGroup={setGroup} setCookie={setCookie} /> }
-        { group && <MainScreen events={events} group={group} setGroup={setGroup} removeCookie={removeCookie}/> }
+        { group && <MainScreen events={eventsWithSubevents} group={group} setGroup={setGroup} removeCookie={removeCookie}/> }
       </div>
     </AppContext.Provider>
   );

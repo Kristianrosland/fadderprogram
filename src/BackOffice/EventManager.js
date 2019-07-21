@@ -13,7 +13,7 @@ const AddEventButton = ({ handleClick }) => {
     return <div className="add-event-button" onClick={handleClick}><p>+</p></div>
 }
 
-const EventManager = ({ user, events = [], firestore }) => {
+const EventManager = ({ user, events = [], subEvents = [], firestore }) => {
     const [ groups, setGroups ] = useState(undefined);
     const [ createNew, setCreateNew ] = useState(false);
     const [ editEvent, setEditEvent ] = useState(undefined);
