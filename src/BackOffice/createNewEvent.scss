@@ -59,3 +59,40 @@
         color: #9f3a38 !important;
     }
 }
+
+.add-sub-event-wrapper {
+    width: 80%;
+}
+
+.existing-subevent {
+    background-color: $editable-event-background;
+    min-height: 6rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    border-radius: 1rem;
+}
+
+.sub-event-time-label {
+    width: 10%;
+    font-size: 1.1rem;
+}
+
+.sub-event-title-label {
+    font-size: 1.2rem;
+    margin-bottom: 0.33rem;
+}
+
+.sub-event-title-wrapper {
+    width: 18%;
+}
+
+.sub-event-google-maps {
+    max-width: 60%;
+    word-break: break-all;
+    margin-left: 1rem;
+}
+
+.subevent-form {
+    width: 80%;
+}

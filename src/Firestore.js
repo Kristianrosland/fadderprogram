@@ -23,15 +23,16 @@ class Firebase {
         this.db.collection('events').onSnapshot(snapshot => {
             const events = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data(), subEvents: [] }));
             this.db.collection('subevents').onSnapshot(subSnapshot => {
-                subSnapshot.docs.map(d => d.data()).forEach(subEvent => {
+                subSnapshot.docs.map(d => ({ id: d.id, ...d.data() })).forEach(subEvent => {
                     const subId = subEvent.parent_event_id;
                     for (const event of events) {
                         if (event.id === subId) {
-                            event.subEvents.push(subEvent);
+                            event.subEvents.push({id: subEvent.id, ...subEvent });
                         }
                     }
                 }, console.log)
                 setEventsCallback(events);
+                console.log("Events fetched successfully!");
             }, console.log)
         })
     }
@@ -82,13 +83,25 @@ class Firebase {
 
     addEvent(event, uid) {
         if (event) {
-            return this.db.collection('events').add({...event, createdBy: uid })
+            return this.db.collection('events').add({...event, createdBy: uid });
         }
     }
 
     removeEvent(event_id) {
         if (event_id) {
             return this.db.collection('events').doc(event_id).delete();
+        }
+    }
+
+    addSubEvent(event, uid) {
+        if (event) {
+            return this.db.collection('subevents').add({ ...event, createdBy: uid });
+        }
+    }
+
+    removeSubEvent(event_id) {
+        if (event_id) {
+            return this.db.collection('subevents').doc(event_id).delete();
         }
     }
 

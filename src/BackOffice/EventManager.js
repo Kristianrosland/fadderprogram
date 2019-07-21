@@ -36,6 +36,12 @@ const EventManager = ({ user, events = [], firestore }) => {
                         firestore.addEvent(event, user.uid).then(setCreateNew(false)); 
                         window.scrollTo(0,0);
                     }}
+                    submitSubeventCallback={event => {
+                        firestore.addSubEvent(event, user.uid);
+                    }}
+                    deleteSubeventCallback={event_id => {
+                        firestore.removeSubEvent(event_id);
+                    }}
                     updateCallback={event => {
                         firestore.updateEvent(event).then(setEditEvent(undefined));
                         window.scrollTo(0,0);

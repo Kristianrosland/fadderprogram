@@ -2,9 +2,11 @@ import React, { useState, useRef } from 'react';
 import { Form, TextArea, Button, Input, Checkbox } from 'semantic-ui-react';
 import { translateDay, groupComparator } from '../Frontend/utils';
 import ErrorLabel from './ErrorLabel';
+import CreateSubevents from './CreateSubevents';
 import './createNewEvent.scss';
+import TimeInput from './TimeInput';
 
-const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCallback, submitCallback, updateCallback }) => {
+const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCallback, submitCallback, updateCallback, submitSubeventCallback, deleteSubeventCallback }) => {
     const { title_NO = '', title_EN = '', desc_NO = '', desc_EN = '', google_maps = '', start_time = '', end_time = '', day_NO = '', linkText_NO='', linkText_EN=''} = existingEvent;
     const [ titleNO, setTitleNO ] = useState(title_NO);
     const [ titleEN, setTitleEN ] = useState(title_EN);
@@ -23,6 +25,7 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
     const [ day, setDay ] = useState(day_NO)
     const [ errors, setErrors ] = useState({ titleNO: false, titleEN: false, descNO: false, descEN: false, day: false, address: false, timeStart: false, timeEnd: false, groups: false })
     const [ submitting, setSubmitting ] = useState(false);
+    const [ addSubevents, setAddSubevents ] = useState(false);
 
     const startTimeMinuteRef = useRef(null);
     const endTimeMinuteRef = useRef(null);
@@ -77,7 +80,7 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
             timeStart: startTimeHour.length !== 2 || startTimeMinute.length !== 2,
             timeEnd: endTimeHour !== '' && (endTimeHour.length !== 2 || endTimeMinute.length !== 2),
             day: day === '' || ['mandag', 'tirsdag', 'onsdag', 'torsdag', 'fredag', 'lørdag', 'søndag'].indexOf(day) === -1,
-            link: (linkTextEN || linkTextNO) && !link,
+            link: (linkTextEN.length !== 0 || linkTextNO.length !== 0) && !link,
             groups: groups.length === 0,
         };
 
@@ -119,11 +122,20 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
         }
     }
 
+    const submitSubevent = e => {
+        if (existingEvent) {
+            submitSubeventCallback({ ...e, parent_event_id: existingEvent.id })
+        }
+    }
+
     return (
         <div className="flex-column create-event-wrapper">
-            <div className="create-event-header"> 
-                Legg til et nytt event. Felter merket med {redStar} er obligatoriske. 
-            </div>
+            { addSubevents 
+                ? <CreateSubevents existingEvents={existingEvent.subEvents ? existingEvent.subEvents : [] } submitCallback={submitSubevent} cancelCallback={() => setAddSubevents(false) } deleteCallback={deleteSubeventCallback} />
+                : (<React.Fragment>
+                    <div className="create-event-header"> 
+                        Legg til et nytt event. Felter merket med {redStar} er obligatoriske. 
+                    </div>
             <Form className="create-event-form" onSubmit={submit} loading={!availableGroups || submitting}>
 
                 { /** TITTEL  **/ }
@@ -175,61 +187,28 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
                 <Form.Group grouped className="form-input-group">
                     <label className="form-field-header"> Tid </label>
                     <div className="flex-row">
-                        <div className="flex-column">
-                            <div className="form-field-title"> Start {redStar} </div>
-                            { errors.timeStart && <ErrorLabel textKey={'ERROR_START_TIME'} /> }
-                            <div className="flex-row">
-                                <Form.Field error={errors.timeStart}>
-                                    <input 
-                                        className="time-input"
-                                        placeholder="00"
-                                        value={startTimeHour} 
-                                        onChange={e => { setTime(e, 'startTimeHour'); setErrors({ ...errors, timeStart: false })} }
-                                        type="text"
-                                        autoComplete="off"
-                                    />
-                                </Form.Field>
-                                <div className="time-separator flex-row align-center justify-center">:</div>
-                                <Form.Field error={errors.timeStart}>
-                                    <input 
-                                        ref={startTimeMinuteRef}
-                                        className="time-input"
-                                        placeholder="00"
-                                        value={startTimeMinute} 
-                                        onChange={e => { setTime(e, 'startTimeMinute'); setErrors({ ...errors, timeStart: false })} }
-                                        type="text"
-                                        autoComplete="off"
-                                    />
-                                </Form.Field>
-                            </div>
-                        </div>
-                        <div className="flex-column margin-left-large">
-                            <div className="form-field-title"> Slutt </div>
-                            <div className="flex-row">
-                                <Form.Field error={errors.timeEnd}>
-                                    <input 
-                                        className="time-input"
-                                        placeholder="00"
-                                        value={endTimeHour} 
-                                        onChange={e => { setTime(e, 'endTimeHour'); setErrors({ ...errors, timeEnd: false })} }
-                                        type="text"
-                                        autoComplete="off"
-                                    />
-                                </Form.Field>
-                                <div className="time-separator flex-row align-center justify-center">:</div>
-                                <Form.Field error={errors.timeEnd}>
-                                    <input 
-                                        ref={endTimeMinuteRef}
-                                        className="time-input"
-                                        placeholder="00"
-                                        value={endTimeMinute} 
-                                        onChange={e => { setTime(e, 'endTimeMinute'); setErrors({ ...errors, timeEnd: false })} }
-                                        type="text"
-                                        autoComplete="off"
-                                    />
-                                </Form.Field>
-                            </div>
-                        </div>
+                        <TimeInput
+                            title='Start'
+                            hour={startTimeHour}
+                            minute={startTimeMinute}
+                            setHour={e => { setTime(e, 'startTimeHour'); setErrors({ ...errors, timeStart: false })} }
+                            setMinute={e => { setTime(e, 'startTimeMinute'); setErrors({ ...errors, timeStart: false })} }
+                            error={errors.timeStart ? 'ERROR_START_TIME' : ''}
+                            mandatory={redStar}
+                            minuteRef={startTimeMinuteRef}
+                        />
+                        <TimeInput
+                            title='End'
+                            hour={endTimeHour}
+                            minute={endTimeMinute}
+                            setHour={e => { setTime(e, 'endTimeHour'); setErrors({ ...errors, timeEnd: false })} }
+                            setMinute={e => { setTime(e, 'endTimeMinute'); setErrors({ ...errors, timeEnd: false })} }
+                            error={errors.timeEnd ? 'ERROR_END_TIME' : ''}
+                            mandatory={false}
+                            containerStyle='margin-left-large'
+                            minuteRef={endTimeMinuteRef}
+
+                        />
                     </div>
                 </Form.Group>
 
@@ -263,26 +242,24 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
                             autoComplete="off"
                         />
                     </Form.Field>
-                        { !googleMaps &&  
-                            <div className="flex-row align-center">
-                                <Button
-                                    type='button'
-                                    disabled={address.length < 3}
-                                    content={'Generer lenke til Google maps'} 
-                                    icon='map' labelPosition='left' 
-                                    onClick={() => generateGoogleMaps(address)} 
-                                    primary
-                                /> 
-                            </div> 
-                        }
+                    { !googleMaps &&  
+                        <div className="flex-row align-center">
+                            <Button
+                                type='button'
+                                disabled={address.length < 3}
+                                content={'Generer lenke til Google maps'} 
+                                icon='map' labelPosition='left' 
+                                onClick={() => generateGoogleMaps(address)} 
+                                primary
+                            /> 
+                        </div> 
+                    }
                     { googleMaps && 
                         <Button.Group className="margin-top-small">
                             <Button type='button' onClick={() => setGoogleMaps('')}>Fjern</Button>
                             <Button.Or text='' />
-                            <Button type='button' primary> 
-                                <a className="google-maps-link" href={googleMaps} rel="noopener noreferrer" target="_blank"> 
-                                    Test lenken 
-                                </a> 
+                            <Button type='button' primary onClick={() => window.open(googleMaps, '_blank')}> 
+                                Test lenke
                             </Button>
                         </Button.Group> 
                     }
@@ -338,6 +315,12 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
                     </Form.Field>
                 </Form.Group>
 
+                { editing &&
+                    <Button type='button' onClick={() => { setAddSubevents(true) }} className="full-width margin-bottom-small margin-top-small">
+                        Legg til hendelser
+                    </Button>
+                }
+
                 { /** SUBMIT **/ }
                 <Button type='button' onClick={() => cancelCallback()} className="full-width margin-bottom-small margin-top-medium">
                     Avbryt
@@ -346,7 +329,8 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
                     { editing ? 'Lagre' : 'Ferdig' } 
                 </Button>
             </Form>
-
+            </React.Fragment>)
+            }
         </div>
     );
 };

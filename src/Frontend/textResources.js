@@ -14,6 +14,7 @@ const textResources = {
     'ERROR_TITLE_EN_NO': 'Du må fylle inn engelsk tittel',
     'ERROR_DAY_NO': 'Du må velge en dag',
     'ERROR_START_TIME_NO': 'Velg starttidspunkt (hh:mm)',
+    'ERROR_END_TIME_NO': 'Fyll ut hele sluttidspunktet',
     'ERROR_DESC_NO_NO': 'Du må fylle inn norsk beskrivelse',
     'ERROR_DESC_EN_NO': 'Du må fylle inn engelsk beskrivelse',
     'ERROR_GROUPS_NO': 'Du må velge gruppe(r) arrangementet gjelder for',
