@@ -71,28 +71,68 @@
     display: flex;
     align-items: center;
     border-radius: 1rem;
+
+    @media all and (max-width: $breakpoint-mobile) {
+        flex-direction: column !important;
+    }
 }
 
 .sub-event-time-label {
     width: 10%;
     font-size: 1.1rem;
+    @media all and (max-width: $breakpoint-mobile) {
+        width: 100%;
+        margin-top: 1rem;
+    }
 }
 
 .sub-event-title-label {
     font-size: 1.2rem;
     margin-bottom: 0.33rem;
+    @media all and (max-width: $breakpoint-mobile) {
+        width: 100%;
+    }
 }
 
 .sub-event-title-wrapper {
     width: 18%;
+    @media all and (max-width: $breakpoint-mobile) {
+        width: 100%;
+        margin-top: 1rem;
+    }
 }
 
 .sub-event-google-maps {
     max-width: 60%;
     word-break: break-all;
     margin-left: 1rem;
+    @media all and (max-width: $breakpoint-mobile) {
+        max-width: 90%;
+        width: 90%;
+        margin-top: 1rem;
+        margin-left: 0;
+    }
 }
 
 .subevent-form {
     width: 80%;
+}
+
+.test-link-button {
+    margin-top: 0.25rem !important;
+    width: 40%;
+    
+    @media all and (max-width: $breakpoint-mobile) {
+        width: 100%;
+    }
+}
+
+.sub-event-trash {
+    margin-left: auto;
+    margin-right: 2.5rem;
+    @media all and (max-width: $breakpoint-mobile) {
+        margin-right: 1rem;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
 }

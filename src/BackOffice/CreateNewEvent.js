@@ -6,7 +6,7 @@ import CreateSubevents from './CreateSubevents';
 import './createNewEvent.scss';
 import TimeInput from './TimeInput';
 
-const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCallback, submitCallback, updateCallback, submitSubeventCallback, deleteSubeventCallback }) => {
+const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCallback, submitCallback, updateCallback, submitSubeventCallback, deleteSubeventCallback, addressSuggestions }) => {
     const { title_NO = '', title_EN = '', desc_NO = '', desc_EN = '', google_maps = '', start_time = '', end_time = '', day_NO = '', linkText_NO='', linkText_EN=''} = existingEvent;
     const [ titleNO, setTitleNO ] = useState(title_NO);
     const [ titleEN, setTitleEN ] = useState(title_EN);
@@ -131,7 +131,13 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
     return (
         <div className="flex-column create-event-wrapper">
             { addSubevents 
-                ? <CreateSubevents existingEvents={existingEvent.subEvents ? existingEvent.subEvents : [] } submitCallback={submitSubevent} cancelCallback={() => setAddSubevents(false) } deleteCallback={deleteSubeventCallback} />
+                ? <CreateSubevents 
+                    existingEvents={existingEvent.subEvents ? existingEvent.subEvents : [] } 
+                    submitCallback={submitSubevent} 
+                    cancelCallback={() => setAddSubevents(false) } 
+                    deleteCallback={deleteSubeventCallback} 
+                    addressSuggestions={addressSuggestions}    
+                />
                 : (<React.Fragment>
                     <div className="create-event-header"> 
                         Legg til et nytt event. Felter merket med {redStar} er obligatoriske. 
@@ -190,7 +196,7 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
                         <TimeInput
                             title='Start'
                             hour={startTimeHour}
-                            minute={startTimeMinute}
+                            minutes={startTimeMinute}
                             setHour={e => { setTime(e, 'startTimeHour'); setErrors({ ...errors, timeStart: false })} }
                             setMinute={e => { setTime(e, 'startTimeMinute'); setErrors({ ...errors, timeStart: false })} }
                             error={errors.timeStart ? 'ERROR_START_TIME' : ''}
@@ -200,7 +206,7 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
                         <TimeInput
                             title='End'
                             hour={endTimeHour}
-                            minute={endTimeMinute}
+                            minutes={endTimeMinute}
                             setHour={e => { setTime(e, 'endTimeHour'); setErrors({ ...errors, timeEnd: false })} }
                             setMinute={e => { setTime(e, 'endTimeMinute'); setErrors({ ...errors, timeEnd: false })} }
                             error={errors.timeEnd ? 'ERROR_END_TIME' : ''}

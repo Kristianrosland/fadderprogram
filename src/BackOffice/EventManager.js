@@ -13,7 +13,7 @@ const AddEventButton = ({ handleClick }) => {
     return <div className="add-event-button" onClick={handleClick}><p>+</p></div>
 }
 
-const EventManager = ({ user, events = [], subEvents = [], firestore }) => {
+const EventManager = ({ user, events = [], addressSuggestions, firestore }) => {
     const [ groups, setGroups ] = useState(undefined);
     const [ createNew, setCreateNew ] = useState(false);
     const [ editEvent, setEditEvent ] = useState(undefined);
@@ -47,6 +47,7 @@ const EventManager = ({ user, events = [], subEvents = [], firestore }) => {
                         window.scrollTo(0,0);
                     }}
                     availableGroups={groups} 
+                    addressSuggestions={addressSuggestions}
                 />
     }
 

@@ -79,6 +79,9 @@
     border-top: 1px solid $border-lightgray;
     margin-top: 15px;
     margin-bottom: 5px;
+    @media all and (min-width: $breakpoint-desktop) {
+        width: 45%;   
+    }
 }
 
 .sub-event {
@@ -87,6 +90,10 @@
     font-size: 0.75rem;
     color: $text-gray;
     width: 100%;
+
+    @media all and (min-width: $breakpoint-desktop) {
+        font-size: 0.95rem;
+    }
 }
 
 .sub-event-time-and-title {
@@ -103,6 +110,9 @@
 .sub-event-time {
     margin: 0;
     white-space: nowrap;
+    @media all and (min-width: $breakpoint-desktop) {
+        margin-left: 1rem;   
+    }
 }
 
 .sub-event-address {
@@ -110,6 +120,9 @@
     margin-left: auto;
     text-decoration: underline;
     color: $primary-color !important;
+    @media all and (min-width: $breakpoint-desktop) {
+        margin-right: 1rem;   
+    }
 }
 
 

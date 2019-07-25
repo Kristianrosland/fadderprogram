@@ -20,3 +20,14 @@ export const groupEventsByDay = events => {
 
     return grouped;
 }
+
+export const createAddressSuggestions = events => {
+    const suggestions = { }
+    events.forEach(e => {
+        if (e.title_NO && e.address && e.google_maps) {
+            suggestions[e.title_NO.toLowerCase()] = e.address;
+        }
+    })
+
+    return suggestions;
+}

@@ -3,8 +3,9 @@ import { Button, Form, Input } from 'semantic-ui-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrashAlt  } from '@fortawesome/free-solid-svg-icons';
 import TimeInput from './TimeInput';
+import { eventTimeComparator } from '../Frontend/utils';
 
-const CreateSubevents = ({ existingEvents, submitCallback, cancelCallback, deleteCallback }) => {
+const CreateSubevents = ({ existingEvents, submitCallback, cancelCallback, deleteCallback, addressSuggestions }) => {
     const [ addingNew, setAddingNew ] = useState(false);
     const [ startTime, setStartTime ] = useState({hours: '', minutes: ''})
     const [ endTime, setEndTime ] = useState({hours: '', minutes: ''})
@@ -13,21 +14,10 @@ const CreateSubevents = ({ existingEvents, submitCallback, cancelCallback, delet
     const [ address, setAddress ] = useState('')
     const [ errors, setErrors ] = useState({ startTime: false, endTime: false, titleNO: false, titleEN: false, address: false });
     const [ googleMaps, setGoogleMaps ] = useState('')
+    const [ suggestedAddress, setSuggestedAddress ] = useState(undefined);
 
     const startTimeMinuteRef = useRef();
     const endTimeMinuteRef = useRef();
-
-    const generateGoogleMaps = input => {
-        if (input.length < 3) { setGoogleMaps(''); return; }
-        if (input.toLowerCase().indexOf('bergen') === -1) { 
-             input = input + ', Bergen' 
-        }
-
-        setGoogleMaps(`https://www.google.com/maps/search/?api=1&query=${input}`);
-    }
-
-    console.log(startTime)
-    console.log(endTime)
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -50,12 +40,41 @@ const CreateSubevents = ({ existingEvents, submitCallback, cancelCallback, delet
         }
     }
 
+    const handleAddressInput = input => {
+        setAddress(input);
+
+        if (input.length >= 3) {
+            if (input.toLowerCase().indexOf('bergen') === -1) { 
+                input = input + ', Bergen' 
+           }
+   
+           setGoogleMaps(`https://www.google.com/maps/search/?api=1&query=${input}`);
+        } else {
+            setGoogleMaps('');
+        }
+    }
+
+    const handleFieldInput = (input, field) => {
+        if (field === 'title_NO') {
+            if (address.length === 0 && input.toLowerCase() in addressSuggestions) {
+                setSuggestedAddress(addressSuggestions[input.toLowerCase()]);
+            }
+            setTitleNO(input);
+            setErrors({ ...errors, titleNO: false });
+
+        } else if (field === 'title_EN') {
+            setTitleEN(input);
+            setErrors({ ...errors, titleEN: false });
+        }   
+    }
+
     const validate = () => {
         const errors = { 
             titleNO: titleNO.length === 0,
             titleEN: titleEN.length === 0,
             startTime: startTime.hours.length !== 2 || startTime.minutes.length !== 2,
             endTime: endTime.hours.length === 1 || (endTime.hours.length === 2 && endTime.minutes.length !== 2),
+            address: address.length > 0 && address.length < 3,
          };
 
          setErrors(errors);
@@ -67,11 +86,12 @@ const CreateSubevents = ({ existingEvents, submitCallback, cancelCallback, delet
             const event = {
                 title_NO: titleNO,
                 title_EN: titleEN,
-                start_time: `${startTime.hours}:${startTime.minutes}`
+                start_time: `${startTime.hours}:${startTime.minutes}`,
             };
 
+            if (address.length !== 0) { event.address = address; }
             if (googleMaps.length !== 0) { event.google_maps = googleMaps; }
-            if (endTime.hours.length === 2 && endTime.minutes.length === 2) { event.end_time =  `${endTime.hours}:${endTime.minutes}` }
+            if (endTime.hours.length === 2 && endTime.minutes.length === 2) { event.end_time =  `${endTime.hours}:${endTime.minutes}`; }
 
             submitCallback(event)
             setAddingNew(false);
@@ -87,19 +107,22 @@ const CreateSubevents = ({ existingEvents, submitCallback, cancelCallback, delet
 
     return (
         <div className="flex-column align-center add-sub-event-wrapper">
-            { existingEvents.map(e => (
+            { existingEvents.sort(eventTimeComparator).map(e => (
                 <div key={e.id} className="margin-top-medium flex-row existing-subevent">
                     <label className="margin-left-medium sub-event-time-label"> { e.start_time } – { e.end_time } </label>
                     <div className="margin-left-medium flex-column sub-event-title-wrapper"> 
-                        <label className="sub-event-title-label"> { e.title_NO } </label> 
-                        <label className="sub-event-title-label"> { e.title_EN } </label> 
+                        <label className="sub-event-title-label"> NO: { e.title_NO } </label> 
+                        <label className="sub-event-title-label"> EN: { e.title_EN } </label> 
                     </div>
                     <label className="sub-event-google-maps"> { e.google_maps } </label>
-                    <FontAwesomeIcon className="margin-left-auto margin-right-large" icon={faTrashAlt} onClick={() => deleteCallback(e.id)} />
+                    <FontAwesomeIcon className="sub-event-trash" icon={faTrashAlt} onClick={() => deleteCallback(e.id)} />
                 </div>
             ))}
-
-            { !addingNew && <Button type='button' primary className="margin-top-large full-width" onClick={() => { setAddingNew(true) }}> Legg til nytt event </Button> }
+            
+            <Button type='button' className="margin-top-large full-width" onClick={cancelCallback}>
+                Tilbake
+            </Button>
+            { !addingNew && <Button type='button' primary className="margin-top-small margin-bottom-large full-width" onClick={() => { setAddingNew(true) }}> Legg til nytt event </Button> }
             { addingNew && 
                 <Form className="subevent-form">
                     <div className="flex-column margin-top-large">
@@ -130,7 +153,7 @@ const CreateSubevents = ({ existingEvents, submitCallback, cancelCallback, delet
                             <label className="form-field-title margin-top-large"> Norsk tittel </label>
                             <Input 
                                 value={titleNO} 
-                                onChange={e => { setTitleNO(e.target.value); setErrors({ ...errors, titleNO: false }) }} 
+                                onChange={e => { handleFieldInput(e.target.value, 'title_NO'); }} 
                                 type="text"
                                 autoComplete="off"
                             />
@@ -140,7 +163,7 @@ const CreateSubevents = ({ existingEvents, submitCallback, cancelCallback, delet
                             <label className="form-field-title margin-top-small"> Engelsk tittel </label>
                             <Input 
                                 value={titleEN} 
-                                onChange={e => { setTitleEN(e.target.value); setErrors({ ...errors, titleEN: false }) }} 
+                                onChange={e => { handleFieldInput(e.target.value, 'title_EN'); }} 
                                 type="text"
                                 autoComplete="off"
                             />
@@ -148,39 +171,16 @@ const CreateSubevents = ({ existingEvents, submitCallback, cancelCallback, delet
 
                         <Form.Field error={errors.address}>
                             <label className="form-field-title margin-top-large"> Adresse </label>
+                            { suggestedAddress && <label style={{color: 'blue', textDecoration: 'underline'}} onClick={() => { setAddress(suggestedAddress); setSuggestedAddress(undefined); }}> Foreslått addresse: {suggestedAddress} </label>}
                             <Input 
                                 value={address} 
-                                onChange={e => { setAddress(e.target.value); setErrors({ ...errors, address: false }) }} 
+                                onChange={e => { handleAddressInput(e.target.value); setErrors({ ...errors, address: false }) }} 
                                 type="text"
                                 autoComplete="off"
                             />
+                            { googleMaps &&  <Button className="test-link-button" type='button' primary onClick={() => window.open(googleMaps, '_blank')}> Test lenke </Button> }
                         </Form.Field>
-
-                        { !googleMaps &&  
-                        <div className="flex-row align-center margin-top-small">
-                            <Button
-                                type='button'
-                                disabled={address.length < 3}
-                                content={'Generer lenke til Google maps'} 
-                                icon='map' labelPosition='left' 
-                                onClick={() => generateGoogleMaps(address)} 
-                                primary
-                            /> 
-                        </div> 
-                        }
-                        { googleMaps && 
-                            <Button.Group className="margin-top-small">
-                                <Button type='button' onClick={() => setGoogleMaps('')}>Fjern</Button>
-                                <Button.Or text='' />
-                                <Button type='button' primary onClick={() => window.open(googleMaps, '_blank')}> 
-                                    Test lenke
-                                </Button>
-                            </Button.Group> 
-                        }
-                        <Button type='button' className="margin-top-large" onClick={cancelCallback}>
-                            Tilbake
-                        </Button>
-                        <Button type='submit' primary className="margin-top-small" onClick={validateAndSubmit}>
+                        <Button type='submit' primary className="margin-top-small margin-bottom-large" onClick={validateAndSubmit}>
                             Ferdig
                         </Button>
                     </div>
