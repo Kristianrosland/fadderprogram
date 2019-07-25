@@ -56,9 +56,8 @@ $large: 2.5rem;
 .margin-bottom-large { margin-bottom: $large !important; }
 .margin-bottom-XXL { margin-bottom: 7rem !important; }
 
-.margin-left-auto {
-    margin-left: auto;
-}
+.margin-left-auto { margin-left: auto !important; }
+.margin-right-auto { margin-right: auto !important; }
 
 .full-width {
     width: 100% !important;
@@ -72,5 +71,11 @@ $breakpoint-desktop: 980px;
     display: none;
     @media all and (max-width: $breakpoint-mobile) {
         display: block;
+    }
+}
+
+.mobile-excluded {
+    @media all and (max-width: $breakpoint-mobile) {
+        display: none;
     }
 }

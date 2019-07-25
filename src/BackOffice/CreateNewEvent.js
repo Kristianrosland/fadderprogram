@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Form, TextArea, Button, Input, Checkbox } from 'semantic-ui-react';
 import { translateDay, groupComparator } from '../Frontend/utils';
 import ErrorLabel from './ErrorLabel';
@@ -33,6 +33,12 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
     const redStar = <span style={{ color: 'red' } }>*</span>
     const allGroupsSelected = groups.indexOf('all') >= 0;
 
+    useEffect(() => {
+        window.scrollTo(0,0);
+    }, [])
+
+    console.log(groups)
+
     const generateGoogleMaps = input => {
         if (input.length < 3) { setGoogleMaps(''); return; }
         if (input.toLowerCase().indexOf('bergen') === -1) { 
@@ -62,11 +68,17 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
 
     const handleCheckbox = group => {
         setErrors({ ...errors, groups: false })
-        if (group === 'all' && groups.indexOf('all') === -1) { 
+        if (group === 'duplicate') {
+            if (groups.indexOf('duplicate') >= 0) {
+                setGroups([]);
+            } else {
+                setGroups(['duplicate']);
+            }
+        } else if (group === 'all' && groups.indexOf('all') === -1) { 
             setGroups(['all']);
         } else if (groups.indexOf(group) >= 0) {
             setGroups(groups.filter(g => g !== group));
-        } else {
+        } else if (groups.indexOf('all') === -1 && groups.indexOf('duplicate') === -1) {
             setGroups([ group, ...groups ]);
         }
     }
@@ -117,7 +129,15 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
             if (editing) {
                 updateCallback({ ...event, id: existingEvent.id });
             } else {
-                submitCallback(event);
+                if (groups.indexOf('duplicate') >= 0) {
+                    availableGroups.forEach(g => {
+                        if (g !== 'all') {
+                            submitCallback({ ...event, groups: [g]});
+                        }
+                    });
+                } else {
+                    submitCallback(event);
+                }
             }
         }
     }
@@ -314,9 +334,16 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
                                 label={group === 'all' ? 'Alle grupper' : `Gruppe ${group}`}
                                 className={`group-checkbox ${group === 'all' ? 'full-width' : ''} ${errors.groups ? 'checkbox-error' : ''}`}
                                 onClick={() => handleCheckbox(group)}
-                                disabled={group !== 'all' && allGroupsSelected}
-                                checked={allGroupsSelected || groups.indexOf(group) >= 0}
+                                disabled={groups.indexOf('duplicate') >= 0 || (group !== 'all' && allGroupsSelected)}
+                                checked={groups.indexOf('duplicate') >= 0 || allGroupsSelected || groups.indexOf(group) >= 0}
                             />)
+                        }
+                        { !editing && <Checkbox
+                            label={`Dupliser event for alle ${availableGroups.indexOf('all') >= 0 ? availableGroups.length-1 : availableGroups.length} gruppene`}
+                            className='group-checkbox full-width margin-top-medium'
+                            onClick={() => handleCheckbox('duplicate')}
+                            checked={groups.indexOf('duplicate') >= 0}
+                            /> 
                         }
                     </Form.Field>
                 </Form.Group>

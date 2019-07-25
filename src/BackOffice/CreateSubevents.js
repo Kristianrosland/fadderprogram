@@ -68,6 +68,21 @@ const CreateSubevents = ({ existingEvents, submitCallback, cancelCallback, delet
         }   
     }
 
+    const blankOutForm = () => {
+        setTitleNO('');
+        setTitleEN('');
+        setStartTime({ hours: '', minutes: ''})
+        setEndTime({ hours: '', minutes: ''})
+        setAddress('')
+        setGoogleMaps('');
+        setErrors({ startTime: false, endTime: false, titleNO: false, titleEN: false, address: false });
+    }
+
+    const cancelAdding = () => {
+        setAddingNew(false);
+        blankOutForm();
+    }
+
     const validate = () => {
         const errors = { 
             titleNO: titleNO.length === 0,
@@ -95,20 +110,14 @@ const CreateSubevents = ({ existingEvents, submitCallback, cancelCallback, delet
 
             submitCallback(event)
             setAddingNew(false);
-            setTitleNO('');
-            setTitleEN('');
-            setStartTime({ hours: '', minutes: ''})
-            setEndTime({ hours: '', minutes: ''})
-            setAddress('')
-            setGoogleMaps('');
-            setErrors({ startTime: false, endTime: false, titleNO: false, titleEN: false, address: false });
+            blankOutForm();
         }
     }
 
     return (
         <div className="flex-column align-center add-sub-event-wrapper">
             { existingEvents.sort(eventTimeComparator).map(e => (
-                <div key={e.id} className="margin-top-medium flex-row existing-subevent">
+                <div key={e.id} className={`${addingNew ? 'mobile-excluded' : ''} margin-top-medium flex-row existing-subevent`}>
                     <label className="margin-left-medium sub-event-time-label"> { e.start_time } – { e.end_time } </label>
                     <div className="margin-left-medium flex-column sub-event-title-wrapper"> 
                         <label className="sub-event-title-label"> NO: { e.title_NO } </label> 
@@ -119,9 +128,9 @@ const CreateSubevents = ({ existingEvents, submitCallback, cancelCallback, delet
                 </div>
             ))}
             
-            <Button type='button' className="margin-top-large full-width" onClick={cancelCallback}>
+            { !addingNew && <Button type='button' className="margin-top-large full-width" onClick={cancelCallback}>
                 Tilbake
-            </Button>
+            </Button>}
             { !addingNew && <Button type='button' primary className="margin-top-small margin-bottom-large full-width" onClick={() => { setAddingNew(true) }}> Legg til nytt event </Button> }
             { addingNew && 
                 <Form className="subevent-form">
@@ -143,7 +152,7 @@ const CreateSubevents = ({ existingEvents, submitCallback, cancelCallback, delet
                                 minutes={endTime.minutes}
                                 setHour={e => handleTimeInput('end', 'hours', e)}
                                 setMinute={e => handleTimeInput('end', 'minutes', e)}
-                                containerStyle="margin-left-large"
+                                containerStyle="margin-left-medium"
                                 error={errors.endTime ? 'ERROR_END_TIME' : ''}
                                 minuteRef={endTimeMinuteRef}
                             />
@@ -164,14 +173,14 @@ const CreateSubevents = ({ existingEvents, submitCallback, cancelCallback, delet
                             <Input 
                                 value={titleEN} 
                                 onChange={e => { handleFieldInput(e.target.value, 'title_EN'); }} 
-                                type="text"
+                                type="text"x
                                 autoComplete="off"
                             />
                         </Form.Field>
 
                         <Form.Field error={errors.address}>
                             <label className="form-field-title margin-top-large"> Adresse </label>
-                            { suggestedAddress && <label style={{color: 'blue', textDecoration: 'underline'}} onClick={() => { setAddress(suggestedAddress); setSuggestedAddress(undefined); }}> Foreslått addresse: {suggestedAddress} </label>}
+                            { suggestedAddress && <label style={{color: 'blue', textDecoration: 'underline'}} onClick={() => { handleAddressInput(suggestedAddress); setSuggestedAddress(undefined); }}> Bruk foreslått adresse: {suggestedAddress} </label>}
                             <Input 
                                 value={address} 
                                 onChange={e => { handleAddressInput(e.target.value); setErrors({ ...errors, address: false }) }} 
@@ -180,6 +189,9 @@ const CreateSubevents = ({ existingEvents, submitCallback, cancelCallback, delet
                             />
                             { googleMaps &&  <Button className="test-link-button" type='button' primary onClick={() => window.open(googleMaps, '_blank')}> Test lenke </Button> }
                         </Form.Field>
+                        <Button type='button' secondary className="margin-top-small" onClick={cancelAdding}>
+                            Avbryt
+                        </Button>
                         <Button type='submit' primary className="margin-top-small margin-bottom-large" onClick={validateAndSubmit}>
                             Ferdig
                         </Button>
