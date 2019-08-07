@@ -18,7 +18,7 @@ const SubEvent = ({ event, event: { google_maps }, lang }) => {
                 <p className="sub-event-time"> { selectTime(event) } </p>
                 <p className="sub-event-title"> { selectField(event, 'title', lang ) } </p>
             </div>
-            { showUrl && <a className="sub-event-address" href={google_maps}> { lang === 'NO' ? '(kart)' : '(map)' } </a> }
+            { showUrl && <a className="sub-event-address" href={google_maps} rel="noopener noreferrer" target="_blank"> { lang === 'NO' ? '(kart)' : '(map)' } </a> }
         </div>
     );
 }

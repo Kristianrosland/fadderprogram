@@ -18,6 +18,8 @@ const LoginScreen = ({ firestore }) => {
     const handleLoginError = ({ code }) => {
         if (code === 'auth/user-not-found') {
             setError("Denne brukeren finnes ikke. Prøv igjen!")
+        } else {
+            setError("Du skrev inn feil passord!")
         }
     }
 

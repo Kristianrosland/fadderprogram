@@ -10,7 +10,7 @@ const IconLabel = ({icon, label, link}) => {
         <div className="icon-label-wrapper">
             <FontAwesomeIcon className="event-icon" icon={mappedIcon} />
             { !link && <label className="event-icon-label"> { label } </label> }
-            { link && <a className="icon-link event-icon-label" href={link}> { label } </a>}
+            { link && <a className="icon-link event-icon-label" href={link} rel="noopener noreferrer" target='_blank'> { label } </a>}
         </div>
     );
 };

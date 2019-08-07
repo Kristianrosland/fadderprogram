@@ -2,8 +2,8 @@ const textResources = {
     /** Welcome screen **/
     'WELCOME_NO': 'Velkommen!',
     'WELCOME_EN': 'Welcome!',
-    'WELCOME_SUBTITLE_NO': 'For å kunne gi deg relevant informasjon, trenger vi å vite hvilken gruppe du tilhører. Du kan gå tilbake og endre dette senere!',
-    'WELCOME_SUBTITLE_EN': 'To provide you with relevant information, we need to know which group you belong to. You can go back and change this later!',
+    'WELCOME_SUBTITLE_NO': 'For å kunne gi deg relevant informasjon, trenger vi å vite hvilken gruppe du tilhører. Du kan gå tilbake og endre dette senere ved å klikke på gruppenavnet ditt!',
+    'WELCOME_SUBTITLE_EN': 'To provide you with relevant information, we need to know which group you belong to. You can go back and change this later by clicking on your group name!',
     'GROUP_PLACEHOLDER_NO': 'Velg gruppe...',
     'GROUP_PLACEHOLDER_EN': 'Select group...',
     'WELCOME_SCREEN_BUTTON_LABEL_NO': 'Jeg er klar',
@@ -23,8 +23,15 @@ const textResources = {
     /** PHONE **/
     'EMERGENCY_PHONE_NUMBER_NO': 'Vakttelefon',
     'EMERGENCY_PHONE_NUMBER_EN': 'Mentor board',
-    'PHONE_NUMBER_NO': '404 66 599',
-    'PHONE_NUMBER_EN': '404 66 599'
+    'PHONE_NUMBER_NO': '909 86 911',
+    'PHONE_NUMBER_EN': '909 86 911',
+
+    'CHANGE_GROUP_CONFIRMATION_NO': 'Er du sikker på at du vil bytte gruppe?',
+    'CHANGE_GROUP_CONFIRMATION_EN': 'Are you sure you want to change group?',
+    'NO_CANCEL_NO': 'Nei, avbryt',
+    'NO_CANCEL_EN': 'No, cancel',
+    'YES_CHANGE_GROUP_NO': 'Ja, bytt',
+    'YES_CHANGE_GROUP_EN': 'Yes, change'
 }
 
 const selectResource = (label, lang) => {

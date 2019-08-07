@@ -17,7 +17,10 @@ function App(props) {
   const [ state, setState ] = useState({ lang: cookies.language ? cookies.language : 'NO' });
   const changeLanguage = () => {
     const newLang = state.lang === 'NO' ? 'EN' : 'NO';
-    setCookie('language', newLang)
+
+    const oneWeek = new Date();
+    oneWeek.setDate(oneWeek.getDate() + 7);
+    setCookie('language', newLang, { path: '/', expires: oneWeek })
     setState({ ...state, lang: newLang });
   }
 
@@ -34,7 +37,7 @@ function App(props) {
       <div className="app">
         {  <SelectLanguage state={state} changeLanguage={changeLanguage} /> }
         { !group && <WelcomeScreen groupNames={groupNames} setGroup={setGroup} setCookie={setCookie} /> }
-        { group && <MainScreen events={eventsWithSubevents} group={group} setGroup={setGroup} removeCookie={removeCookie}/> }
+        { group && <MainScreen events={eventsWithSubevents} group={group} removeGroup={() => { removeCookie('group'); setGroup(undefined) }} /> }
       </div>
     </AppContext.Provider>
   );

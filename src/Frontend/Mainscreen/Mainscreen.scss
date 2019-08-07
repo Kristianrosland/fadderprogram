@@ -16,6 +16,7 @@
     color: $text-gray;
     border-bottom: 1px solid $border-lightgray;
     label {
+        cursor: pointer;
         font-size: 1.2rem;
         font-weight: bold;
         width: 80%;
@@ -134,4 +135,30 @@
     @media all and (min-width: $breakpoint-tablet) {
         display: none;
     }
+}
+
+.change-group-modal {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    min-height: 10rem;
+    padding: 2rem;
+    background-color: white;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15%;
+
+    @media all and (max-width: $breakpoint-tablet) {
+        margin-top: 30%;
+        padding: 1rem;
+        width: 90%;
+    }
+}
+
+.change-group-modal:focus {
+    outline: none;
+}
+
+.change-group-confirmation-message {
+    font-size: 1.1rem;
 }

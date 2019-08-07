@@ -8,7 +8,12 @@ import { weekdays, translateDayIdx, dayToday, eventTimeComparator} from '../util
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPhone } from '@fortawesome/free-solid-svg-icons';
 import teknaLogo from './tekna-logo.jpg';
+import Modal from 'react-modal';
+import { Button } from 'semantic-ui-react';
 import './Mainscreen.scss';
+
+Modal.setAppElement('#root')
+Modal.defaultStyles.overlay.backgroundColor = 'rgba(0,0,0,0.50)';
 
 const noisyWidth = baseWidth => baseWidth + (-10) + Math.random()*25
 
@@ -31,9 +36,10 @@ const eventForGroupFilter = (event, group) => {
     return event.groups.indexOf(group.value) >= 0; 
 }
 
-const MainScreen = ({ group, events }) => {
+const MainScreen = ({ group, events, removeGroup }) => {
     const [ day, setDay ] = useState(dayToday())
     const [ state ] = useContext(AppContext);
+    const [ modalOpen, setModalOpen ] = useState(false);
     const TEKNA_DAY = 4; // friday
     const scrollRef = useRef();
     const eventList = events
@@ -50,7 +56,17 @@ const MainScreen = ({ group, events }) => {
 
     return (
         <div className="mainscreen-wrapper">
-            <a href="tel:004740466599" className="sticky-side-button">
+            <Modal
+                isOpen={modalOpen}
+                className="change-group-modal"
+            > 
+                <span className="change-group-confirmation-message"> { resource('CHANGE_GROUP_CONFIRMATION', state) } </span>
+                <div className="margin-top-auto flex-row">
+                    <Button onClick={() => setModalOpen(false)}> { resource('NO_CANCEL', state)} </Button>
+                    <Button primary onClick={removeGroup}> { resource('YES_CHANGE_GROUP', state)} </Button>
+                </div>
+            </Modal>
+            <a href="tel:004790986911" className="sticky-side-button">
                 <FontAwesomeIcon className="phone-icon" icon={faPhone} />
                 <div className="phonenumber-container">
                     <span> {resource('EMERGENCY_PHONE_NUMBER', state)} </span>
@@ -59,7 +75,7 @@ const MainScreen = ({ group, events }) => {
             </a>
             <div className="mainscreen-header"> 
                 { <div className="tekna-container"> { day === TEKNA_DAY && <img className="header-tekna-logo" src={teknaLogo} alt="Tekna logo" /> } </div> }
-                { <label> { state.lang === 'NO' ? group.label_nor : group.label_eng } </label> }
+                { <label onClick={() => setModalOpen(true)}> { state.lang === 'NO' ? group.label_nor : group.label_eng } </label> }
             </div>
             <div className="mainscreen-event-container" ref={scrollRef}>
                 { eventList }

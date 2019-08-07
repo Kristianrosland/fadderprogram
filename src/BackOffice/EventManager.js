@@ -98,7 +98,7 @@ const EventManager = ({ user, events = [], addressSuggestions, firestore }) => {
                                         className='filter-group-checkbox'
                                         /> )}
                 </div> }
-                { !filter && <Button type='button' className="margin-top-large margin-right-auto" onClick={() => setFilter(true)}> Legg til filter </Button> }
+                { !filter && groups && groups.length > 1 && <Button type='button' className="margin-top-large margin-right-auto" onClick={() => setFilter(true)}> Legg til filter </Button> }
             </div>
             { groups && events && weekdays_NO.map(day => {
                 const dayEvents = groupedEvents[day].map(e => 

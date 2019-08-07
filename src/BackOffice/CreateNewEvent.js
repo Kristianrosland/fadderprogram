@@ -21,7 +21,7 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
     const [ startTimeMinute, setStartTimeMinute ] = useState(start_time.length === 5 ? start_time.split(':')[1] : '')
     const [ endTimeHour, setEndTimeHour ] = useState(end_time.length === 5 ? end_time.split(':')[0] : '')
     const [ endTimeMinute, setEndTimeMinute ] = useState(end_time.length === 5 ? end_time.split(':')[1] : '')
-    const [ groups, setGroups ] = useState(existingEvent.groups ? existingEvent.groups : []);
+    const [ groups, setGroups ] = useState(existingEvent.groups ? existingEvent.groups : (availableGroups.length === 1 ? availableGroups : []));
     const [ day, setDay ] = useState(day_NO)
     const [ errors, setErrors ] = useState({ titleNO: false, titleEN: false, descNO: false, descEN: false, day: false, address: false, timeStart: false, timeEnd: false, groups: false })
     const [ submitting, setSubmitting ] = useState(false);
@@ -36,8 +36,6 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
     useEffect(() => {
         window.scrollTo(0,0);
     }, [])
-
-    console.log(groups)
 
     const generateGoogleMaps = input => {
         if (input.length < 3) { setGoogleMaps(''); return; }
@@ -325,7 +323,7 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
                 </Form.Group>
 
                 { /** GROUPS **/ }
-                <Form.Group grouped className="form-input-group">
+                { availableGroups.length !== 1 && <Form.Group grouped className="form-input-group">
                     <label className={'form-field-header'}> Gjelder for gruppe(r): {redStar} </label>
                     { errors.groups && <ErrorLabel textKey={'ERROR_GROUPS'} /> }
                     <Form.Field>
@@ -338,15 +336,15 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
                                 checked={groups.indexOf('duplicate') >= 0 || allGroupsSelected || groups.indexOf(group) >= 0}
                             />)
                         }
-                        { !editing && <Checkbox
-                            label={`Dupliser event for alle ${availableGroups.indexOf('all') >= 0 ? availableGroups.length-1 : availableGroups.length} gruppene`}
+                        { !editing && availableGroups.length >= 2 && <Checkbox
+                            label={`Dupliser event for ${ availableGroups.length === 2 ? 'begge' : 'alle'} ${availableGroups.indexOf('all') >= 0 ? availableGroups.length-1 : availableGroups.length} gruppene`}
                             className='group-checkbox full-width margin-top-medium'
                             onClick={() => handleCheckbox('duplicate')}
                             checked={groups.indexOf('duplicate') >= 0}
                             /> 
                         }
                     </Form.Field>
-                </Form.Group>
+                </Form.Group> }
 
                 { editing &&
                     <Button type='button' onClick={() => { setAddSubevents(true) }} className="full-width margin-bottom-small margin-top-small">

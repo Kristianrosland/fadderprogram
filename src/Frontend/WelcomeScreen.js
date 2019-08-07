@@ -21,8 +21,11 @@ const WelcomeScreen = ({ group, setGroup, setCookie, groupNames }) => {
     
     const submit = () => {
         if (selected) {
+            var oneWeek = new Date();
+            oneWeek.setDate(oneWeek.getDate() + 7);
+
             setGroup(selected);
-            setCookie('group', selected, { path: '/'});
+            setCookie('group', selected, { path: '/', expires: oneWeek});
         }
     }
 
