@@ -54,7 +54,12 @@ export const groupComparator = (a, b) => {
 }
 
 export const dayToday = () => {
-    const day = new Date().getDay() - 1;
+    const today = new Date();
+    if (today.getDate() <= 11 && today.getMonth() === 7) {
+        return 0;
+    }
+
+    const day = today.getDay() - 1;
     return day === -1 ? 6 : day;
 }
 
