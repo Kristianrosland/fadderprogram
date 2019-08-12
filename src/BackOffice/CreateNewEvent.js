@@ -162,25 +162,25 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
                     </div>
             <Form className="create-event-form" onSubmit={submit} loading={!availableGroups || submitting}>
 
-                { /** TITTEL  **/ }
+                { /** TITTEL  **/ }
                 <Form.Group grouped className="form-input-group">
                     <label className="form-field-header"> Tittel {redStar} </label>
                     <Form.Field error={errors.titleNO}>
                         <label className="form-field-title"> Norsk </label>
-                        { errors.titleNO && <ErrorLabel textKey={'ERROR_TITLE_NO'} /> }
+                        { errors.titleNO && <ErrorLabel textKey={'ERROR_TITLE_NO'} /> }
                         <Input 
                             value={titleNO} 
-                            onChange={e => { setTitleNO(e.target.value); setErrors({ ...errors, titleNO: false }) }} 
+                            onChange={e => { setTitleNO(e.target.value); setErrors({ ...errors, titleNO: false }) }} 
                             type="text"
                             autoComplete="off"
                         />
                     </Form.Field>
                     <Form.Field error={errors.titleEN}>
                         <label className="form-field-title"> Engelsk </label>
-                        { errors.titleEN && <ErrorLabel textKey={'ERROR_TITLE_EN'} /> }
+                        { errors.titleEN && <ErrorLabel textKey={'ERROR_TITLE_EN'} /> }
                         <input 
                             value={titleEN} 
-                            onChange={e => { setTitleEN(e.target.value); setErrors({ ...errors, titleEN: false }) }}  
+                            onChange={e => { setTitleEN(e.target.value); setErrors({ ...errors, titleEN: false }) }}  
                             type="text"
                             autoComplete="off"
                         />
@@ -190,7 +190,7 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
                 { /** DAG **/ }
                 <Form.Field error={errors.day}>
                     <label className="form-field-header"> Dag { redStar } </label>
-                    { errors.day && <ErrorLabel textKey={'ERROR_DAY'} /> }
+                    { errors.day && <ErrorLabel textKey={'ERROR_DAY'} /> }
                     <Button.Group className="full-width" >
                         <Button primary={day === 'mandag'} type='button' onClick={() => { setDay('mandag'); setErrors({ ...errors, day: false }) }}> Man </Button>
                         <Button primary={day === 'tirsdag'} type='button' onClick={() => { setDay('tirsdag'); setErrors({ ...errors, day: false }) }}> Tirs </Button>
@@ -207,7 +207,7 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
 
                 </Form.Field>
 
-                { /** TID **/ }
+                { /** TID **/ }
                 <Form.Group grouped className="form-input-group">
                     <label className="form-field-header"> Tid </label>
                     <div className="flex-row">
@@ -236,22 +236,22 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
                     </div>
                 </Form.Group>
 
-                { /** BESKRIVELSE  **/ }
+                { /** BESKRIVELSE  **/ }
                 <Form.Group grouped className="form-input-group">
                     <label className="form-field-header"> Beskrivelse {redStar} </label>
                     <Form.Field error={errors.descNO}>
                         <label className="form-field-title"> Norsk </label>
-                        { errors.descNO && <ErrorLabel textKey={'ERROR_DESC_NO'} /> }
+                        { errors.descNO && <ErrorLabel textKey={'ERROR_DESC_NO'} /> }
                         <TextArea error={errors.desc} value={descNO}  onChange={e => { setDescNO(e.target.value); setErrors({ ...errors, descNO: false }) }}/>
                     </Form.Field>
                     <Form.Field error={errors.descEN}>
                         <label className="form-field-title"> Engelsk </label>
-                        { errors.descEN && <ErrorLabel textKey={'ERROR_DESC_EN'} /> }
+                        { errors.descEN && <ErrorLabel textKey={'ERROR_DESC_EN'} /> }
                         <TextArea error={errors.desc} value={descEN} onChange={e => { setDescEN(e.target.value); setErrors({ ...errors, descEN: false }) }}/>
                     </Form.Field>
                 </Form.Group>
 
-                { /** STED  **/ }
+                { /** STED  **/ }
                 <Form.Group grouped className="form-input-group">
                     <Form.Field>
                         <label className="form-field-header"> Adresse </label>
@@ -312,7 +312,7 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
                     </Form.Field>
                     <Form.Field  error={errors.link}>
                         <label className="form-field-title"> Lenke </label>
-                        { errors.link && <ErrorLabel textKey={'ERROR_LINK'} /> }
+                        { errors.link && <ErrorLabel textKey={'ERROR_LINK'} /> }
                         <input 
                             value={link} 
                             onChange={e => { setLink(e.target.value); setErrors({ ...errors, link: false }); }} 
@@ -325,7 +325,7 @@ const CreateNewEvent = ({ editing, existingEvent = {}, availableGroups, cancelCa
                 { /** GROUPS **/ }
                 { availableGroups.length !== 1 && <Form.Group grouped className="form-input-group">
                     <label className={'form-field-header'}> Gjelder for gruppe(r): {redStar} </label>
-                    { errors.groups && <ErrorLabel textKey={'ERROR_GROUPS'} /> }
+                    { errors.groups && <ErrorLabel textKey={'ERROR_GROUPS'} /> }
                     <Form.Field>
                         { availableGroups.map(group => 
                             <Checkbox key={group} 

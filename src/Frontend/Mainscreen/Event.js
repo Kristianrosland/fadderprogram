@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as SolidIcons from '@fortawesome/free-solid-svg-icons';
 import IconLabel from './IconLabel';
 import { AppContext } from '../App';
-import { eventTimeComparator, selectField, selectTime, selectGroups } from '../utils';
+import { eventTimeComparator, selectField, selectTime, selectGroups } from '../utils';
 import './event.scss';
 
 /****************************/
@@ -51,7 +51,7 @@ const Event = ({ data }) => {
                 { open && data.groups && <IconLabel icon="faUser" label={groups} /> }
                 { open && from && <IconLabel icon="faComment" label={from} /> }
                 { open && link && linkText && <IconLabel icon="faLink" label={linkText} link={link}/> }
-                { open && description && <p className="event-description"> { description } </p> }
+                { open && description && <p className="event-description"> { description } </p> }
                 { open && event.subEvents && event.subEvents.length > 0 && ( 
                     <div className="sub-event-wrapper">
                         { event.subEvents

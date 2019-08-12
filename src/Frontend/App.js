@@ -7,7 +7,7 @@ import './App.scss';
 
 const AppContext = React.createContext();
 
-function App(props) {
+function App(props) { 
   const { firestore } = props;
   const [ cookies, setCookie, removeCookie ] = useCookies(['group', 'language']);
   const [ group, setGroup ] = useState(cookies.group)
@@ -35,7 +35,7 @@ function App(props) {
   return (
     <AppContext.Provider value={[ state, setState ]}>
       <div className="app">
-        {  <SelectLanguage state={state} changeLanguage={changeLanguage} /> }
+        { <SelectLanguage state={state} changeLanguage={changeLanguage} /> }
         { !group && <WelcomeScreen groupNames={groupNames} setGroup={setGroup} setCookie={setCookie} /> }
         { group && <MainScreen events={eventsWithSubevents} group={group} removeGroup={() => { removeCookie('group'); setGroup(undefined) }} /> }
       </div>
@@ -43,5 +43,5 @@ function App(props) {
   );
 }
 
-export { AppContext };
+export { AppContext };
 export default App;

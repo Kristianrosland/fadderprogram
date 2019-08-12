@@ -19,7 +19,7 @@ export const translateDayIdx = day => {
 }
 
 export const translateDay = day => {
-    switch(day) {
+    switch(day) {
         case 'mandag': return 'monday';
         case 'tirsdag': return 'tuesday';
         case 'onsdag': return 'wednesday';

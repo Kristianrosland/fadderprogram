@@ -74,7 +74,7 @@ const MainScreen = ({ group, events, removeGroup }) => {
                 </div>
             </a>
             <div className="mainscreen-header"> 
-                { <div className="tekna-container"> { day === TEKNA_DAY && <img className="header-tekna-logo" src={teknaLogo} alt="Tekna logo" /> } </div> }
+                { <div className="tekna-container"> { day === TEKNA_DAY && <img className="header-tekna-logo" src={teknaLogo} alt="Tekna logo" /> } </div> }
                 { <label onClick={() => setModalOpen(true)}> { state.lang === 'NO' ? group.label_nor : group.label_eng } </label> }
             </div>
             <div className="mainscreen-event-container" ref={scrollRef}>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { selectField, selectTime, selectGroups } from '../Frontend/utils';
 import SelectLanguage from '../Frontend/SelectLanguage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheck, faTimes, faTrashAlt, faPen  } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faTimes, faTrashAlt, faPen  } from '@fortawesome/free-solid-svg-icons';
 
 const CheckLabel = ({ check, label }) => {
     const icon = check ? faCheck : faTimes;
@@ -39,7 +39,7 @@ const EditableEvent = ({ event, canManage, deleteCallback, editCallback }) => {
             <div className='flex-row'>
                 { hasAddress && <CheckLabel check={hasGoogleMaps} label={hasGoogleMaps ? 'Har google maps' : 'Mangler google maps'} /> }
                 { !hasAddress && <CheckLabel check={hasAddress} label='Mangler adresse' /> }
-                { !allFieldsEnglish && <CheckLabel check={allFieldsEnglish} label='Mangler oversettelse' /> }
+                { !allFieldsEnglish && <CheckLabel check={allFieldsEnglish} label='Mangler oversettelse' /> }
                 { canManage && <FontAwesomeIcon className="trash-icon" icon={faTrashAlt} onClick={() => deleteCallback(event.id) } /> } 
                 { canManage && <FontAwesomeIcon className="pen-icon" icon={faPen} onClick={() => editCallback(event.id) } /> } 
             </div>

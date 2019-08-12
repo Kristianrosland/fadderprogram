@@ -70,7 +70,7 @@ class Firebase {
         this.db.collection('writePermissions').doc(userId).get().then(doc => {
             if (doc.exists) {
                 const groups = doc.data().groups;
-                if (groups === 'all') { callback(groups); }
+                if (groups === 'all') { callback(groups); }
                 else {
                     callback(groups);    
                 }

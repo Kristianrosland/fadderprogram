@@ -6,7 +6,7 @@ const TimeInput = ({ title, hour, setHour, minutes, setMinute, mandatory, error,
     return (
         <div className={`${containerStyle} flex-column`}>
             <div className="form-field-title"> {title} {mandatory} </div>
-            { error && <ErrorLabel textKey={error} /> }
+            { error && <ErrorLabel textKey={error} /> }
             <div className="flex-row">
                 <Form.Field error={error.length !== 0}>
                     <Input 

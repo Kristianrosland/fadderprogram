@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button, Form, Input } from 'semantic-ui-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt  } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt  } from '@fortawesome/free-solid-svg-icons';
 import TimeInput from './TimeInput';
 import { eventTimeComparator } from '../Frontend/utils';
 
@@ -54,7 +54,7 @@ const CreateSubevents = ({ existingEvents, submitCallback, cancelCallback, delet
         }
     }
 
-    const handleFieldInput = (input, field) => {
+    const handleFieldInput = (input, field) => {
         if (field === 'title_NO') {
             if (address.length === 0 && input.toLowerCase() in addressSuggestions) {
                 setSuggestedAddress(addressSuggestions[input.toLowerCase()]);
@@ -162,7 +162,7 @@ const CreateSubevents = ({ existingEvents, submitCallback, cancelCallback, delet
                             <label className="form-field-title margin-top-large"> Norsk tittel </label>
                             <Input 
                                 value={titleNO} 
-                                onChange={e => { handleFieldInput(e.target.value, 'title_NO'); }} 
+                                onChange={e => { handleFieldInput(e.target.value, 'title_NO'); }} 
                                 type="text"
                                 autoComplete="off"
                             />
@@ -172,7 +172,7 @@ const CreateSubevents = ({ existingEvents, submitCallback, cancelCallback, delet
                             <label className="form-field-title margin-top-small"> Engelsk tittel </label>
                             <Input 
                                 value={titleEN} 
-                                onChange={e => { handleFieldInput(e.target.value, 'title_EN'); }} 
+                                onChange={e => { handleFieldInput(e.target.value, 'title_EN'); }} 
                                 type="text"x
                                 autoComplete="off"
                             />

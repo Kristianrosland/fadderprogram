@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight  } from '@fortawesome/free-solid-svg-icons';
-import { AppContext } from './App';
+import { AppContext } from './App';
 import resource from './textResources';
 import Select from 'react-select';
 
@@ -45,7 +45,7 @@ const WelcomeScreen = ({ group, setGroup, setCookie, groupNames }) => {
         })
     }
 
-    const currentSelectedLabel = selected && { label: (lang === 'NO' ? selected.label_nor : selected.label_eng) };
+    const currentSelectedLabel = selected && { label: (lang === 'NO' ? selected.label_nor : selected.label_eng) };
     const header = resource('WELCOME', state);
     const subtitle = resource('WELCOME_SUBTITLE', state);
     const placeholder = resource('GROUP_PLACEHOLDER', state);
