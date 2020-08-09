@@ -11,26 +11,20 @@ const BackOffice = ({ firestore }) => {
   const [user, setUser] = useState(undefined);
   const [loadingUser, setLoadingUser] = useState(true);
 
-  const [oldEvents, setOldEvents] = useState([]);
-  const [oldSubEvents, setOldSubEvents] = useState([]);
-
-  const allEvents = [...events, ...oldEvents];
-  const allSubEvents = [...subEvents, ...oldSubEvents];
-
   useEffect(() => {
-    firestore.fetchEvents(setEvents, setOldEvents);
-    firestore.fetchSubEvents(setSubEvents, setOldSubEvents);
+    firestore.fetchEvents(setEvents);
+    firestore.fetchSubEvents(setSubEvents);
     firestore.registerForAuthUpdates(setUser, setLoadingUser);
   }, [firestore]);
 
   const eventsWithSubEvents =
-    allEvents.length === 0
+    events.length === 0
       ? []
-      : allEvents.map((e) => ({
+      : events.map((e) => ({
           ...e,
-          subEvents: allSubEvents.filter((s) => s.parent_event_id === e.id),
+          subEvents: subEvents.filter((s) => s.parent_event_id === e.id),
         }));
-  const addressSuggestions = createAddressSuggestions(allSubEvents);
+  const addressSuggestions = createAddressSuggestions(subEvents);
 
   return (
     <div className="back-office-wrapper" id="app">

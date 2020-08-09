@@ -150,15 +150,9 @@ const CreateNewEvent = ({
         (endTimeHour.length !== 2 || endTimeMinute.length !== 2),
       day:
         day === "" ||
-        [
-          "mandag",
-          "tirsdag",
-          "onsdag",
-          "torsdag",
-          "fredag",
-          "lørdag",
-          "søndag",
-        ].indexOf(day) === -1,
+        ["mandag", "tirsdag", "onsdag", "torsdag", "fredag", "lørdag"].indexOf(
+          day
+        ) === -1,
       link: (linkTextEN.length !== 0 || linkTextNO.length !== 0) && !link,
       groups: groups.length === 0,
     };
@@ -347,19 +341,6 @@ const CreateNewEvent = ({
                 >
                   {" "}
                   Lør{" "}
-                </Button>
-              </Button.Group>
-              <Button.Group className="full-width margin-top-small">
-                <Button
-                  primary={day === "søndag"}
-                  type="button"
-                  onClick={() => {
-                    setDay("søndag");
-                    setErrors({ ...errors, day: false });
-                  }}
-                >
-                  {" "}
-                  Søndag{" "}
                 </Button>
               </Button.Group>
             </Form.Field>

@@ -27,8 +27,8 @@ function App(props) {
   };
 
   useEffect(() => {
-    firestore.fetchEvents(setEvents, () => {});
-    firestore.fetchSubEvents(setSubEvents, () => {});
+    firestore.fetchEvents(setEvents);
+    firestore.fetchSubEvents(setSubEvents);
     firestore.fetchGroupNames(setGroupNames);
   }, [firestore, setEvents, setGroupNames]);
 

@@ -19,7 +19,7 @@ class Firebase {
     this.auth = app.auth();
   }
 
-  fetchEvents(setEventsCallback, setOldEvents) {
+  fetchEvents(setEventsCallback) {
     this.db.collection("events2020").onSnapshot((snapshot) => {
       const events = snapshot.docs.map((doc) => ({
         id: doc.id,
@@ -29,34 +29,14 @@ class Firebase {
       setEventsCallback(events);
       console.log("Events fetched successfully!");
     });
-    this.db.collection("events").onSnapshot((snapshot) => {
-      const events = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-        title_NO: "2019: " + doc.data().title_NO,
-        subEvents: [],
-      }));
-      setOldEvents(events);
-      console.log("Old events fetched successfully!");
-    });
   }
 
-  fetchSubEvents(setSubeventsCallback, setOldSubEvents) {
+  fetchSubEvents(setSubeventsCallback) {
     this.db.collection("subevents2020").onSnapshot((subSnapshot) => {
       setSubeventsCallback(
         subSnapshot.docs.map((d) => ({ id: d.id, ...d.data() }))
       );
       console.log("Sub-events fetched successfully!");
-    });
-    this.db.collection("subevents").onSnapshot((subSnapshot) => {
-      setOldSubEvents(
-        subSnapshot.docs.map((d) => ({
-          id: d.id,
-          ...d.data(),
-          title_NO: "2019: " + d.data().title_NO,
-        }))
-      );
-      console.log("Old sub-events fetched successfully!");
     });
   }
 
@@ -116,7 +96,6 @@ class Firebase {
 
   removeEvent(event_id) {
     if (event_id) {
-      this.db.collection("events").doc(event_id).delete();
       return this.db.collection("events2020").doc(event_id).delete();
     }
   }
