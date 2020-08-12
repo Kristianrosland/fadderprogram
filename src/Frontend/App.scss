@@ -1,181 +1,192 @@
-@import './constants.scss';
+@import "./constants.scss";
 
 html {
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 }
 
 #root {
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 }
 
 .app {
-    height: 100%;
-    width: 100%; 
-    font-family: $default-font;
+  height: 100%;
+  width: 100%;
+  font-family: $default-font;
 }
 
 .welcome-screen {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-evenly;
-    padding: 0 8% 10% 8%;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  padding: 0 8% 10% 8%;
 
-    @media all and (min-width: $breakpoint-tablet) {
-        padding: 0 5% 10% 5%;
-    }
-    @media all and (min-width: $breakpoint-desktop) {
-        padding: 0 25% 10% 25%;
-    }
+  @media all and (min-width: $breakpoint-tablet) {
+    padding: 0 5% 10% 5%;
+  }
+  @media all and (min-width: $breakpoint-desktop) {
+    padding: 0 25% 10% 25%;
+  }
+}
+
+.corona-title {
+  color: red !important;
 }
 
 .dropdown-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
 }
 
 .welcome-screen-main-title {
-    width: 100%;
-    color: $text-gray;
-    margin-bottom: 0;
-    text-align: center;
+  width: 100%;
+  color: $text-gray;
+  margin-bottom: 0;
+  text-align: center;
 }
 
 .welcome-screen-sub-title {
-    width: 90%;
-    color: $text-gray;
-    text-align: center;
-    font-weight: 100;
-    padding: 0 5%;
+  width: 90%;
+  color: $text-gray;
+  text-align: center;
+  font-weight: 100;
+  padding: 0 5%;
 }
 
 .person-img {
-    width: 70%;
-    height: 12rem;
-    @media all and (min-width: $breakpoint-mobile) {
-        height: 12.5rem;
-    }
-    @media all and (min-width: $breakpoint-tablet) {
-        height: 15rem;
-    }
-    @media all and (min-width: $breakpoint-desktop) {
-        height: 20rem;
-    }
+  width: 70%;
+  height: 12rem;
+  @media all and (min-width: $breakpoint-mobile) {
+    height: 12.5rem;
+  }
+  @media all and (min-width: $breakpoint-tablet) {
+    height: 15rem;
+  }
+  @media all and (min-width: $breakpoint-desktop) {
+    height: 20rem;
+  }
 }
 
 .ready-button {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
 }
 
 .ready-button-text {
-    font-size: 1.3rem;
-    margin-left: auto;
-    color: $text-gray;
-    svg {
-        margin-left: 0.5rem !important;
-        margin-top: 2px !important;
-    }
+  font-size: 1.3rem;
+  margin-left: auto;
+  color: $text-gray;
+  svg {
+    margin-left: 0.5rem !important;
+    margin-top: 2px !important;
+  }
 }
 
+.ready-button-corona {
+  opacity: 0.5;
+}
 
 .language-pos-absolute {
-    position: absolute;
-    right: 8px;
-    top: 8px;
-    
-    @media all and (min-width: $breakpoint-tablet) {
-        right: 1.5rem;
-        top: 1rem;
-        p {
-            font-size: 1.15rem !important;
-        }
+  position: absolute;
+  right: 8px;
+  top: 8px;
+
+  @media all and (min-width: $breakpoint-tablet) {
+    right: 1.5rem;
+    top: 1rem;
+    p {
+      font-size: 1.15rem !important;
     }
+  }
 }
 
 .language-select {
-    display: flex;
-    flex-direction: row;
-    p {
-        font-size: 0.75rem;
-        margin: 0 2px;
-    }
+  display: flex;
+  flex-direction: row;
+  p {
+    font-size: 0.75rem;
+    margin: 0 2px;
+  }
 }
 
 .selected-lang {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .sticky-side-button {
-    z-index: 1;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    position: fixed;
-    -webkit-animation: slide 0.5s forwards;
-    -webkit-animation-delay: 2s;
-    animation: slide 0.5s forwards;
-    animation-delay: 2s;
-    border-radius: 2.5rem 0 0 2.5rem;
-    font-weight: bold;
-    color: white;
-    background-color: $primary-color;
-    right: -12rem;
-    height: 3.8rem;
-    width: 12rem;
-    top: 80%;
-    
-    @media all and (max-width: $breakpoint-tablet) {
-        width: 8.5rem;
-        right: -8.5rem;
-        height: 2.5rem;
-        border-radius: 2rem 0 0 2rem;
-    }
+  z-index: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: fixed;
+  -webkit-animation: slide 0.5s forwards;
+  -webkit-animation-delay: 2s;
+  animation: slide 0.5s forwards;
+  animation-delay: 2s;
+  border-radius: 2.5rem 0 0 2.5rem;
+  font-weight: bold;
+  color: white;
+  background-color: $primary-color;
+  right: -12rem;
+  height: 3.8rem;
+  width: 12rem;
+  top: 80%;
+
+  @media all and (max-width: $breakpoint-tablet) {
+    width: 8.5rem;
+    right: -8.5rem;
+    height: 2.5rem;
+    border-radius: 2rem 0 0 2rem;
+  }
 }
 
 .sticky-side-button:hover {
-    color: white;
+  color: white;
 }
 
 .phonenumber-container {
-    display: flex;
-    flex-direction: column;
-    margin-left: 1rem;
-    @media all and (max-width: $breakpoint-tablet) {
-        font-size: 0.7rem;
-        line-height: 0.7rem;
-    }
+  display: flex;
+  flex-direction: column;
+  margin-left: 1rem;
+  @media all and (max-width: $breakpoint-tablet) {
+    font-size: 0.7rem;
+    line-height: 0.7rem;
+  }
 }
 
 .phone-icon {
-    width: 80%;
+  width: 80%;
+  margin-left: 1rem;
+  font-size: 1.5rem;
+  @media all and (max-width: $breakpoint-tablet) {
+    font-size: 0.85rem;
     margin-left: 1rem;
-    font-size: 1.5rem;
-    @media all and (max-width: $breakpoint-tablet) {
-        font-size: 0.85rem;
-        margin-left: 1rem;
-    }
+  }
 }
 
 .phone-number {
-    @media all and (max-width: $breakpoint-tablet) {
-        font-size: 0.7rem;
-        line-height: 0.7rem;
-        margin-top: 0.25rem;
-    }
+  @media all and (max-width: $breakpoint-tablet) {
+    font-size: 0.7rem;
+    line-height: 0.7rem;
+    margin-top: 0.25rem;
+  }
 }
 
 @-webkit-keyframes slide {
-    100% { right: 0; }
+  100% {
+    right: 0;
+  }
 }
 
 @keyframes slide {
-    100% { right: 0; }
+  100% {
+    right: 0;
+  }
 }
