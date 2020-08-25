@@ -3,7 +3,7 @@ import LoginScreen from "./LoginScreen";
 import EventManager from "./EventManager";
 import { Loader, Dimmer } from "semantic-ui-react";
 import "./backOffice.scss";
-import { createAddressSuggestions } from "./utils";
+import { createAddressSuggestions, addSubEventsToEvents } from "./utils";
 
 const BackOffice = ({ firestore }) => {
   const [events, setEvents] = useState([]);
@@ -11,19 +11,14 @@ const BackOffice = ({ firestore }) => {
   const [user, setUser] = useState(undefined);
   const [loadingUser, setLoadingUser] = useState(true);
 
+  // useEffect-koden kjøres førte gang komponenten vises (dvs. når den 'mountes')
   useEffect(() => {
     firestore.fetchEvents(setEvents);
     firestore.fetchSubEvents(setSubEvents);
     firestore.registerForAuthUpdates(setUser, setLoadingUser);
   }, [firestore]);
 
-  const eventsWithSubEvents =
-    events.length === 0
-      ? []
-      : events.map((e) => ({
-          ...e,
-          subEvents: subEvents.filter((s) => s.parent_event_id === e.id),
-        }));
+  const eventsWithSubEvents = addSubEventsToEvents(events, subEvents);
   const addressSuggestions = createAddressSuggestions(subEvents);
 
   return (
@@ -34,7 +29,10 @@ const BackOffice = ({ firestore }) => {
       {!loadingUser && (
         <>
           <div className="back-office-header"> Adminpanel </div>
+          {/** Hvis det ikke finnes en bruker, så viser vi LoginScreen-komponenten */}
           {!user && <LoginScreen firestore={firestore} />}
+
+          {/** Hvis det finnes en bruker, så viser vi EventManager-komponenten */}
           {user && (
             <EventManager
               user={user}

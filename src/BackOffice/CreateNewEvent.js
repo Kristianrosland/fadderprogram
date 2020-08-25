@@ -1,10 +1,15 @@
-import React, { useState, useRef, useEffect } from "react";
-import { Form, TextArea, Button, Input, Checkbox } from "semantic-ui-react";
+import React, { useState, useEffect } from "react";
+import { Form, Button } from "semantic-ui-react";
 import { translateDay, groupComparator } from "../Frontend/utils";
-import ErrorLabel from "./ErrorLabel";
 import CreateSubevents from "./CreateSubevents";
 import "./createNewEvent.scss";
-import TimeInput from "./TimeInput";
+import TimeFields from "./form-fields/TimeFields";
+import DayPicker from "./form-fields/DayPicker";
+import TitleFields from "./form-fields/TitleFields";
+import DescriptionFields from "./form-fields/DescriptionFields";
+import LocationFields from "./form-fields/LocationFields";
+import LinkFields from "./form-fields/LinkFields";
+import GroupPicker from "./form-fields/GroupPicker";
 
 const CreateNewEvent = ({
   editing,
@@ -17,6 +22,7 @@ const CreateNewEvent = ({
   deleteSubeventCallback,
   addressSuggestions,
 }) => {
+  // Denne syntaksen pakker ut existingEvent inn i alle variablene som står under. Ved å ha   = ""  bak så gir vi default-verdier til disse
   const {
     title_NO = "",
     title_EN = "",
@@ -29,6 +35,7 @@ const CreateNewEvent = ({
     linkText_NO = "",
     linkText_EN = "",
   } = existingEvent;
+
   const [titleNO, setTitleNO] = useState(title_NO);
   const [titleEN, setTitleEN] = useState(title_EN);
   const [descNO, setDescNO] = useState(desc_NO);
@@ -76,67 +83,11 @@ const CreateNewEvent = ({
   const [submitting, setSubmitting] = useState(false);
   const [addSubevents, setAddSubevents] = useState(false);
 
-  const startTimeMinuteRef = useRef(null);
-  const endTimeMinuteRef = useRef(null);
-
   const redStar = <span style={{ color: "red" }}>*</span>;
-  const allGroupsSelected = groups.indexOf("all") >= 0;
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  const generateGoogleMaps = (input) => {
-    if (input.length < 3) {
-      setGoogleMaps("");
-      return;
-    }
-    if (input.toLowerCase().indexOf("bergen") === -1) {
-      input = input + ", Bergen";
-    }
-
-    setGoogleMaps(`https://www.google.com/maps/search/?api=1&query=${input}`);
-  };
-
-  const setTime = (event, field) => {
-    const input = event.target.value;
-    for (const c of input.split("")) {
-      if (c < "0" || c > "9") return;
-    }
-    const max = field === "startTimeHour" || field === "endTimeHour" ? 23 : 59;
-    if (input.length > 2 || parseInt(input) > max) return;
-
-    if (field === "startTimeHour") {
-      if (input.length === 2) startTimeMinuteRef.current.focus();
-      setStartTimeHour(input);
-    }
-    if (field === "startTimeMinute") setStartTimeMinute(input);
-    if (field === "endTimeHour") {
-      if (input.length === 2) endTimeMinuteRef.current.focus();
-      setEndTimeHour(input);
-    }
-    if (field === "endTimeMinute") setEndTimeMinute(input);
-  };
-
-  const handleCheckbox = (group) => {
-    setErrors({ ...errors, groups: false });
-    if (group === "duplicate") {
-      if (groups.indexOf("duplicate") >= 0) {
-        setGroups([]);
-      } else {
-        setGroups(["duplicate"]);
-      }
-    } else if (group === "all" && groups.indexOf("all") === -1) {
-      setGroups(["all"]);
-    } else if (groups.indexOf(group) >= 0) {
-      setGroups(groups.filter((g) => g !== group));
-    } else if (
-      groups.indexOf("all") === -1 &&
-      groups.indexOf("duplicate") === -1
-    ) {
-      setGroups([group, ...groups]);
-    }
-  };
 
   const validateFieldsAndSetErrors = (callback) => {
     const errs = {
@@ -158,11 +109,13 @@ const CreateNewEvent = ({
     };
 
     callback(errs);
-    return !Object.keys(errs).reduce((acc, key) => errs[key] || acc, false);
+    return !Object.keys(errs).some((key) => errs[key]);
   };
 
   const submit = () => {
-    if (validateFieldsAndSetErrors(setErrors)) {
+    const formIsValid = validateFieldsAndSetErrors(setErrors);
+
+    if (formIsValid) {
       setSubmitting(true);
       const isMentorBoard = availableGroups.indexOf("all") >= 0;
       const event = {
@@ -239,314 +192,80 @@ const CreateNewEvent = ({
             loading={!availableGroups || submitting}
           >
             {/** TITTEL  **/}
-            <Form.Group grouped className="form-input-group">
-              <label className="form-field-header"> Tittel {redStar} </label>
-              <Form.Field error={errors.titleNO}>
-                <label className="form-field-title"> Norsk </label>
-                {errors.titleNO && <ErrorLabel textKey={"ERROR_TITLE_NO"} />}
-                <Input
-                  value={titleNO}
-                  onChange={(e) => {
-                    setTitleNO(e.target.value);
-                    setErrors({ ...errors, titleNO: false });
-                  }}
-                  type="text"
-                  autoComplete="off"
-                />
-              </Form.Field>
-              <Form.Field error={errors.titleEN}>
-                <label className="form-field-title"> Engelsk </label>
-                {errors.titleEN && <ErrorLabel textKey={"ERROR_TITLE_EN"} />}
-                <input
-                  value={titleEN}
-                  onChange={(e) => {
-                    setTitleEN(e.target.value);
-                    setErrors({ ...errors, titleEN: false });
-                  }}
-                  type="text"
-                  autoComplete="off"
-                />
-              </Form.Field>
-            </Form.Group>
+            <TitleFields
+              titleNO={titleNO}
+              setTitleNO={setTitleNO}
+              titleEN={titleEN}
+              setTitleEN={setTitleEN}
+              errors={errors}
+              setErrors={setErrors}
+            />
 
             {/** DAG **/}
-            <Form.Field error={errors.day}>
-              <label className="form-field-header"> Dag {redStar} </label>
-              {errors.day && <ErrorLabel textKey={"ERROR_DAY"} />}
-              <Button.Group className="full-width">
-                <Button
-                  primary={day === "mandag"}
-                  type="button"
-                  onClick={() => {
-                    setDay("mandag");
-                    setErrors({ ...errors, day: false });
-                  }}
-                >
-                  {" "}
-                  Man{" "}
-                </Button>
-                <Button
-                  primary={day === "tirsdag"}
-                  type="button"
-                  onClick={() => {
-                    setDay("tirsdag");
-                    setErrors({ ...errors, day: false });
-                  }}
-                >
-                  {" "}
-                  Tirs{" "}
-                </Button>
-                <Button
-                  primary={day === "onsdag"}
-                  type="button"
-                  onClick={() => {
-                    setDay("onsdag");
-                    setErrors({ ...errors, day: false });
-                  }}
-                >
-                  {" "}
-                  Ons{" "}
-                </Button>
-              </Button.Group>
-              <Button.Group className="full-width margin-top-small">
-                <Button
-                  primary={day === "torsdag"}
-                  type="button"
-                  onClick={() => {
-                    setDay("torsdag");
-                    setErrors({ ...errors, day: false });
-                  }}
-                >
-                  {" "}
-                  Tors{" "}
-                </Button>
-                <Button
-                  primary={day === "fredag"}
-                  type="button"
-                  onClick={() => {
-                    setDay("fredag");
-                    setErrors({ ...errors, day: false });
-                  }}
-                >
-                  {" "}
-                  Fre{" "}
-                </Button>
-                <Button
-                  primary={day === "lørdag"}
-                  type="button"
-                  onClick={() => {
-                    setDay("lørdag");
-                    setErrors({ ...errors, day: false });
-                  }}
-                >
-                  {" "}
-                  Lør{" "}
-                </Button>
-              </Button.Group>
-            </Form.Field>
+            <DayPicker
+              day={day}
+              setDay={setDay}
+              errors={errors}
+              setErrors={setErrors}
+            />
 
             {/** TID **/}
-            <Form.Group grouped className="form-input-group">
-              <label className="form-field-header"> Tid </label>
-              <div className="flex-row">
-                <TimeInput
-                  title="Start"
-                  hour={startTimeHour}
-                  minutes={startTimeMinute}
-                  setHour={(e) => {
-                    setTime(e, "startTimeHour");
-                    setErrors({ ...errors, timeStart: false });
-                  }}
-                  setMinute={(e) => {
-                    setTime(e, "startTimeMinute");
-                    setErrors({ ...errors, timeStart: false });
-                  }}
-                  error={errors.timeStart ? "ERROR_START_TIME" : ""}
-                  mandatory={redStar}
-                  minuteRef={startTimeMinuteRef}
-                />
-                <TimeInput
-                  title="End"
-                  hour={endTimeHour}
-                  minutes={endTimeMinute}
-                  setHour={(e) => {
-                    setTime(e, "endTimeHour");
-                    setErrors({ ...errors, timeEnd: false });
-                  }}
-                  setMinute={(e) => {
-                    setTime(e, "endTimeMinute");
-                    setErrors({ ...errors, timeEnd: false });
-                  }}
-                  error={errors.timeEnd ? "ERROR_END_TIME" : ""}
-                  mandatory={false}
-                  containerStyle="margin-left-large"
-                  minuteRef={endTimeMinuteRef}
-                />
-              </div>
-            </Form.Group>
+            <TimeFields
+              startTimeHour={startTimeHour}
+              setStartTimeHour={setStartTimeHour}
+              startTimeMinute={startTimeMinute}
+              setStartTimeMinute={setStartTimeMinute}
+              endTimeHour={endTimeHour}
+              setEndTimeHour={setEndTimeHour}
+              endTimeMinute={endTimeMinute}
+              setEndTimeMinute={setEndTimeMinute}
+              errors={errors}
+              setErrors={setErrors}
+            />
 
             {/** BESKRIVELSE  **/}
-            <Form.Group grouped className="form-input-group">
-              <label className="form-field-header">
-                {" "}
-                Beskrivelse {redStar}{" "}
-              </label>
-              <Form.Field error={errors.descNO}>
-                <label className="form-field-title"> Norsk </label>
-                {errors.descNO && <ErrorLabel textKey={"ERROR_DESC_NO"} />}
-                <TextArea
-                  error={errors.desc}
-                  value={descNO}
-                  onChange={(e) => {
-                    setDescNO(e.target.value);
-                    setErrors({ ...errors, descNO: false });
-                  }}
-                />
-              </Form.Field>
-              <Form.Field error={errors.descEN}>
-                <label className="form-field-title"> Engelsk </label>
-                {errors.descEN && <ErrorLabel textKey={"ERROR_DESC_EN"} />}
-                <TextArea
-                  error={errors.desc}
-                  value={descEN}
-                  onChange={(e) => {
-                    setDescEN(e.target.value);
-                    setErrors({ ...errors, descEN: false });
-                  }}
-                />
-              </Form.Field>
-            </Form.Group>
+            <DescriptionFields
+              descNO={descNO}
+              setDescNO={setDescNO}
+              descEN={descEN}
+              setDescEN={setDescEN}
+              errors={errors}
+              setErrors={setErrors}
+            />
 
             {/** STED  **/}
-            <Form.Group grouped className="form-input-group">
-              <Form.Field>
-                <label className="form-field-header"> Adresse </label>
-                <input
-                  value={address}
-                  onChange={(e) => {
-                    setAddress(e.target.value);
-                    if (googleMaps) {
-                      generateGoogleMaps(e.target.value);
-                    }
-                  }}
-                  type="text"
-                  autoComplete="off"
-                />
-              </Form.Field>
-              {!googleMaps && (
-                <div className="flex-row align-center">
-                  <Button
-                    type="button"
-                    disabled={address.length < 3}
-                    content={"Generer lenke til Google maps"}
-                    icon="map"
-                    labelPosition="left"
-                    onClick={() => generateGoogleMaps(address)}
-                    primary
-                  />
-                </div>
-              )}
-              {googleMaps && (
-                <Button.Group className="margin-top-small">
-                  <Button type="button" onClick={() => setGoogleMaps("")}>
-                    Fjern
-                  </Button>
-                  <Button.Or text="" />
-                  <Button
-                    type="button"
-                    primary
-                    onClick={() => window.open(googleMaps, "_blank")}
-                  >
-                    Test lenke
-                  </Button>
-                </Button.Group>
-              )}
-            </Form.Group>
+            <LocationFields
+              address={address}
+              setAddress={setAddress}
+              googleMaps={googleMaps}
+              setGoogleMaps={setGoogleMaps}
+            />
 
             {/** LINK **/}
-            <Form.Group grouped className="form-input-group">
-              <label className="form-field-header"> Lenke </label>
-              <Form.Field>
-                <label className="form-field-title">
-                  {" "}
-                  Norsk tekst som vises{" "}
-                </label>
-                <input
-                  value={linkTextNO}
-                  onChange={(e) => setLinkTextNO(e.target.value)}
-                  type="text"
-                  autoComplete="off"
-                />
-              </Form.Field>
-              <Form.Field>
-                <label className="form-field-title">
-                  {" "}
-                  Engelsk tekst som vises{" "}
-                </label>
-                <input
-                  value={linkTextEN}
-                  onChange={(e) => setLinkTextEN(e.target.value)}
-                  type="text"
-                  autoComplete="off"
-                />
-              </Form.Field>
-              <Form.Field error={errors.link}>
-                <label className="form-field-title"> Lenke </label>
-                {errors.link && <ErrorLabel textKey={"ERROR_LINK"} />}
-                <input
-                  value={link}
-                  onChange={(e) => {
-                    setLink(e.target.value);
-                    setErrors({ ...errors, link: false });
-                  }}
-                  type="text"
-                  autoComplete="off"
-                />
-              </Form.Field>
-            </Form.Group>
+            <LinkFields
+              link={link}
+              setLink={setLink}
+              linkTextNO={linkTextNO}
+              setLinkTextNO={setLinkTextNO}
+              linkTextEN={linkTextEN}
+              setLinkTextEN={setLinkTextEN}
+              errors={errors}
+              setErrors={setErrors}
+            />
 
-            {/** GROUPS **/}
+            {/** GRUPPER **/}
             {availableGroups.length !== 1 && (
-              <Form.Group grouped className="form-input-group">
-                <label className={"form-field-header"}>
-                  {" "}
-                  Gjelder for gruppe(r): {redStar}{" "}
-                </label>
-                {errors.groups && <ErrorLabel textKey={"ERROR_GROUPS"} />}
-                <Form.Field>
-                  {availableGroups.map((group) => (
-                    <Checkbox
-                      key={group}
-                      label={
-                        group === "all" ? "Alle grupper" : `Gruppe ${group}`
-                      }
-                      className={`group-checkbox ${
-                        group === "all" ? "full-width" : ""
-                      } ${errors.groups ? "checkbox-error" : ""}`}
-                      onClick={() => handleCheckbox(group)}
-                      disabled={
-                        groups.indexOf("duplicate") >= 0 ||
-                        (group !== "all" && allGroupsSelected)
-                      }
-                      checked={
-                        groups.indexOf("duplicate") >= 0 ||
-                        allGroupsSelected ||
-                        groups.indexOf(group) >= 0
-                      }
-                    />
-                  ))}
-                  {!editing && availableGroups.length >= 2 && (
-                    <Checkbox
-                      label={`Lag et separat event for hver gruppe. Nyttig for events som skal ha egen timeplane per gruppe, eks. Bar-til-bar.`}
-                      className="group-checkbox full-width margin-top-medium"
-                      onClick={() => handleCheckbox("duplicate")}
-                      checked={groups.indexOf("duplicate") >= 0}
-                    />
-                  )}
-                </Form.Field>
-              </Form.Group>
+              <GroupPicker
+                groups={groups}
+                setGroups={setGroups}
+                availableGroups={availableGroups}
+                errors={errors}
+                setErrors={setErrors}
+                editing={editing}
+              />
             )}
 
+            {/** Denne vises kun dersom vi endrer på et event, ikke hvis vi oppretter **/}
             {editing && (
               <Button
                 type="button"
@@ -554,26 +273,23 @@ const CreateNewEvent = ({
                   setAddSubevents(true);
                 }}
                 className="full-width margin-bottom-small margin-top-small"
-              >
-                Legg til hendelser
-              </Button>
+                content="Legg til hendelser"
+              />
             )}
 
-            {/** SUBMIT **/}
+            {/** CANCEL OG SUBMIT KNAPPER **/}
             <Button
               type="button"
-              onClick={() => cancelCallback()}
+              onClick={cancelCallback}
               className="full-width margin-bottom-small margin-top-medium"
-            >
-              Avbryt
-            </Button>
+              content="Avbryt"
+            />
             <Button
               primary
               type="submit"
               className="full-width margin-bottom-large"
-            >
-              {editing ? "Lagre" : "Ferdig"}
-            </Button>
+              content={editing ? "Lagre" : "Ferdig"}
+            />
           </Form>
         </React.Fragment>
       )}
