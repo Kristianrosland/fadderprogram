@@ -56,8 +56,7 @@ const LoginScreen = ({ firestore }) => {
           />
         </Form.Field>
         <Button className="login-button" onClick={handleSubmit}>
-          {" "}
-          Logg inn{" "}
+          Logg inn
         </Button>
       </Form>
     </div>

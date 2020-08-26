@@ -26,6 +26,7 @@ const BackOffice = ({ firestore }) => {
       <Dimmer active={loadingUser}>
         <Loader active={loadingUser} />
       </Dimmer>
+
       {!loadingUser && (
         <>
           <div className="back-office-header"> Adminpanel </div>
