@@ -6,7 +6,7 @@
 4. Hvis du ikke har yarn installert, installer det med `npm install -g yarn`
 5. Hvis du ikke har npm installert... figure it out!
 6. Kjør `yarn start` for å kjøre opp applikasjonen
-7. Åpne en browser og gå til localhost:8080 for å se at applikasjonen kjører
+7. Åpne en browser og gå til localhost:3000 for å se at applikasjonen kjører
 
 
 ## Branches og pull requests
