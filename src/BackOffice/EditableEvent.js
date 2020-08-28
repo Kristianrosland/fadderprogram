@@ -30,7 +30,7 @@ const EditableEvent = ({ event, canManage, deleteCallback, editCallback }) => {
   let [lang, setLang] = useState("NO");
   const changeLanguage = () => setLang(lang === "NO" ? "EN" : "NO");
   let [showMore, setShowMore] = useState(false);
-  const changeShowMore = () => setShowMore(showMore === false ? true : false);
+  const changeShowMore = () => setShowMore(!showMore);
 
   const title = selectField(event, "title", lang)
     ? selectField(event, "title", lang)
@@ -45,10 +45,6 @@ const EditableEvent = ({ event, canManage, deleteCallback, editCallback }) => {
   const description = selectField(event, "desc", lang)
     ? selectField(event, "desc", lang)
     : `Beskrivelse mangler (${lang})`;
-
-  const showLessFunc = () => {
-
-  }
 
   return (
     <div className="editable-event-wrapper">
@@ -67,26 +63,12 @@ const EditableEvent = ({ event, canManage, deleteCallback, editCallback }) => {
           Addresse: {event.address}
         </label>
       )}
-      {console.log(event)}
-      {console.log(description)}
-
-      <label className="editable-event-info-label">
-        {!showMore ? (
-          <FontAwesomeIcon
-            className="showMore"
-            icon={faAngleDoubleDown}
-            onClick={() => changeShowMore()}
-          />
-          
-        ): "Beskrivelse: " + description }
-        {showMore && (
-        <FontAwesomeIcon
-            className="showMore"
-            icon={faAngleDoubleUp}
-            onClick={() => changeShowMore()}
-          />)}
-
-      </label>
+      
+      {showMore && (
+        <label className="editable-event-info-label">
+          Beskrivelse: {description}
+        </label>
+      )}
 
       <div className="flex-row">
         {hasAddress && (
@@ -101,6 +83,13 @@ const EditableEvent = ({ event, canManage, deleteCallback, editCallback }) => {
         {!allFieldsEnglish && (
           <CheckLabel check={allFieldsEnglish} label="Mangler oversettelse" />
         )}
+        {
+          <FontAwesomeIcon
+            className="show-more-icon"
+            icon={showMore ? faAngleDoubleUp : faAngleDoubleDown}
+            onClick={() => changeShowMore()}
+          />
+        }
         {canManage && (
           <FontAwesomeIcon
             className="trash-icon"
