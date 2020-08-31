@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import { selectField, selectTime, selectGroups } from "../Frontend/utils";
 import SelectLanguage from "../Frontend/SelectLanguage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 import {
   faCheck,
   faTimes,
   faTrashAlt,
   faPen,
+  faAngleDoubleDown,
+  faAngleDoubleUp,
 } from "@fortawesome/free-solid-svg-icons";
 
 const CheckLabel = ({ check, label }) => {
@@ -26,6 +29,8 @@ const CheckLabel = ({ check, label }) => {
 const EditableEvent = ({ event, canManage, deleteCallback, editCallback }) => {
   let [lang, setLang] = useState("NO");
   const changeLanguage = () => setLang(lang === "NO" ? "EN" : "NO");
+  let [showDescription, setShowDescription] = useState(false);
+  const changeShowDescription = () => setShowDescription(!showDescription);
 
   const title = selectField(event, "title", lang)
     ? selectField(event, "title", lang)
@@ -37,6 +42,9 @@ const EditableEvent = ({ event, canManage, deleteCallback, editCallback }) => {
   const hasAddress = event.address && event.address.length > 0;
   const hasGoogleMaps =
     event.google_maps && event.google_maps.startsWith("https");
+  const description = selectField(event, "desc", lang)
+    ? selectField(event, "desc", lang)
+    : `Beskrivelse mangler (${lang})`;
 
   return (
     <div className="editable-event-wrapper">
@@ -55,8 +63,14 @@ const EditableEvent = ({ event, canManage, deleteCallback, editCallback }) => {
           Addresse: {event.address}
         </label>
       )}
+      
+      {showDescription && (
+        <label className="editable-event-info-label">
+          Beskrivelse: {description}
+        </label>
+      )}
 
-      <div className="flex-row">
+      <div className="flex-row bottom-row">
         {hasAddress && (
           <CheckLabel
             check={hasGoogleMaps}
@@ -69,20 +83,27 @@ const EditableEvent = ({ event, canManage, deleteCallback, editCallback }) => {
         {!allFieldsEnglish && (
           <CheckLabel check={allFieldsEnglish} label="Mangler oversettelse" />
         )}
-        {canManage && (
           <FontAwesomeIcon
-            className="trash-icon"
-            icon={faTrashAlt}
-            onClick={() => deleteCallback(event.id)}
+            className="show-description-icon icon"
+            icon={showDescription ? faAngleDoubleUp : faAngleDoubleDown}
+            onClick={() => changeShowDescription()}
           />
-        )}
-        {canManage && (
-          <FontAwesomeIcon
-            className="pen-icon"
-            icon={faPen}
-            onClick={() => editCallback(event.id)}
-          />
-        )}
+          <div>
+          {canManage && (
+            <FontAwesomeIcon
+              className="trash-icon icon"
+              icon={faTrashAlt}
+              onClick={() => deleteCallback(event.id)}
+            />
+          )}
+          {canManage && (
+            <FontAwesomeIcon
+              className="pen-icon icon"
+              icon={faPen}
+              onClick={() => editCallback(event.id)}
+            />
+          )}
+        </div>
       </div>
     </div>
   );
