@@ -85,7 +85,7 @@ const EditableEvent = ({ event, canManage, deleteCallback, editCallback }) => {
         )}
         {
           <FontAwesomeIcon
-            className="show-more-icon"
+            className="show-description-icon"
             icon={showDescription ? faAngleDoubleUp : faAngleDoubleDown}
             onClick={() => changeShowDescription()}
           />
