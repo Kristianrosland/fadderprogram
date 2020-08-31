@@ -29,8 +29,8 @@ const CheckLabel = ({ check, label }) => {
 const EditableEvent = ({ event, canManage, deleteCallback, editCallback }) => {
   let [lang, setLang] = useState("NO");
   const changeLanguage = () => setLang(lang === "NO" ? "EN" : "NO");
-  let [showMore, setShowMore] = useState(false);
-  const changeShowMore = () => setShowMore(!showMore);
+  let [showDescription, setShowDescription] = useState(false);
+  const changeShowDescription = () => setShowDescription(!showDescription);
 
   const title = selectField(event, "title", lang)
     ? selectField(event, "title", lang)
@@ -64,7 +64,7 @@ const EditableEvent = ({ event, canManage, deleteCallback, editCallback }) => {
         </label>
       )}
       
-      {showMore && (
+      {showDescription && (
         <label className="editable-event-info-label">
           Beskrivelse: {description}
         </label>
@@ -86,8 +86,8 @@ const EditableEvent = ({ event, canManage, deleteCallback, editCallback }) => {
         {
           <FontAwesomeIcon
             className="show-more-icon"
-            icon={showMore ? faAngleDoubleUp : faAngleDoubleDown}
-            onClick={() => changeShowMore()}
+            icon={showDescription ? faAngleDoubleUp : faAngleDoubleDown}
+            onClick={() => changeShowDescription()}
           />
         }
         {canManage && (
