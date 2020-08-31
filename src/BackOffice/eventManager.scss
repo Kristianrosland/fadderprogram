@@ -77,7 +77,7 @@ $shadow-radius: 0.075rem;
   display: flex;
   flex-direction: row;
   margin-top: 15px;
-  margin-right: 15px;
+  //margin-right: 15px;
   width: auto;
   label {
     margin-left: 3px;
@@ -105,20 +105,25 @@ $shadow-radius: 0.075rem;
 }
 
 .trash-icon {
-  margin-top: 15px;
-  margin-left: auto;
   width: 0.6rem;
 }
 
+
 .pen-icon {
-  margin-top: 15px;
   margin-left: 15px;
   width: 0.6rem;
 }
 
-.show-description-icon {
-  margin-top: 15px;
-  margin-left: 35%;
+.icon{
+  cursor: pointer;
+}
+.icon:hover {
+  transform: scale(1.2);
+}
+
+.bottom-row {
+  justify-content: space-between;
+  align-items: flex-end;
 }
 
 .delete-event-modal {

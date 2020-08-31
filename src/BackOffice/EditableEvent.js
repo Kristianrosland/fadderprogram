@@ -70,7 +70,7 @@ const EditableEvent = ({ event, canManage, deleteCallback, editCallback }) => {
         </label>
       )}
 
-      <div className="flex-row">
+      <div className="flex-row bottom-row">
         {hasAddress && (
           <CheckLabel
             check={hasGoogleMaps}
@@ -83,27 +83,27 @@ const EditableEvent = ({ event, canManage, deleteCallback, editCallback }) => {
         {!allFieldsEnglish && (
           <CheckLabel check={allFieldsEnglish} label="Mangler oversettelse" />
         )}
-        {
           <FontAwesomeIcon
-            className="show-description-icon"
+            className="show-description-icon icon"
             icon={showDescription ? faAngleDoubleUp : faAngleDoubleDown}
             onClick={() => changeShowDescription()}
           />
-        }
-        {canManage && (
-          <FontAwesomeIcon
-            className="trash-icon"
-            icon={faTrashAlt}
-            onClick={() => deleteCallback(event.id)}
-          />
-        )}
-        {canManage && (
-          <FontAwesomeIcon
-            className="pen-icon"
-            icon={faPen}
-            onClick={() => editCallback(event.id)}
-          />
-        )}
+          <div>
+          {canManage && (
+            <FontAwesomeIcon
+              className="trash-icon icon"
+              icon={faTrashAlt}
+              onClick={() => deleteCallback(event.id)}
+            />
+          )}
+          {canManage && (
+            <FontAwesomeIcon
+              className="pen-icon icon"
+              icon={faPen}
+              onClick={() => editCallback(event.id)}
+            />
+          )}
+        </div>
       </div>
     </div>
   );
