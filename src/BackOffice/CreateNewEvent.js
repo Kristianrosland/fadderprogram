@@ -10,6 +10,7 @@ import DescriptionFields from "./form-fields/DescriptionFields";
 import LocationFields from "./form-fields/LocationFields";
 import LinkFields from "./form-fields/LinkFields";
 import GroupPicker from "./form-fields/GroupPicker";
+import NewCreateSubEvents from "./NewCreateSubEvents";
 
 const CreateNewEvent = ({
   editing,
@@ -276,6 +277,8 @@ const CreateNewEvent = ({
                 content="Legg til hendelser"
               />
             )}
+
+            <NewCreateSubEvents/>
 
             {/** CANCEL OG SUBMIT KNAPPER **/}
             <Button
