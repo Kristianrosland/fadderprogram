@@ -42,6 +42,7 @@ return(
         search
         selection
         options={groups}
+        onChange = {(event , data) => console.log(data.value) }
         />
 
         <LocationFields
