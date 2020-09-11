@@ -4,7 +4,6 @@ import EventManager from "./EventManager";
 import { Loader, Dimmer } from "semantic-ui-react";
 import "./backOffice.scss";
 import { createAddressSuggestions, addSubEventsToEvents } from "./utils";
-import NewCreateSubEvents from "./NewCreateSubEvents";
 
 const BackOffice = ({ firestore }) => {
   const [events, setEvents] = useState([]);
