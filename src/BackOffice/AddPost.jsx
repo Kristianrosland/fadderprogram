@@ -2,23 +2,33 @@ import React, { useState } from "react";
 import SingleTextField from "./form-fields/SingleTextField";
 import { Dropdown } from "semantic-ui-react";
 import LocationFields from "./form-fields/LocationFields";
+import { useEffect } from "react";
 
-const AddPost = ({selectedGroups, setPostTitle}) => {
+const AddPost = ({selectedGroups, setCurrentPost, post}) => {
 
-  const [titleNO, setTitle] = useState("");
+  const groups = selectedGroups.map(
+    group => ({
+      text: "Gruppe " + group, 
+      key:"Gruppe " + group, 
+      value:"Gruppe " + group
+    })
+  )
   
-  const groups = selectedGroups.map(g => ({
-    text: "Gruppe " + g, 
-    key:"Gruppe " + g, 
-    value:"Gruppe " + g}))
+  const [title, setTitle] = useState(post.title);
+  const [group, setGroup] = useState(post.group);
+  const [address, setAddress] = useState(post.address);
+  const [googleMaps, setGoogleMaps] = useState(post.googleMaps);
 
-  
-
-  
-  const [choosenOne, setChoosenGroup] = useState("");
-
-  const [address, setAddress] = useState("");
-  const [googleMaps, setGoogleMaps] = useState("");
+  // Oppdater currentPost hvis title, group, address eller googleMaps forandres
+  useEffect(() =>
+    setCurrentPost({
+      title: title,
+      group: group,
+      address: address,
+      googleMaps: googleMaps,
+    }),
+    [title, group, address, googleMaps]
+  )
 
   const [errors, setErrors] = useState({
     titleNO: false,
@@ -32,26 +42,24 @@ const AddPost = ({selectedGroups, setPostTitle}) => {
     groups: false,
   });
 
-  console.log(choosenOne);
-  const obj = {titleNO: titleNO}
-  setPostTitle(obj)
   return (
     <div>
       <SingleTextField
-        text={titleNO}
+        text={title}
         setText={setTitle}
         errors={errors}
         setErrors={setErrors}
       />
-      <label>Velg gruppe</label>
 
+      <label>Velg gruppe</label>
       <Dropdown
         placeholder="Velg gruppe"
-        fluid={true}
+        value={group}
+        fluid
         search
         selection
         options={groups}
-        onChange={(event, data) => setChoosenGroup(data.value)}
+        onChange={(_, data) => setGroup(data.value)}
       />
 
       <LocationFields
