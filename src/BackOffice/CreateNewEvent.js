@@ -278,7 +278,8 @@ const CreateNewEvent = ({
               />
             )}
 
-            <NewCreateSubEvents/>
+            <NewCreateSubEvents
+              selectedGroups={groups}/>
 
             {/** CANCEL OG SUBMIT KNAPPER **/}
             <Button

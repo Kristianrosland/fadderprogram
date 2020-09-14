@@ -3,8 +3,8 @@ import { Form, Input } from "semantic-ui-react";
 import ErrorLabel from "../ErrorLabel";
 
 const SingleTextField = ({
-  descNO,
-  setDescNO,
+  text,
+  setText,
   errors,
   setErrors,
 }) => {
@@ -16,11 +16,12 @@ const SingleTextField = ({
       <label className="form-field-header">Post {redStar}</label>
 
       <Form.Field error={errors.descNO}>
-        {errors.descNO && <ErrorLabel textKey={"ERROR_DESC_NO"} />}
+        {errors.descNO && <ErrorLabel textKey={"ERROR_DESC_NO"} /> //TODO: Gjør om dra desc
+        } 
         <Input
-          value={descNO}
+          value={text}
           onChange={(e) => {
-            setDescNO(e.target.value);
+            setText(e.target.value);
             setErrors({ ...errors, descNO: false });
           }}
         />

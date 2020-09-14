@@ -3,18 +3,18 @@ import SingleTextField from "./form-fields/SingleTextField";
 import { Dropdown } from "semantic-ui-react";
 import LocationFields from "./form-fields/LocationFields";
 
-const AddPost = () => {
-  const [descNO, setDescNO] = useState("");
-  const groups = [
-    //https://react.semantic-ui.com/modules/dropdown/#types-search-selection
-    {
-      text: "Gruppe 1 - Informatikk",
-      key: "Gruppe 1 - Informatikk key",
-      value: "Gruppe 1 - Informatikk value",
-    },
-    { text: "Gruppe 2", key: "Gruppe 2", value: "Gruppe 2" },
-    { text: "Gruppe 3", key: "Gruppe 3", value: "Gruppe 3" },
-  ];
+const AddPost = ({selectedGroups, setPostTitle}) => {
+
+  const [titleNO, setTitle] = useState("");
+  
+  const groups = selectedGroups.map(g => ({
+    text: "Gruppe " + g, 
+    key:"Gruppe " + g, 
+    value:"Gruppe " + g}))
+
+  
+
+  
   const [choosenOne, setChoosenGroup] = useState("");
 
   const [address, setAddress] = useState("");
@@ -31,17 +31,20 @@ const AddPost = () => {
     timeEnd: false,
     groups: false,
   });
-  console.log(choosenOne);
 
+  console.log(choosenOne);
+  const obj = {titleNO: titleNO}
+  setPostTitle(obj)
   return (
     <div>
       <SingleTextField
-        descNO={descNO}
-        setDescNO={setDescNO}
+        text={titleNO}
+        setText={setTitle}
         errors={errors}
         setErrors={setErrors}
       />
       <label>Velg gruppe</label>
+
       <Dropdown
         placeholder="Velg gruppe"
         fluid={true}

@@ -1,16 +1,11 @@
 import React, { useState } from "react";
-import TitleFields from "./form-fields/TitleFields";
 import AddPost from "./AddPost";
 import AddEventButton from "./AddEventButton";
 
-const NewCreateSubEvents = (props) => {
+const NewCreateSubEvents = ({selectedGroups}) => {
     
-    const [titleNO, setTitleNO] = useState("");
-    const [titleEN, setTitleEN] = useState("");
 
-    const addMoreAddPosts = ()=> {
-        
-    }
+    const [posts, setPosts] = useState([])
 
     const [errors, setErrors] = useState({
         titleNO: false,
@@ -22,15 +17,21 @@ const NewCreateSubEvents = (props) => {
         timeStart: false,
         timeEnd: false,
         groups: false,
-      });
-
+    });
+    
+    console.log(posts, "This is posts");
 
     return (
         <div>
-        <AddPost/>
+            
+        {posts.map((post,index) => 
+            <AddPost 
+            selectedGroups={selectedGroups} 
+            setPostTitle={} 
+            key={index} 
+            />)}
 
-        <AddEventButton
-        />
+        <AddEventButton handleClick={() => { setPosts([...posts, { title: "new Post"}]) }} />
     </div>
     )
 
