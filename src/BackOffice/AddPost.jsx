@@ -4,7 +4,7 @@ import { Dropdown } from "semantic-ui-react";
 import LocationFields from "./form-fields/LocationFields";
 import { useEffect } from "react";
 
-const AddPost = ({selectedGroups, setCurrentPost, post}) => {
+const AddPost = ({selectedGroups, setCurrentPost, post, updateOldInformationFunc}) => {
 
   const groups = selectedGroups.map(
     group => ({
@@ -13,6 +13,9 @@ const AddPost = ({selectedGroups, setCurrentPost, post}) => {
       value:"Gruppe " + group
     })
   )
+
+  // For å kunne oppdatere informasjonen til posten i parrent componenten.
+  const oldInformation = post;
   
   const [title, setTitle] = useState(post.title);
   const [group, setGroup] = useState(post.group);
@@ -29,6 +32,7 @@ const AddPost = ({selectedGroups, setCurrentPost, post}) => {
     }),
     [title, group, address, googleMaps]
   )
+
 
   const [errors, setErrors] = useState({
     titleNO: false,
@@ -49,6 +53,7 @@ const AddPost = ({selectedGroups, setCurrentPost, post}) => {
         setText={setTitle}
         errors={errors}
         setErrors={setErrors}
+        onChange={updateOldInformationFunc(oldInformation, title, group, address, googleMaps)}
       />
 
       <label>Velg gruppe</label>

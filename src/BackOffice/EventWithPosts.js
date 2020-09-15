@@ -7,6 +7,16 @@ const EventWithPosts = ({selectedGroups}) => {
     const [currentPost, setCurrentPost] = useState([])
     const [posts, setPosts] = useState([])
 
+    /** Henter ut ny informasjon om postene endres på etter at de er lagt i listen med poster */
+    const updateOldPosts = (oldVersion, newTitle, newGroup, newAddress, newGoogleMaps) => {
+        oldVersion.title = newTitle;
+        oldVersion.group = newGroup;
+        oldVersion.address = newAddress;
+        oldVersion.googleMaps = newGoogleMaps;
+    }
+
+    console.log(posts);
+
     return (
         <div>
         
@@ -14,7 +24,8 @@ const EventWithPosts = ({selectedGroups}) => {
             {posts.map((post,index) => 
                 <AddPost 
                     selectedGroups={selectedGroups} 
-                    setCurrentPost={setCurrentPost} 
+                    setCurrentPost={setCurrentPost}
+                    updateOldInformationFunc={updateOldPosts} 
                     key={index} 
                     post={post}
                 />)
@@ -24,6 +35,7 @@ const EventWithPosts = ({selectedGroups}) => {
             <AddPost 
                 selectedGroups={selectedGroups} 
                 setCurrentPost={setCurrentPost} 
+                updateOldInformationFunc={updateOldPosts} 
                 key={posts.length} 
                 post={{title:"", group:"", address:"", googleMaps:""}}
             />
