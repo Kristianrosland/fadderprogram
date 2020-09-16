@@ -13,7 +13,8 @@ const AddPost = ({selectedGroups, setCurrentPost, post, updateOldInformationFunc
       value:"Gruppe " + group
     })
   )
-
+  const redStar = <span style={{ color: "red" }}>*</span>;
+  
   // For å kunne oppdatere informasjonen til posten i parrent componenten.
   const oldInformation = post;
   
@@ -48,24 +49,27 @@ const AddPost = ({selectedGroups, setCurrentPost, post, updateOldInformationFunc
 
   return (
     <div>
-      <SingleTextField
-        text={title}
-        setText={setTitle}
-        errors={errors}
-        setErrors={setErrors}
-        onChange={updateOldInformationFunc(oldInformation, title, group, address, googleMaps)}
-      />
-
-      <label>Velg gruppe</label>
-      <Dropdown
-        placeholder="Velg gruppe"
-        value={group}
-        fluid
-        search
-        selection
-        options={groups}
-        onChange={(_, data) => setGroup(data.value)}
-      />
+      <div className="add-post-post-groups-and-title">
+        <SingleTextField
+          text={title}
+          setText={setTitle}
+          errors={errors}
+          setErrors={setErrors}
+          onChange={updateOldInformationFunc(oldInformation, title, group, address, googleMaps)}
+        />
+        <div className="dropdown">
+          <label id="add-post-lable-velg-gruppe">Velg gruppe {redStar}</label>
+          <Dropdown
+            placeholder="Velg gruppe"
+            value={group}
+            fluid
+            search
+            selection
+            options={groups}
+            onChange={(_, data) => setGroup(data.value)}
+          />
+        </div>
+      </div>
 
       <LocationFields
         address={address}
