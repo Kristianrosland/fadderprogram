@@ -3,8 +3,14 @@ import SingleTextField from "./form-fields/SingleTextField";
 import { Dropdown } from "semantic-ui-react";
 import LocationFields from "./form-fields/LocationFields";
 import { useEffect } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const AddPost = ({selectedGroups, setCurrentPost, post, updateOldInformationFunc}) => {
+import {
+  faTrashAlt,
+} from "@fortawesome/free-solid-svg-icons";
+
+
+const AddPost = ({selectedGroups, setCurrentPost, post, updateOldInformationFunc, deleteCallback}) => {
 
   const groups = selectedGroups.map(
     group => ({
@@ -13,6 +19,8 @@ const AddPost = ({selectedGroups, setCurrentPost, post, updateOldInformationFunc
       value:"Gruppe " + group
     })
   )
+
+  
   const redStar = <span style={{ color: "red" }}>*</span>;
   
   // For å kunne oppdatere informasjonen til posten i parrent componenten.
@@ -33,6 +41,8 @@ const AddPost = ({selectedGroups, setCurrentPost, post, updateOldInformationFunc
     }),
     [title, group, address, googleMaps]
   )
+
+  console.log();
 
 
   const [errors, setErrors] = useState({
@@ -69,6 +79,11 @@ const AddPost = ({selectedGroups, setCurrentPost, post, updateOldInformationFunc
             onChange={(_, data) => setGroup(data.value)}
           />
         </div>
+        <FontAwesomeIcon
+              className="trash-icon icon"
+              icon={faTrashAlt}
+              onClick={() => deleteCallback(post.id)}
+            />
       </div>
 
       <LocationFields
