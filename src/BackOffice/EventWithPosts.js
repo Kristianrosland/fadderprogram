@@ -5,7 +5,7 @@ import AddEventButton from "./AddEventButton";
 const EventWithPosts = ({selectedGroups}) => {
     
     const [currentPost, setCurrentPost] = useState([])
-    const [posts, setPosts] = useState([])
+    const [posts, setPosts] = useState([{title:"Heidis", group: NaN, address:"Håkonsgaten 27", googleMaps:"https://www.google.com/maps/search/?api=1&query=Håkonsgaten 27, Bergen"}])
 
     /** Henter ut ny informasjon om postene endres på etter at de er lagt i listen med poster */
     const updateOldPosts = (oldVersion, newTitle, newGroup, newAddress, newGoogleMaps) => {
@@ -14,8 +14,6 @@ const EventWithPosts = ({selectedGroups}) => {
         oldVersion.address = newAddress;
         oldVersion.googleMaps = newGoogleMaps;
     }
-
-    console.log(posts);
 
     return (
         <div>
