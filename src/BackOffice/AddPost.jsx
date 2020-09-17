@@ -5,45 +5,44 @@ import LocationFields from "./form-fields/LocationFields";
 import { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import {
-  faTrashAlt,
-} from "@fortawesome/free-solid-svg-icons";
+import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
+const AddPost = ({
+  selectedGroups,
+  setCurrentPost,
+  post,
+  updateOldInformationFunc,
+  deleteCallback,
+}) => {
+  const groups = selectedGroups.map((group) => ({
+    text: "Gruppe " + group,
+    key: "Gruppe " + group,
+    value: "Gruppe " + group,
+  }));
 
-const AddPost = ({selectedGroups, setCurrentPost, post, updateOldInformationFunc, deleteCallback}) => {
-
-  const groups = selectedGroups.map(
-    group => ({
-      text: "Gruppe " + group, 
-      key:"Gruppe " + group, 
-      value:"Gruppe " + group
-    })
-  )
-
-  
   const redStar = <span style={{ color: "red" }}>*</span>;
-  
+
   // For å kunne oppdatere informasjonen til posten i parrent componenten.
   const oldInformation = post;
-  
+
   const [title, setTitle] = useState(post.title);
   const [group, setGroup] = useState(post.group);
   const [address, setAddress] = useState(post.address);
   const [googleMaps, setGoogleMaps] = useState(post.googleMaps);
 
   // Oppdater currentPost hvis title, group, address eller googleMaps forandres
-  useEffect(() =>
-    setCurrentPost({
-      title: title,
-      group: group,
-      address: address,
-      googleMaps: googleMaps,
-    }),
+  useEffect(
+    () =>
+      setCurrentPost({
+        title: title,
+        group: group,
+        address: address,
+        googleMaps: googleMaps,
+      }),
     [title, group, address, googleMaps]
-  )
+  );
 
   console.log();
-
 
   const [errors, setErrors] = useState({
     titleNO: false,
@@ -65,7 +64,13 @@ const AddPost = ({selectedGroups, setCurrentPost, post, updateOldInformationFunc
           setText={setTitle}
           errors={errors}
           setErrors={setErrors}
-          onChange={updateOldInformationFunc(oldInformation, title, group, address, googleMaps)}
+          onChange={updateOldInformationFunc(
+            oldInformation,
+            title,
+            group,
+            address,
+            googleMaps
+          )}
         />
         <div className="dropdown">
           <label id="add-post-lable-velg-gruppe">Velg gruppe {redStar}</label>
@@ -80,10 +85,10 @@ const AddPost = ({selectedGroups, setCurrentPost, post, updateOldInformationFunc
           />
         </div>
         <FontAwesomeIcon
-              className="trash-icon icon"
-              icon={faTrashAlt}
-              onClick={() => deleteCallback(post.id)}
-            />
+          className="trash-icon icon"
+          icon={faTrashAlt}
+          onClick={() => deleteCallback(post.id)}
+        />
       </div>
 
       <LocationFields
