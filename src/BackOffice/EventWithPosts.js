@@ -4,8 +4,11 @@ import AddEventButton from "./AddEventButton";
 
 const EventWithPosts = ({selectedGroups}) => {
     
-    const [currentPost, setCurrentPost] = useState([])
-    const [posts, setPosts] = useState([{title:"Heidis", group: NaN, address:"Håkonsgaten 27", googleMaps:"https://www.google.com/maps/search/?api=1&query=Håkonsgaten 27, Bergen"}])
+    const [currentPost, setCurrentPost] = useState([]);
+    const [posts, setPosts] = useState([{id:0, title:"Heidis", group: "FiktivGruppe", address:"Håkonsgaten 27", googleMaps:"https://www.google.com/maps/search/?api=1&query=Håkonsgaten 27, Bergen"}]);
+
+    const [takenGroups, setTakenGroups] = useState([]);
+    const [int, setInt] = useState(1); // skal egentlig være 0 men siden vi har en i "databasen fra før av tar vi 1"
 
     /** Henter ut ny informasjon om postene endres på etter at de er lagt i listen med poster */
     const updateOldPosts = (oldVersion, newTitle, newGroup, newAddress, newGoogleMaps) => {
@@ -13,6 +16,11 @@ const EventWithPosts = ({selectedGroups}) => {
         oldVersion.group = newGroup;
         oldVersion.address = newAddress;
         oldVersion.googleMaps = newGoogleMaps;
+    }
+    
+    const deletePost = (id) =>{
+        console.log(id);
+        setPosts(posts.filter(post => post.id !== id))
     }
 
     return (
@@ -26,6 +34,7 @@ const EventWithPosts = ({selectedGroups}) => {
                     updateOldInformationFunc={updateOldPosts} 
                     key={index} 
                     post={post}
+                    deleteCallback={deletePost}
                 />)
             }
 
@@ -34,11 +43,13 @@ const EventWithPosts = ({selectedGroups}) => {
                 selectedGroups={selectedGroups} 
                 setCurrentPost={setCurrentPost} 
                 updateOldInformationFunc={updateOldPosts} 
-                key={posts.length} 
-                post={{title:"", group:"", address:"", googleMaps:""}}
+                key={int} 
+                post={{id:int, title:"", group:"", address:"", googleMaps:""}}
+                deleteCallback={deletePost}
             />
-
-            <AddEventButton handleClick={ () => setPosts([...posts, currentPost]) }/>
+            <div className="add-remove-subposts">
+                <AddEventButton handleClick={ () => {setPosts([...posts, currentPost]); setInt(int + 1);} }/>
+            </div>
 
             <br/>
             <p>Poster:</p>
