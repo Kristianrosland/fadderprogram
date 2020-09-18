@@ -33,8 +33,7 @@ const EventWithPosts = ({ selectedGroups }) => {
   };
 
   const deletePost = (id) => {
-    console.log(id);
-    setPosts(posts.filter((post) => post.id !== id));
+    setPosts(posts.filter(post => post.id !== id));
   };
 
   return (
@@ -63,8 +62,9 @@ const EventWithPosts = ({ selectedGroups }) => {
       <div className="add-remove-subposts">
         <AddEventButton
           handleClick={() => {
-            setPosts([...posts, currentPost]);
             setInt(int + 1);
+            setPosts([...posts, currentPost]);
+            
           }}
         />
       </div>

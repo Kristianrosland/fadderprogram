@@ -25,6 +25,7 @@ const AddPost = ({
   // For å kunne oppdatere informasjonen til posten i parrent componenten.
   const oldInformation = post;
 
+  const [id, setId] = useState(post.id);
   const [title, setTitle] = useState(post.title);
   const [group, setGroup] = useState(post.group);
   const [address, setAddress] = useState(post.address);
@@ -34,6 +35,7 @@ const AddPost = ({
   useEffect(
     () =>
       setCurrentPost({
+        id: id,
         title: title,
         group: group,
         address: address,
