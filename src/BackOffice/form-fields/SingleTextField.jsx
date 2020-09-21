@@ -12,7 +12,7 @@ const SingleTextField = ({
   const redStar = <span style={{ color: "red" }}>*</span>;
 
   return (
-    <Form.Group grouped className="form-input-group">
+    <Form.Group grouped className="form-single-input-group">
       <label className="form-field-header">Post {redStar}</label>
 
       <Form.Field error={errors.descNO}>

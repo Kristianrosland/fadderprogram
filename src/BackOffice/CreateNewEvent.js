@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Form, Button } from "semantic-ui-react";
+import { Form, Button, Checkbox } from "semantic-ui-react";
 import { translateDay, groupComparator } from "../Frontend/utils";
 import CreateSubevents from "./CreateSubevents";
 import "./createNewEvent.scss";
@@ -169,6 +169,9 @@ const CreateNewEvent = ({
     }
   };
 
+  /** State som sier om vi øsnker et event med subevents, for å kunne få opp en ny side */
+  const [newSubeventPage, setNewSubeventPage] = useState(false);
+
   return (
     <div className="flex-column create-event-wrapper">
       {addSubevents ? (
@@ -278,9 +281,20 @@ const CreateNewEvent = ({
               />
             )}
 
-            <EventWithPosts
+            {/** Ny for å lage subeventssiden **/}
+            {!editing && (
+              <Checkbox
+              label={`Lag et arrangement med subeventes`}
+              className="group-checkbox full-width margin-top-medium"
+              onChange={()=> newSubeventPage === false ? setNewSubeventPage(true) : setNewSubeventPage(false)}
+              />
+            )}
+
+            {newSubeventPage && (
+              <EventWithPosts
               selectedGroups={groups}
             />
+            )}
 
             {/** CANCEL OG SUBMIT KNAPPER **/}
             <Button
@@ -289,12 +303,21 @@ const CreateNewEvent = ({
               className="full-width margin-bottom-small margin-top-medium"
               content="Avbryt"
             />
-            <Button
+            {!newSubeventPage ? (
+              <Button
               primary
               type="submit"
               className="full-width margin-bottom-large"
               content={editing ? "Lagre" : "Ferdig"}
             />
+            ) : (
+              <Button
+              primary
+              type="button"
+              className="full-width margin-bottom-large"
+              content="Videre"
+            />
+            )}
           </Form>
         </React.Fragment>
       )}
