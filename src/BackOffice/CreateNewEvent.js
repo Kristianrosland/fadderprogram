@@ -303,21 +303,13 @@ const CreateNewEvent = ({
               className="full-width margin-bottom-small margin-top-medium"
               content="Avbryt"
             />
-            {!newSubeventPage ? (
+            
               <Button
               primary
               type="submit"
               className="full-width margin-bottom-large"
               content={editing ? "Lagre" : "Ferdig"}
             />
-            ) : (
-              <Button
-              primary
-              type="button"
-              className="full-width margin-bottom-large"
-              content="Videre"
-            />
-            )}
           </Form>
         </React.Fragment>
       )}
