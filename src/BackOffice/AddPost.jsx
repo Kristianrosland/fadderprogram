@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SingleTextField from "./form-fields/SingleTextField";
-import { Dropdown } from "semantic-ui-react";
 import LocationFields from "./form-fields/LocationFields";
-import { useEffect } from "react";
+import GroupDropDown from "./form-fields/PostDropDown";
 
-const AddPost = ({selectedGroups, setCurrentPost, post}) => {
+const AddPost = ({selectedGroups, setCurrentPost, updatePosts, post}) => {
 
   const groups = selectedGroups.map(
     group => ({
@@ -26,6 +25,7 @@ const AddPost = ({selectedGroups, setCurrentPost, post}) => {
       group: group,
       address: address,
       googleMaps: googleMaps,
+      key: post.key,
     }),
     [title, group, address, googleMaps]
   )
@@ -51,15 +51,12 @@ const AddPost = ({selectedGroups, setCurrentPost, post}) => {
         setErrors={setErrors}
       />
 
-      <label>Velg gruppe</label>
-      <Dropdown
-        placeholder="Velg gruppe"
-        value={group}
-        fluid
-        search
-        selection
-        options={groups}
-        onChange={(_, data) => setGroup(data.value)}
+      <GroupDropDown
+        groups={groups}
+        group={group}
+        setGroup={setGroup}
+        errors={errors}
+        setErrors={setErrors}
       />
 
       <LocationFields

@@ -4,7 +4,7 @@ import AddEventButton from "./AddEventButton";
 
 const EventWithPosts = ({selectedGroups}) => {
     
-    const [currentPost, setCurrentPost] = useState([])
+    const [currentPost, setCurrentPost] = useState({})
     const [posts, setPosts] = useState([])
 
     return (
@@ -15,7 +15,8 @@ const EventWithPosts = ({selectedGroups}) => {
                 <AddPost 
                     selectedGroups={selectedGroups} 
                     setCurrentPost={setCurrentPost} 
-                    key={index} 
+                    updatePosts={updatePosts}
+                    key={post.key} 
                     post={post}
                 />)
             }
@@ -24,17 +25,18 @@ const EventWithPosts = ({selectedGroups}) => {
             <AddPost 
                 selectedGroups={selectedGroups} 
                 setCurrentPost={setCurrentPost} 
-                key={posts.length} 
-                post={{title:"", group:"", address:"", googleMaps:""}}
+                updatePosts={updatePosts}
+                key={nextKey} 
+                post={{title:"", group:"", address:"", googleMaps:"", key:nextKey}}
             />
 
-            <AddEventButton handleClick={ () => setPosts([...posts, currentPost]) }/>
+            <AddEventButton handleClick={ () => { setPosts([...posts, currentPost]); setNextKey(nextKey + 1) } }/>
 
             <br/>
             <p>Poster:</p>
             {posts.map(post => 
                 <p key={post.group}>
-                    {post.group} skal starte på {post.title} ({post.address})
+                    {post.group} skal starte på {post.title} ({post.address}) og har key {post.key}
                 </p>)
             }
             
