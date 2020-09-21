@@ -33,7 +33,7 @@ const EventWithPosts = ({ selectedGroups }) => {
   };
 
   const deletePost = (id) => {
-    setPosts(posts.filter(post => post.id !== id));
+    setPosts(posts.filter(post => post.id !== id)); // er det nødvendig med setPosts her?
   };
 
   return (
