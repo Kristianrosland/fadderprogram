@@ -226,8 +226,8 @@ const CreateNewEvent = ({
           </div>
           <Form
             className="create-event-form"
-            onSubmit={readyForDatabase}
-            // onSubmit={submit}
+            //onSubmit={readyForDatabase}
+            onSubmit={submit}
             loading={!availableGroups || submitting}
           >
             {/** TITTEL  **/}
@@ -350,9 +350,6 @@ const CreateNewEvent = ({
           </Form>
         </React.Fragment>
       )}
-      <Button
-      onClick={()=>readyForDatabase()}
-      />
     </div>
   );
 };
