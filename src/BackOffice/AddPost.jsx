@@ -15,7 +15,7 @@ const AddPost = ({
   const groups = selectedGroups.map((group) => ({
     text: "Gruppe " + group,
     key: "Gruppe " + group,
-    value: "Gruppe " + group,
+    value: group,
   }));
 
   const redStar = <span style={{ color: "red" }}>*</span>;
@@ -25,21 +25,21 @@ const AddPost = ({
 
   const [id, setId] = useState(post.id);
   const [title, setTitle] = useState(post.title);
-  const [group, setGroup] = useState(post.group);
+  const [startGroup, setGroup] = useState(post.startGroup);
   const [address, setAddress] = useState(post.address);
   const [googleMaps, setGoogleMaps] = useState(post.googleMaps);
 
-  // Oppdater currentPost hvis title, group, address eller googleMaps forandres
+  // Oppdater currentPost hvis title, startGroup, address eller googleMaps forandres
   useEffect(
     () =>
       setCurrentPost({
         id: id,
         title: title,
-        group: group,
+        startGroup: startGroup,
         address: address,
         googleMaps: googleMaps,
       }),
-    [id, title, group, address, googleMaps, setCurrentPost]
+    [id, title, startGroup, address, googleMaps, setCurrentPost]
   );
 
   console.log();
@@ -67,7 +67,7 @@ const AddPost = ({
           onChange={updateOldInformationFunc(
             oldInformation,
             title,
-            group,
+            startGroup,
             address,
             googleMaps
           )}
@@ -76,7 +76,7 @@ const AddPost = ({
           <label id="add-post-lable-velg-gruppe">Velg gruppe {redStar}</label>
           <Dropdown
             placeholder="Velg gruppe"
-            value={group}
+            value={startGroup}
             fluid
             search
             selection

@@ -47,6 +47,21 @@ const CreateNewEvent = ({
   const [googleMaps, setGoogleMaps] = useState(google_maps);
   const [linkTextNO, setLinkTextNO] = useState(linkText_NO);
   const [linkTextEN, setLinkTextEN] = useState(linkText_EN);
+
+  /** Her er syntaxen til subeventene */
+  const [posts, setPosts] = useState([ // Her skal du engentlig hente fra eventet som resten
+    {
+      id: 0,
+      title: "Heidis",
+      group: "FiktivGruppe",
+      address: "Håkonsgaten 27",
+      googleMaps:
+        "https://www.google.com/maps/search/?api=1&query=Håkonsgaten 27, Bergen",
+      rekkefølge:["1","2","3"],
+    },
+  ]); 
+  /** *************************************************************************** */
+
   const [link, setLink] = useState(
     existingEvent.link ? existingEvent.link : ""
   );
@@ -172,6 +187,25 @@ const CreateNewEvent = ({
   /** State som sier om vi øsnker et event med subevents, for å kunne få opp en ny side */
   const [newSubeventPage, setNewSubeventPage] = useState(false);
 
+  const readyForDatabase = () => {
+    const isMentorBoard = availableGroups.indexOf("all") >= 0;
+    const event = {
+      title_NO: titleNO,
+      title_EN: titleEN,
+      desc_NO: descNO,
+      desc_EN: descEN,
+      day_NO: day,
+      day_EN: translateDay(day),
+      from_NO: isMentorBoard ? "fadderstyret" : "gruppeleder",
+      from_EN: isMentorBoard ? "the mentor board" : "group leader",
+      start_time: `${startTimeHour}:${startTimeMinute}`,
+      groups: groups.sort(groupComparator),
+    };
+    event.posts = posts
+    
+    console.log( event );
+  }
+
   return (
     <div className="flex-column create-event-wrapper">
       {addSubevents ? (
@@ -192,7 +226,8 @@ const CreateNewEvent = ({
           </div>
           <Form
             className="create-event-form"
-            onSubmit={submit}
+            onSubmit={readyForDatabase}
+            // onSubmit={submit}
             loading={!availableGroups || submitting}
           >
             {/** TITTEL  **/}
@@ -281,18 +316,20 @@ const CreateNewEvent = ({
               />
             )}
 
-            {/** Ny for å lage subeventssiden **/}
+            {/** for å få opp muligheten for å lage subevents **/}
             {!editing && (
               <Checkbox
               label={`Lag et arrangement med subeventes`}
               className="group-checkbox full-width margin-top-medium"
-              onChange={()=> newSubeventPage === false ? setNewSubeventPage(true) : setNewSubeventPage(false)}
+              onChange={() => newSubeventPage === false ? setNewSubeventPage(true) : setNewSubeventPage(false)}
               />
             )}
 
             {newSubeventPage && (
               <EventWithPosts
               selectedGroups={groups}
+              posts={posts}
+              setPosts={setPosts}
             />
             )}
 
@@ -313,6 +350,9 @@ const CreateNewEvent = ({
           </Form>
         </React.Fragment>
       )}
+      <Button
+      onClick={()=>readyForDatabase()}
+      />
     </div>
   );
 };
