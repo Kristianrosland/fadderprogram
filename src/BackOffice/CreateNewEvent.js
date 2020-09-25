@@ -51,9 +51,9 @@ const CreateNewEvent = ({
   /** Her er syntaxen til subeventene */
   const [posts, setPosts] = useState([ // Her skal du engentlig hente fra eventet som resten
     {
-      id: 0,
+      id: "8cc51c41-d7a9-4272-8277-c27d7f8370e1",
       title: "Heidis",
-      group: "FiktivGruppe",
+      startGroup: "FiktivGruppe",
       address: "Håkonsgaten 27",
       googleMaps:
         "https://www.google.com/maps/search/?api=1&query=Håkonsgaten 27, Bergen",
@@ -189,6 +189,11 @@ const CreateNewEvent = ({
 
   const readyForDatabase = () => {
     const isMentorBoard = availableGroups.indexOf("all") >= 0;
+
+    posts.forEach(obj => {
+      obj.rekkefølge = [obj.startGroup];
+    })
+
     const event = {
       title_NO: titleNO,
       title_EN: titleEN,
@@ -203,7 +208,7 @@ const CreateNewEvent = ({
     };
     event.posts = posts
     
-    console.log( event );
+    console.log(event);
   }
 
   return (
@@ -224,12 +229,17 @@ const CreateNewEvent = ({
             Legg til et nytt event. Felter merket med {redStar} er
             obligatoriske.
           </div>
+           { /** *********************************************************** **/}
+          {//TODO: For å endre til at data blir sendt til databasen så uncomment linje 237, og kommenter ut linjen over **/ 
+          }
           <Form
             className="create-event-form"
-            //onSubmit={readyForDatabase}
-            onSubmit={submit}
+            onSubmit={readyForDatabase} 
+            //onSubmit={submit}
             loading={!availableGroups || submitting}
           >
+           { /** *********************************************************** **/}
+
             {/** TITTEL  **/}
             <TitleFields
               titleNO={titleNO}
