@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import SingleTextField from "./form-fields/SingleTextField";
 import LocationFields from "./form-fields/LocationFields";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-import {Dropdown} from "semantic-ui-react"
+import { Dropdown } from "semantic-ui-react"
 
 const AddPost = ({
   selectedGroups,

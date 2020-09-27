@@ -6,7 +6,8 @@ import { Form, Input } from "semantic-ui-react";
 
 const EventWithPosts = ({ selectedGroups, posts, setPosts }) => {
   const [currentPost, setCurrentPost] = useState([]);
-  const [timeOnEveryPost, setTimeOnEveryPost] = useState(""); // need to change that i it only can be numbers
+  const [timeOnEveryPost, setTimeOnEveryPost] = useState(""); // need to change that i it only can be numbers, 
+  // isteden for at den blir med inni til addpost kan tiden bli lagt på objektene når alle er lagt til altså på sumit
 
   const [int, setInt] = useState(1); // skal egentlig være 0 men siden vi har en i "databasen fra før av tar vi 1"
 
