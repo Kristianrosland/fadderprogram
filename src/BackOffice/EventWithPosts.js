@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import AddPost from "./AddPost";
 import AddEventButton from "./AddEventButton";
+import uuid from 'react-uuid';
 
 const EventWithPosts = ({ selectedGroups, posts, setPosts }) => {
   const [currentPost, setCurrentPost] = useState([]);
@@ -13,22 +14,23 @@ const EventWithPosts = ({ selectedGroups, posts, setPosts }) => {
     newTitle,
     newStartGroup,
     newAddress,
-    newGoogleMaps,
-    
+    newGoogleMaps
   ) => {
     oldVersion.title = newTitle;
     oldVersion.startGroup = newStartGroup;
     oldVersion.address = newAddress;
     oldVersion.googleMaps = newGoogleMaps;
-    
   };
 
   const deletePost = (id) => {
+    console.log(id);
     setPosts(posts.filter((post) => post.id !== id));
+
   };
 
   return (
     <div>
+      {console.log(posts)}
       {/** Vis poster som er lagt til */}
       {posts.map((post, index) => (
         <AddPost
@@ -46,7 +48,13 @@ const EventWithPosts = ({ selectedGroups, posts, setPosts }) => {
         setCurrentPost={setCurrentPost}
         updateOldInformationFunc={updateOldPosts}
         key={int}
-        post={{ id: int, title: "", startGroup: "", address: "", googleMaps: "" }}
+        post={{
+          id: uuid(),
+          title: "",
+          startGroup: "",
+          address: "",
+          googleMaps: "",
+        }}
         deleteCallback={deletePost}
       />
       <div className="add-remove-subposts">
