@@ -32,7 +32,7 @@ const EventWithPosts = ({ selectedGroups, posts, setPosts }) => {
     <div>
       {console.log(posts)}
       <Form.Field>
-        <label className="form-field-header"> Tid på hver post </label>
+        <label className="form-field-header"> Tid på hver post (minutter) </label>
         <Input
           className="time-input"
           placeholder="00"
@@ -84,13 +84,6 @@ const EventWithPosts = ({ selectedGroups, posts, setPosts }) => {
           }}
         />
       </div>
-      <br />
-      <p>Poster:</p>
-      {posts.map((post) => (
-        <p key={post.group}>
-          {post.group} skal starte på {post.title} ({post.address})
-        </p>
-      ))}
     </div>
   );
 };
