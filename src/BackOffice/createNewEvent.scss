@@ -59,7 +59,7 @@
     color: #9f3a38 !important;
   }
 }
-
+/** *********************************************************** */
 //TODO: Dette er stylingen til de nye subeventene 
 .add-post-post-groups-and-title {
   display: flex;
@@ -78,6 +78,13 @@
     width: 100%;
   }
 }
+
+.add-subposts {
+  display: flex;
+  justify-content: center;
+}
+
+/** ****************************************************** */
 
 .test {
   padding-right: 65%;
