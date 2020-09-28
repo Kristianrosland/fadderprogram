@@ -60,8 +60,8 @@ const EventWithPosts = ({ selectedGroups, posts, setPosts }) => {
       <br />
       <p>Poster:</p>
       {posts.map((post) => (
-        <p key={post.group}>
-          {post.group} skal starte på {post.title} ({post.address})
+        <p key={post.id}>
+          {post.startGroup} skal starte på {post.title} ({post.address})
         </p>
       ))}
     </div>

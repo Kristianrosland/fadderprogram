@@ -190,8 +190,21 @@ const CreateNewEvent = ({
   const readyForDatabase = () => {
     const isMentorBoard = availableGroups.indexOf("all") >= 0;
 
-    posts.forEach(obj => {
-      obj.rekkefølge = [obj.startGroup];
+    const getPostOrder = (post) => {
+      const groupOrder = getGroupOrder();
+      return groupOrder.slice(posts.indexOf(post), posts.length).concat(
+             groupOrder.slice(0, posts.indexOf(post)))
+    }
+
+    const getGroupOrder = () => {
+      const order = [];
+      posts.forEach(post => order.push(post.startGroup));
+      return order;
+    }
+
+    posts.forEach(post => {
+      post.rekkefølge = [post.startGroup]
+      post.rekkefølge = post.rekkefølge.concat(getPostOrder(post));
     })
 
     const event = {
