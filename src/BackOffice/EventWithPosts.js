@@ -46,7 +46,7 @@ const EventWithPosts = ({ selectedGroups, posts, setPosts }) => {
         setCurrentPost={setCurrentPost}
         updateOldInformationFunc={updateOldPosts}
         key={int}
-        post={{ id: int, title: "", startGroup: "", address: "", googleMaps: "" }}
+        post={{ id: int, title: "", startGroup: "-", address: "", googleMaps: "" }}
         deleteCallback={deletePost}
       />
       <div className="add-remove-subposts">

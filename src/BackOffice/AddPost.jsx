@@ -42,7 +42,6 @@ const AddPost = ({
     [id, title, startGroup, address, googleMaps, setCurrentPost]
   );
 
-  console.log();
 
   const [errors, setErrors] = useState({
     titleNO: false,

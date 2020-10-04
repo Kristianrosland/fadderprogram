@@ -57,7 +57,7 @@ const CreateNewEvent = ({
       address: "Håkonsgaten 27",
       googleMaps:
         "https://www.google.com/maps/search/?api=1&query=Håkonsgaten 27, Bergen",
-      rekkefølge:["1","2","3"],
+      order:["1","2","3"],
     },
   ]); 
   /** *************************************************************************** */
@@ -190,22 +190,23 @@ const CreateNewEvent = ({
   const readyForDatabase = () => {
     const isMentorBoard = availableGroups.indexOf("all") >= 0;
 
-    const getPostOrder = (post) => {
-      const groupOrder = getGroupOrder();
-      return groupOrder.slice(posts.indexOf(post), posts.length).concat(
-             groupOrder.slice(0, posts.indexOf(post)))
-    }
-
     const getGroupOrder = () => {
       const order = [];
-      posts.forEach(post => order.push(post.startGroup));
+      posts.forEach(post => order.unshift(post.startGroup));
       return order;
     }
 
-    posts.forEach(post => {
-      post.rekkefølge = [post.startGroup]
-      post.rekkefølge = post.rekkefølge.concat(getPostOrder(post));
-    })
+    const assignGroupOrder = () => {
+      const groupOrder = getGroupOrder();
+      posts.forEach(post => {
+          while(groupOrder[0] !== post.startGroup) {
+            groupOrder.push(groupOrder.shift());
+          }
+          post.order = [...groupOrder];
+        });
+    }
+
+    assignGroupOrder();
 
     const event = {
       title_NO: titleNO,
