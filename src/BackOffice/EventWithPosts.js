@@ -1,9 +1,13 @@
 import React, { useState } from "react";
 import AddPost from "./AddPost";
 import AddEventButton from "./AddEventButton";
+import uuid from "react-uuid";
+import { Form, Input } from "semantic-ui-react";
 
 const EventWithPosts = ({ selectedGroups, posts, setPosts }) => {
   const [currentPost, setCurrentPost] = useState([]);
+  const [timeOnEveryPost, setTimeOnEveryPost] = useState(""); // need to change that i it only can be numbers, 
+  // isteden for at den blir med inni til addpost kan tiden bli lagt på objektene når alle er lagt til altså på sumit
 
   const [int, setInt] = useState(1); // skal egentlig være 0 men siden vi har en i "databasen fra før av tar vi 1"
 
@@ -13,14 +17,12 @@ const EventWithPosts = ({ selectedGroups, posts, setPosts }) => {
     newTitle,
     newStartGroup,
     newAddress,
-    newGoogleMaps,
-    
+    newGoogleMaps
   ) => {
     oldVersion.title = newTitle;
     oldVersion.startGroup = newStartGroup;
     oldVersion.address = newAddress;
     oldVersion.googleMaps = newGoogleMaps;
-    
   };
 
   const deletePost = (id) => {
@@ -29,6 +31,25 @@ const EventWithPosts = ({ selectedGroups, posts, setPosts }) => {
 
   return (
     <div>
+      {console.log(posts)}
+      <Form.Field>
+        <label className="form-field-header"> Tid på hver post (minutter) </label>
+        <Input
+          className="time-input"
+          placeholder="00"
+          value={timeOnEveryPost}
+          onChange={(_, data) => {
+            setTimeOnEveryPost(data.value);
+            posts.forEach(element => {
+              element.timeOnEveryPost = data.value;
+            });
+          }}
+          type="text"
+          autoComplete="off"
+        />
+      </Form.Field>
+
+      {console.log(posts)}
       {/** Vis poster som er lagt til */}
       {posts.map((post, index) => (
         <AddPost
@@ -46,7 +67,14 @@ const EventWithPosts = ({ selectedGroups, posts, setPosts }) => {
         setCurrentPost={setCurrentPost}
         updateOldInformationFunc={updateOldPosts}
         key={int}
-        post={{ id: int, title: "", startGroup: "-", address: "", googleMaps: "" }}
+        post={{
+          id: uuid(),
+          title: "",
+          startGroup: "",
+          address: "",
+          googleMaps: "",
+          timeOnEveryPost: timeOnEveryPost
+        }}
         deleteCallback={deletePost}
       />
       <div className="add-remove-subposts">
@@ -57,13 +85,6 @@ const EventWithPosts = ({ selectedGroups, posts, setPosts }) => {
           }}
         />
       </div>
-      <br />
-      <p>Poster:</p>
-      {posts.map((post) => (
-        <p key={post.id}>
-          {post.startGroup} skal starte på {post.title} ({post.address})
-        </p>
-      ))}
     </div>
   );
 };

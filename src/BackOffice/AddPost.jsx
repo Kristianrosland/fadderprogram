@@ -3,7 +3,7 @@ import SingleTextField from "./form-fields/SingleTextField";
 import LocationFields from "./form-fields/LocationFields";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-import {Dropdown} from "semantic-ui-react"
+import { Dropdown } from "semantic-ui-react"
 
 const AddPost = ({
   selectedGroups,
@@ -23,7 +23,8 @@ const AddPost = ({
   // For å kunne oppdatere informasjonen til posten i parrent componenten.
   const oldInformation = post;
 
-  const [id, setId] = useState(post.id);
+  const [id] = useState(post.id);
+  const [timeOnEveryPost] = useState(post.timeOnEveryPost);
   const [title, setTitle] = useState(post.title);
   const [startGroup, setGroup] = useState(post.startGroup);
   const [address, setAddress] = useState(post.address);
@@ -38,8 +39,9 @@ const AddPost = ({
         startGroup: startGroup,
         address: address,
         googleMaps: googleMaps,
+        timeOnEveryPost: timeOnEveryPost
       }),
-    [id, title, startGroup, address, googleMaps, setCurrentPost]
+    [id, title, startGroup, address, googleMaps, timeOnEveryPost, setCurrentPost]
   );
 
 
