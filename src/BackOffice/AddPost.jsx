@@ -44,7 +44,6 @@ const AddPost = ({
     [id, title, startGroup, address, googleMaps, timeOnEveryPost, setCurrentPost]
   );
 
-  console.log();
 
   const [errors, setErrors] = useState({
     titleNO: false,

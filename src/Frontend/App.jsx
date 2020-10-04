@@ -37,7 +37,7 @@ function App(props) {
     subEvents: subEvents.filter((s) => s.parent_event_id === e.id),
   }));
 
-  const coronaClosed = true;
+  const coronaClosed = false;
 
   return (
     <AppContext.Provider value={[state, setState]}>
