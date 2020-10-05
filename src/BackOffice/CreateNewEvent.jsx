@@ -126,7 +126,10 @@ const CreateNewEvent = ({
     if (formIsValid) {
       setSubmitting(true);
       const isMentorBoard = availableGroups.indexOf("all") >= 0;
-      // ALGORITME 
+      
+      if (newSubeventPage) {
+        fixOrderOnPosts()
+      }
 
       const event = {
         title_NO: titleNO,
@@ -182,8 +185,7 @@ const CreateNewEvent = ({
   /** State som sier om vi øsnker et event med subevents, for å kunne få opp en ny side */
   const [newSubeventPage, setNewSubeventPage] = useState(false);
 
-  const readyForDatabase = () => {
-    const isMentorBoard = availableGroups.indexOf("all") >= 0;
+  const fixOrderOnPosts = () => {
 
     const getGroupOrder = () => {
       const order = [];
@@ -200,22 +202,7 @@ const CreateNewEvent = ({
           post.order = [...groupOrder];
         });
     }
-
     assignGroupOrder();
-
-    const event = {
-      title_NO: titleNO,
-      title_EN: titleEN,
-      desc_NO: descNO,
-      desc_EN: descEN,
-      day_NO: day,
-      day_EN: translateDay(day),
-      from_NO: isMentorBoard ? "fadderstyret" : "gruppeleder",
-      from_EN: isMentorBoard ? "the mentor board" : "group leader",
-      start_time: `${startTimeHour}:${startTimeMinute}`,
-      groups: groups.sort(groupComparator),
-    };
-    event.posts = posts
   }
 
   return (
