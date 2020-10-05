@@ -56,6 +56,7 @@ const AddPost = ({
     ], 
   );
 
+
   const [errors, setErrors] = useState({
     address: false,
     googleMaps: false,

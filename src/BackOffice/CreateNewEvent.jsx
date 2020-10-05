@@ -185,10 +185,23 @@ const CreateNewEvent = ({
   const readyForDatabase = () => {
     const isMentorBoard = availableGroups.indexOf("all") >= 0;
 
+    const getGroupOrder = () => {
+      const order = [];
+      posts.forEach(post => order.unshift(post.startGroup));
+      return order;
+    }
 
-    posts.forEach(obj => {
-      obj.rekkefølge = [obj.startGroup];
-    });
+    const assignGroupOrder = () => {
+      const groupOrder = getGroupOrder();
+      posts.forEach(post => {
+          while(groupOrder[0] !== post.startGroup) {
+            groupOrder.push(groupOrder.shift());
+          }
+          post.order = [...groupOrder];
+        });
+    }
+
+    assignGroupOrder();
 
     const event = {
       title_NO: titleNO,
