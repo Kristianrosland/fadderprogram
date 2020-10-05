@@ -49,17 +49,8 @@ const CreateNewEvent = ({
   const [linkTextEN, setLinkTextEN] = useState(linkText_EN);
 
   /** Her er syntaxen til subeventene */
-  const [posts, setPosts] = useState([ // Her skal du engentlig hente fra eventet som resten
-    {
-      id: "8cc51c41-d7a9-4272-8277-c27d7f8370e1",
-      title: "Heidis",
-      startGroup: "FiktivGruppe",
-      address: "Håkonsgaten 27",
-      googleMaps:
-        "https://www.google.com/maps/search/?api=1&query=Håkonsgaten 27, Bergen",
-      rekkefølge:["1","2","3"],
-    },
-  ]); 
+  const [posts, setPosts] = useState([]); 
+
   /** *************************************************************************** */
 
   const [link, setLink] = useState(
@@ -95,6 +86,7 @@ const CreateNewEvent = ({
     timeStart: false,
     timeEnd: false,
     groups: false,
+    posts: false,
   });
   const [submitting, setSubmitting] = useState(false);
   const [addSubevents, setAddSubevents] = useState(false);
@@ -134,6 +126,8 @@ const CreateNewEvent = ({
     if (formIsValid) {
       setSubmitting(true);
       const isMentorBoard = availableGroups.indexOf("all") >= 0;
+      // ALGORITME 
+
       const event = {
         title_NO: titleNO,
         title_EN: titleEN,
@@ -145,6 +139,7 @@ const CreateNewEvent = ({
         from_EN: isMentorBoard ? "the mentor board" : "group leader",
         start_time: `${startTimeHour}:${startTimeMinute}`,
         groups: groups.sort(groupComparator),
+        posts: posts
       };
 
       if (address.length >= 3) {
@@ -190,9 +185,10 @@ const CreateNewEvent = ({
   const readyForDatabase = () => {
     const isMentorBoard = availableGroups.indexOf("all") >= 0;
 
+
     posts.forEach(obj => {
       obj.rekkefølge = [obj.startGroup];
-    })
+    });
 
     const event = {
       title_NO: titleNO,
@@ -207,8 +203,6 @@ const CreateNewEvent = ({
       groups: groups.sort(groupComparator),
     };
     event.posts = posts
-    
-    console.log(event);
   }
 
   return (
@@ -234,8 +228,8 @@ const CreateNewEvent = ({
           }
           <Form
             className="create-event-form"
-            onSubmit={readyForDatabase} 
-            //onSubmit={submit}
+            //onSubmit={readyForDatabase} 
+            onSubmit={submit}
             loading={!availableGroups || submitting}
           >
            { /** *********************************************************** **/}
@@ -340,6 +334,8 @@ const CreateNewEvent = ({
               selectedGroups={groups}
               posts={posts}
               setPosts={setPosts}
+              errors={errors}
+              setErrors={setErrors}
             />
             )}
 

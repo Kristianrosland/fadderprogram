@@ -15,14 +15,13 @@ const SingleTextField = ({
     <Form.Group grouped className="form-single-input-group">
       <label className="form-field-header">Post {redStar}</label>
 
-      <Form.Field error={errors.descNO}>
-        {errors.descNO && <ErrorLabel textKey={"ERROR_DESC_NO"} /> //TODO: Gjør om dra desc
-        } 
+      <Form.Field error={errors.title}>
+        {errors.title && <ErrorLabel textKey={"ERROR_NAME_POST"} /> } 
         <Input
           value={text}
           onChange={(e) => {
             setText(e.target.value);
-            setErrors({ ...errors, descNO: false });
+            setErrors({ ...errors, title: false });
           }}
         />
       </Form.Field>

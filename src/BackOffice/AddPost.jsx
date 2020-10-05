@@ -3,7 +3,7 @@ import SingleTextField from "./form-fields/SingleTextField";
 import LocationFields from "./form-fields/LocationFields";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-import { Dropdown } from "semantic-ui-react"
+import { Dropdown } from "semantic-ui-react";
 
 const AddPost = ({
   selectedGroups,
@@ -12,13 +12,17 @@ const AddPost = ({
   updateOldInformationFunc,
   deleteCallback,
 }) => {
-  const groups = selectedGroups.map((group) => ({
+  let groups = selectedGroups.map((group) => ({
     text: "Gruppe " + group,
     key: "Gruppe " + group,
     value: group,
   }));
-
-  const redStar = <span style={{ color: "red" }}>*</span>;
+  /** Legger til en verdi for valg av ingen gruppe */
+  groups.push({
+    text: "Ingen gruppe",
+    key: "Ingen gruppe",
+    value: "-",
+  });
 
   // For å kunne oppdatere informasjonen til posten i parrent componenten.
   const oldInformation = post;
@@ -39,23 +43,25 @@ const AddPost = ({
         startGroup: startGroup,
         address: address,
         googleMaps: googleMaps,
-        timeOnEveryPost: timeOnEveryPost
+        timeOnEveryPost: timeOnEveryPost,
       }),
-    [id, title, startGroup, address, googleMaps, timeOnEveryPost, setCurrentPost]
+    [
+      id,
+      title,
+      startGroup,
+      address,
+      googleMaps,
+      timeOnEveryPost,
+      setCurrentPost,
+    ], 
   );
 
-  console.log();
-
   const [errors, setErrors] = useState({
-    titleNO: false,
-    titleEN: false,
-    descNO: false,
-    descEN: false,
-    day: false,
     address: false,
-    timeStart: false,
-    timeEnd: false,
-    groups: false,
+    googleMaps: false,
+    id: false,
+    timeOnEveryPost: false,
+    title: false,
   });
 
   return (
@@ -75,7 +81,7 @@ const AddPost = ({
           )}
         />
         <div className="dropdown">
-          <label id="add-post-lable-velg-gruppe">Velg gruppe {redStar}</label>
+          <label id="add-post-lable-velg-gruppe">Velg startgruppe</label>
           <Dropdown
             placeholder="Velg gruppe"
             value={startGroup}

@@ -22,6 +22,9 @@ const textResources = {
   ERROR_GROUPS_NO: "Du må velge gruppe(r) arrangementet gjelder for",
   ERROR_LINK_NO: "Du kan ikke ha lenketekst uten lenke",
 
+  /** Poster error **/
+  ERROR_NAVN_POST: "Du må fylle ut navn på alle postene",
+
   /** PHONE **/
   EMERGENCY_PHONE_NUMBER_NO: "Vakttelefon",
   EMERGENCY_PHONE_NUMBER_EN: "Mentor board",
