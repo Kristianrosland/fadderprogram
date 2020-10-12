@@ -7,9 +7,8 @@ import { Dropdown } from "semantic-ui-react";
 
 const AddPost = ({
   selectedGroups,
-  setCurrentPost,
   post,
-  updateOldInformationFunc,
+  updateCallback,
   deleteCallback,
 }) => {
   let groups = selectedGroups.map((group) => ({
@@ -17,15 +16,13 @@ const AddPost = ({
     key: "Gruppe " + group,
     value: group,
   }));
+
   /** Legger til en verdi for valg av ingen gruppe */
   groups.push({
     text: "Ingen gruppe",
     key: "Ingen gruppe",
     value: "-",
   });
-
-  // For å kunne oppdatere informasjonen til posten i parrent componenten.
-  const oldInformation = post;
 
   const [id] = useState(post.id);
   const [timeOnEveryPost] = useState(post.timeOnEveryPost);
@@ -34,10 +31,10 @@ const AddPost = ({
   const [address, setAddress] = useState(post.address);
   const [googleMaps, setGoogleMaps] = useState(post.googleMaps);
 
-  // Oppdater currentPost hvis title, startGroup, address eller googleMaps forandres
+  // Update post if title, startGroup, address or googleMaps change
   useEffect(
     () =>
-      setCurrentPost({
+      updateCallback({
         id: id,
         title: title,
         startGroup: startGroup,
@@ -52,7 +49,7 @@ const AddPost = ({
       address,
       googleMaps,
       timeOnEveryPost,
-      setCurrentPost,
+      updateCallback,
     ], 
   );
 
@@ -73,13 +70,6 @@ const AddPost = ({
           setText={setTitle}
           errors={errors}
           setErrors={setErrors}
-          onChange={updateOldInformationFunc(
-            oldInformation,
-            title,
-            startGroup,
-            address,
-            googleMaps
-          )}
         />
         <div className="dropdown">
           <label id="add-post-lable-velg-gruppe">Velg startgruppe</label>

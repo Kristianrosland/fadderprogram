@@ -5,29 +5,32 @@ import uuid from "react-uuid";
 import { Form, Input } from "semantic-ui-react";
 
 const EventWithPosts = ({ selectedGroups, posts, setPosts }) => {
-  const [currentPost, setCurrentPost] = useState([]);
   const [timeOnEveryPost, setTimeOnEveryPost] = useState(""); // need to change that i it only can be numbers,
   // isteden for at den blir med inni til addpost kan tiden bli lagt på objektene når alle er lagt til altså på sumit
-  
-  const [int, setInt] = useState(1); // skal egentlig være 0 men siden vi har en i "databasen fra før av tar vi 1"
 
-  /** Henter ut ny informasjon om postene endres på etter at de er lagt i listen med poster */
-  const updateOldPosts = (
-    oldVersion,
-    newTitle,
-    newStartGroup,
-    newAddress,
-    newGoogleMaps
-  ) => {
-    oldVersion.title = newTitle;
-    oldVersion.startGroup = newStartGroup;
-    oldVersion.address = newAddress;
-    oldVersion.googleMaps = newGoogleMaps;
-  };
+  const newPost = {
+        id: uuid(),
+        title: "",
+        startGroup: "",
+        address: "",
+        googleMaps: "",
+        timeOnEveryPost: ""
+  }
 
   const deletePost = (id) => {
     setPosts(posts.filter((post) => post.id !== id));
   };
+
+  const updatePost = (newPost) => {
+    const newPosts = [...posts];
+    for (let index in newPosts) {
+      if (newPosts[index].id === newPost.id) {
+        newPosts[index] = newPost;
+      }
+    }
+    setPosts(newPosts);
+  }
+
   return (
     <div>
       
@@ -55,35 +58,16 @@ const EventWithPosts = ({ selectedGroups, posts, setPosts }) => {
       {posts.map((post) => (
         <AddPost
           selectedGroups={selectedGroups}
-          setCurrentPost={setCurrentPost}
-          updateOldInformationFunc={updateOldPosts}
           key={post.id}
           post={post}
+          updateCallback={updatePost}
           deleteCallback={deletePost}
         />
       ))}
-      {/** Legg til ny post */}
-      <AddPost
-        selectedGroups={selectedGroups}
-        setCurrentPost={setCurrentPost}
-        updateOldInformationFunc={updateOldPosts}
-        key={int} // mulig å få samme uuid som den nedenfor?
-        post={{
-          id: uuid(),
-          title: "",
-          startGroup: "",
-          address: "",
-          googleMaps: "",
-          timeOnEveryPost: timeOnEveryPost,
-        }}
-        deleteCallback={deletePost}
-      />
       <div className="add-subposts">
         <AddEventButton
-          handleClick={() => {
-            setInt(int + 1);
-            setPosts([...posts, currentPost]);
-            
+          handleClick={() => { 
+            setPosts([...posts, {...newPost}]);
           }}
         />
       </div>
