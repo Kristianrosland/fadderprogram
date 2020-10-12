@@ -50,6 +50,7 @@ const CreateNewEvent = ({
 
   /** Her er syntaxen til subeventene */
   const [posts, setPosts] = useState([]); 
+  const [postTime, setPostTime] = useState(0);
 
   /** *************************************************************************** */
 
@@ -142,7 +143,8 @@ const CreateNewEvent = ({
         from_EN: isMentorBoard ? "the mentor board" : "group leader",
         start_time: `${startTimeHour}:${startTimeMinute}`,
         groups: groups.sort(groupComparator),
-        posts: posts
+        posts: posts,
+        post_time: postTime,
       };
 
       if (address.length >= 3) {
@@ -336,6 +338,8 @@ const CreateNewEvent = ({
               setPosts={setPosts}
               errors={errors}
               setErrors={setErrors}
+              postTime={postTime}
+              setPostTime={setPostTime}
             />
             )}
 

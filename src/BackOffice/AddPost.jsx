@@ -28,7 +28,6 @@ const AddPost = ({
   const oldInformation = post;
 
   const [id] = useState(post.id);
-  const [timeOnEveryPost] = useState(post.timeOnEveryPost);
   const [title, setTitle] = useState(post.title);
   const [startGroup, setGroup] = useState(post.startGroup);
   const [address, setAddress] = useState(post.address);
@@ -43,7 +42,6 @@ const AddPost = ({
         startGroup: startGroup,
         address: address,
         googleMaps: googleMaps,
-        timeOnEveryPost: timeOnEveryPost,
       }),
     [
       id,
@@ -51,7 +49,6 @@ const AddPost = ({
       startGroup,
       address,
       googleMaps,
-      timeOnEveryPost,
       setCurrentPost,
     ], 
   );
