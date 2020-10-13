@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as SolidIcons from '@fortawesome/free-solid-svg-icons';
 import IconLabel from './IconLabel';
 import { AppContext } from '../App';
-import { eventTimeComparator, selectField, selectTime, selectGroups } from '../utils';
+import { eventTimeComparator, selectField, selectTime, selectGroups, mapTimeOnPosts } from '../utils';
 import Posts from "./Posts";
 import './event.scss';
 
@@ -43,7 +43,11 @@ const Event = ({ data, group }) => {
     const link = data.link;
     const linkText = selectField(event, 'linkText', lang);
     const chevron = open ? SolidIcons["faChevronUp"] : SolidIcons["faChevronDown"];
-    
+
+    const sortedPosts = !posts ? [] : posts.sort((p1, p2) => p1.order.indexOf(group.value) - p2.order.indexOf(group.value));
+
+    const postsWithTime = mapTimeOnPosts(event, sortedPosts);
+
     return (
         <div className="event-wrapper">
             <div className="event">
@@ -67,7 +71,7 @@ const Event = ({ data, group }) => {
 
                 { open && posts && (
                     <div className="sub-event-wrapper">
-                        { event.posts.map( e => <Posts key={e.id} post={e} lang={lang}/>) }
+                        { postsWithTime.map( e => <Posts key={e.id} post={e} lang={lang}/>) }
                     </div>
                 )}
                 <div className="event-chevron" onClick={() => setOpen(!open)}>

@@ -4,9 +4,7 @@ import AddEventButton from "./AddEventButton";
 import uuid from "react-uuid";
 import { Form, Input } from "semantic-ui-react";
 
-const EventWithPosts = ({ selectedGroups, posts, setPosts }) => {
-  const [timeOnEveryPost, setTimeOnEveryPost] = useState(""); // need to change that i it only can be numbers,
-  // isteden for at den blir med inni til addpost kan tiden bli lagt på objektene når alle er lagt til altså på sumit
+const EventWithPosts = ({ selectedGroups, posts, setPosts, setPostTime, postTime }) => {
 
   const newPost = {
         id: uuid(),
@@ -42,12 +40,9 @@ const EventWithPosts = ({ selectedGroups, posts, setPosts }) => {
         <Input
           className="time-input"
           placeholder="00"
-          value={timeOnEveryPost}
+          value={postTime }
           onChange={(_, data) => {
-            setTimeOnEveryPost(data.value);
-            posts.forEach(element => {
-              element.timeOnEveryPost = data.value;
-            });
+            setPostTime(data.value);
           }}
           type="number"
           autoComplete="off"
