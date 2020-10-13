@@ -49,7 +49,6 @@ const AddPost = ({
       address,
       googleMaps,
       timeOnEveryPost,
-      updateCallback,
     ], 
   );
 
