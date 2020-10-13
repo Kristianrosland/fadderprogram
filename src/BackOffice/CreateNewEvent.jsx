@@ -11,6 +11,7 @@ import LocationFields from "./form-fields/LocationFields";
 import LinkFields from "./form-fields/LinkFields";
 import GroupPicker from "./form-fields/GroupPicker";
 import EventWithPosts from "./EventWithPosts";
+import uuid from "react-uuid";
 
 const CreateNewEvent = ({
   editing,
@@ -49,8 +50,20 @@ const CreateNewEvent = ({
   const [linkTextEN, setLinkTextEN] = useState(linkText_EN);
 
   /** Her er syntaxen til subeventene */
-  const [posts, setPosts] = useState([]); 
+  const [posts, setPosts] = useState(
+    [
+      {
+        id: uuid(),
+        title: "",
+        startGroup: "",
+        address: "",
+        googleMaps: "",
+        timeOnEveryPost: ""
+      }
+    ]
+  ); 
   const [postTime, setPostTime] = useState(0);
+
 
   /** *************************************************************************** */
 
