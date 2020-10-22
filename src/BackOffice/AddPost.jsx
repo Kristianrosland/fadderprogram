@@ -46,9 +46,7 @@ const AddPost = ({
       startGroup,
       address,
       googleMaps,
-      timeOnEveryPost,
-    ], 
-  );
+    ]);
 
 
   const [errors, setErrors] = useState({
@@ -80,11 +78,13 @@ const AddPost = ({
             onChange={(_, data) => setGroup(data.value)}
           />
         </div>
+        
         <FontAwesomeIcon
           className="trash-icon icon"
           icon={faTrashAlt}
           onClick={() => deleteCallback(post.id)}
         />
+
       </div>
 
       <LocationFields

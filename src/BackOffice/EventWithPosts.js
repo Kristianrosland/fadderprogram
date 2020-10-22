@@ -19,7 +19,7 @@ const EventWithPosts = ({ selectedGroups, posts, setPosts, setPostTime, postTime
     setPosts(posts.filter((post) => post.id !== id));
   };
 
-  const updatePost = (newPost) => {
+  const updatePost = useCallback((newPost) => {
     const newPosts = [...posts];
     for (let index in newPosts) {
       if (newPosts[index].id === newPost.id) {
@@ -27,7 +27,7 @@ const EventWithPosts = ({ selectedGroups, posts, setPosts, setPostTime, postTime
       }
     }
     setPosts(newPosts);
-  }
+  }, [posts, setPosts])
 
   return (
     <div>
