@@ -40,14 +40,7 @@ const AddPost = ({
         address: address,
         googleMaps: googleMaps,
       }),
-    [
-      id,
-      title,
-      startGroup,
-      address,
-      googleMaps,
-      timeOnEveryPost,
-    ], 
+    [id, title, startGroup, address, googleMaps], 
   );
 
 
