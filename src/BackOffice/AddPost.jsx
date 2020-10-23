@@ -40,13 +40,8 @@ const AddPost = ({
         address: address,
         googleMaps: googleMaps,
       }),
-    [
-      id,
-      title,
-      startGroup,
-      address,
-      googleMaps,
-    ]);
+    [id, title, startGroup, address, googleMaps], 
+  );
 
 
   const [errors, setErrors] = useState({

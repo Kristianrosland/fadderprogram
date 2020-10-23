@@ -25,6 +25,7 @@ const CreateNewEvent = ({
   addressSuggestions,
 }) => {
   // Denne syntaksen pakker ut existingEvent inn i alle variablene som står under. Ved å ha   = ""  bak så gir vi default-verdier til disse
+
   const {
     title_NO = "",
     title_EN = "",
@@ -51,19 +52,19 @@ const CreateNewEvent = ({
 
   /** Her er syntaxen til subeventene */
   const [posts, setPosts] = useState(
-    [
-      {
-        id: uuid(),
-        title: "",
-        startGroup: "",
-        address: "",
-        googleMaps: "",
-        timeOnEveryPost: ""
-      }
-    ]
-  ); 
-  const [postTime, setPostTime] = useState(0);
-
+    existingEvent.posts
+      ? existingEvent.posts
+      : [
+          {
+            id: uuid(),
+            title: "",
+            startGroup: "",
+            address: "",
+            googleMaps: "",
+          },
+        ]
+  );
+  const [postTime, setPostTime] = useState(existingEvent.post_time ? existingEvent.post_time : 0);
 
   /** *************************************************************************** */
 
@@ -140,9 +141,9 @@ const CreateNewEvent = ({
     if (formIsValid) {
       setSubmitting(true);
       const isMentorBoard = availableGroups.indexOf("all") >= 0;
-      
+
       if (newSubeventPage) {
-        fixOrderOnPosts()
+        fixOrderOnPosts();
       }
 
       const event = {
@@ -198,27 +199,28 @@ const CreateNewEvent = ({
   };
 
   /** State som sier om vi øsnker et event med subevents, for å kunne få opp en ny side */
-  const [newSubeventPage, setNewSubeventPage] = useState(false);
+  const [newSubeventPage, setNewSubeventPage] = useState(
+    editing && existingEvent.posts.length > 0 ? true : false
+  );
 
   const fixOrderOnPosts = () => {
-
     const getGroupOrder = () => {
       const order = [];
-      posts.forEach(post => order.unshift(post.startGroup));
+      posts.forEach((post) => order.unshift(post.startGroup));
       return order;
-    }
+    };
 
     const assignGroupOrder = () => {
       const groupOrder = getGroupOrder();
-      posts.forEach(post => {
-          while(groupOrder[0] !== post.startGroup) {
-            groupOrder.push(groupOrder.shift());
-          }
-          post.order = [...groupOrder];
-        });
-    }
+      posts.forEach((post) => {
+        while (groupOrder[0] !== post.startGroup) {
+          groupOrder.push(groupOrder.shift());
+        }
+        post.order = [...groupOrder];
+      });
+    };
     assignGroupOrder();
-  }
+  };
 
   return (
     <div className="flex-column create-event-wrapper">
@@ -238,16 +240,17 @@ const CreateNewEvent = ({
             Legg til et nytt event. Felter merket med {redStar} er
             obligatoriske.
           </div>
-           { /** *********************************************************** **/}
-          {//TODO: For å endre til at data blir sendt til databasen så uncomment linje 237, og kommenter ut linjen over **/ 
+          {/** *********************************************************** **/}
+          {
+            //TODO: For å endre til at data blir sendt til databasen så uncomment linje 237, og kommenter ut linjen over **/
           }
           <Form
             className="create-event-form"
-            //onSubmit={readyForDatabase} 
+            //onSubmit={readyForDatabase}
             onSubmit={submit}
             loading={!availableGroups || submitting}
           >
-           { /** *********************************************************** **/}
+            {/** *********************************************************** **/}
 
             {/** TITTEL  **/}
             <TitleFields
@@ -333,27 +336,33 @@ const CreateNewEvent = ({
                 className="full-width margin-bottom-small margin-top-small"
                 content="Legg til hendelser"
               />
+
+              /************* NEW SUBEVENTS********************** */
             )}
 
             {/** for å få opp muligheten for å lage subevents **/}
-            {!editing && (
-              <Checkbox
+
+            <Checkbox
               label={`Lag et arrangement med subeventes`}
               className="group-checkbox full-width margin-top-medium"
-              onChange={() => newSubeventPage === false ? setNewSubeventPage(true) : setNewSubeventPage(false)}
-              />
-            )}
+              defaultChecked={newSubeventPage}
+              onChange={() =>
+                newSubeventPage === false
+                  ? setNewSubeventPage(true)
+                  : setNewSubeventPage(false)
+              }
+            />
 
             {newSubeventPage && (
               <EventWithPosts
-              selectedGroups={groups}
-              posts={posts}
-              setPosts={setPosts}
-              errors={errors}
-              setErrors={setErrors}
-              postTime={postTime}
-              setPostTime={setPostTime}
-            />
+                selectedGroups={groups}
+                posts={posts}
+                setPosts={setPosts}
+                errors={errors}
+                setErrors={setErrors}
+                postTime={postTime}
+                setPostTime={setPostTime}
+              />
             )}
 
             {/** CANCEL OG SUBMIT KNAPPER **/}
@@ -363,8 +372,8 @@ const CreateNewEvent = ({
               className="full-width margin-bottom-small margin-top-medium"
               content="Avbryt"
             />
-            
-              <Button
+
+            <Button
               primary
               type="submit"
               className="full-width margin-bottom-large"

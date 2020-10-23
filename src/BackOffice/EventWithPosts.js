@@ -1,8 +1,9 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import AddPost from "./AddPost";
 import AddEventButton from "./AddEventButton";
 import uuid from "react-uuid";
 import { Form, Input } from "semantic-ui-react";
+
 
 const EventWithPosts = ({ selectedGroups, posts, setPosts, setPostTime, postTime }) => {
 
