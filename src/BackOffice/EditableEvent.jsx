@@ -26,6 +26,8 @@ const CheckLabel = ({ check, label }) => {
   );
 };
 
+
+
 const EditableEvent = ({ event, canManage, deleteCallback, editCallback }) => {
   let [lang, setLang] = useState("NO");
   const changeLanguage = () => setLang(lang === "NO" ? "EN" : "NO");
@@ -69,6 +71,12 @@ const EditableEvent = ({ event, canManage, deleteCallback, editCallback }) => {
           Beskrivelse: {description}
         </label>
       )}
+      {showDescription && (
+          event.posts.map(post => (
+            <label className="editable-event-info-label" key={post.id}>
+              {post.title}
+            </label>
+          )))}
 
       <div className="flex-row bottom-row">
         {hasAddress && (
@@ -83,6 +91,8 @@ const EditableEvent = ({ event, canManage, deleteCallback, editCallback }) => {
         {!allFieldsEnglish && (
           <CheckLabel check={allFieldsEnglish} label="Mangler oversettelse" />
         )}
+        
+        
           <FontAwesomeIcon
             className="show-description-icon icon"
             icon={showDescription ? faAngleDoubleUp : faAngleDoubleDown}
