@@ -37,21 +37,11 @@ function App(props) {
     subEvents: subEvents.filter((s) => s.parent_event_id === e.id),
   }));
 
-  const coronaClosed = false;
-
   return (
     <AppContext.Provider value={[state, setState]}>
       <div className="app">
         {<SelectLanguage state={state} changeLanguage={changeLanguage} />}
-        {(coronaClosed || !group) && (
-          <WelcomeScreen
-            groupNames={groupNames}
-            setGroup={setGroup}
-            setCookie={setCookie}
-            coronaClosed={coronaClosed}
-          />
-        )}
-        {!coronaClosed && group && (
+        {group ? (
           <MainScreen
             events={eventsWithSubevents}
             group={group}
@@ -59,6 +49,12 @@ function App(props) {
               removeCookie("group");
               setGroup(undefined);
             }}
+          />
+        ) : (
+          <WelcomeScreen
+            groupNames={groupNames}
+            setGroup={setGroup}
+            setCookie={setCookie}
           />
         )}
       </div>

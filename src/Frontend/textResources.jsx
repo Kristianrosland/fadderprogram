@@ -1,11 +1,11 @@
 const textResources = {
   /** Welcome screen **/
-  WELCOME_NO: "AVLYST!", //'Velkommen!',
-  WELCOME_EN: "CANCELLED!", // 'Welcome!',
+  WELCOME_NO: 'Velkommen!',
+  WELCOME_EN: 'Welcome!',
   WELCOME_SUBTITLE_NO:
-    "Vi beklager å måtte meddele at fadderuken på UiB dessverre er avlyst. På grunn av oppblomstring av COVID-smitte den siste tiden har administrasjonen på UiB tatt en avgjørelse om å avlyse alle arrangementer.", //'For å kunne gi deg relevant informasjon, trenger vi å vite hvilken gruppe du tilhører. Du kan gå tilbake og endre dette senere ved å klikke på gruppenavnet ditt!',
+    'For å kunne gi deg relevant informasjon, trenger vi å vite hvilken gruppe du tilhører. Du kan gå tilbake og endre dette senere ved å klikke på gruppenavnet ditt!',
   WELCOME_SUBTITLE_EN:
-    "We are sorry to inform you that the mentor week is cancelled. Because of the recent rise in COVID cases, a decision was made by the administration of UiB to cancel all events. ", //'To provide you with relevant information, we need to know which group you belong to. You can go back and change this later by clicking on your group name!',
+    'To provide you with relevant information, we need to know which group you belong to. You can go back and change this later by clicking on your group name!',
   GROUP_PLACEHOLDER_NO: "Velg gruppe...",
   GROUP_PLACEHOLDER_EN: "Select group...",
   WELCOME_SCREEN_BUTTON_LABEL_NO: "Jeg er klar",
