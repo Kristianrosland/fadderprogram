@@ -10,8 +10,15 @@ const AddPost = ({
   post,
   updateCallback,
   deleteCallback,
+  groupsInUse
 }) => {
-  let groups = selectedGroups.map((group) => ({
+  const [id] = useState(post.id);
+  const [title, setTitle] = useState(post.title);
+  const [startGroup, setStartGroup] = useState(post.startGroup);
+  const [address, setAddress] = useState(post.address);
+  const [googleMaps, setGoogleMaps] = useState(post.googleMaps);
+
+  let groups = selectedGroups.filter(g => g === startGroup || !groupsInUse.includes(g)).map((group) => ({
     text: "Gruppe " + group,
     key: "Gruppe " + group,
     value: group,
@@ -23,12 +30,6 @@ const AddPost = ({
     key: "Ingen gruppe",
     value: "-",
   });
-
-  const [id] = useState(post.id);
-  const [title, setTitle] = useState(post.title);
-  const [startGroup, setGroup] = useState(post.startGroup);
-  const [address, setAddress] = useState(post.address);
-  const [googleMaps, setGoogleMaps] = useState(post.googleMaps);
 
   // Update post if title, startGroup, address or googleMaps change
   useEffect(
@@ -70,7 +71,7 @@ const AddPost = ({
             search
             selection
             options={groups}
-            onChange={(_, data) => setGroup(data.value)}
+            onChange={(_, data) => setStartGroup(data.value)}
           />
         </div>
         

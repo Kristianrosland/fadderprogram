@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import AddPost from "./AddPost";
 import AddEventButton from "./AddEventButton";
 import uuid from "react-uuid";
@@ -6,7 +6,7 @@ import { Form, Input } from "semantic-ui-react";
 
 
 const EventWithPosts = ({ selectedGroups, posts, setPosts, setPostTime, postTime }) => {
-
+  const groupsInUse = posts.map(post => post.startGroup)
   const newPost = {
         id: uuid(),
         title: "",
@@ -35,7 +35,6 @@ const EventWithPosts = ({ selectedGroups, posts, setPosts, setPostTime, postTime
       
       <Form.Field>
         <label className="form-field-header">
-          {" "}
           Tid på hver post (minutter){" "}
         </label>
         <Input
@@ -58,6 +57,7 @@ const EventWithPosts = ({ selectedGroups, posts, setPosts, setPostTime, postTime
           post={post}
           updateCallback={updatePost}
           deleteCallback={deletePost}
+          groupsInUse={groupsInUse}
         />
       ))}
       <div className="add-subposts">
