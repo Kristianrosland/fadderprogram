@@ -64,7 +64,8 @@ const CreateNewEvent = ({
           },
         ]
   );
-  const [postTime, setPostTime] = useState(existingEvent.post_time ? existingEvent.post_time : 0);
+  const [postTime, setPostTime] = useState(existingEvent.post_time ? existingEvent.post_time : "");
+  const [startTimePosts, setStartTimePosts] = useState(existingEvent.start_time_posts ? existingEvent.start_time_posts : "" );
 
   /** *************************************************************************** */
 
@@ -159,6 +160,7 @@ const CreateNewEvent = ({
         groups: groups.sort(groupComparator),
         posts: posts,
         post_time: postTime,
+        start_time_posts: startTimePosts,
       };
 
       if (address.length >= 3) {
@@ -355,13 +357,15 @@ const CreateNewEvent = ({
 
             {newSubeventPage && (
               <EventWithPosts
-                selectedGroups={groups}
+                selectedGroups={groups.sort(groupComparator)}
                 posts={posts}
                 setPosts={setPosts}
                 errors={errors}
                 setErrors={setErrors}
                 postTime={postTime}
                 setPostTime={setPostTime}
+                startTimePosts={startTimePosts}
+                setStartTimePosts={setStartTimePosts}
               />
             )}
 

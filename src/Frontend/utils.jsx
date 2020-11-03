@@ -112,7 +112,7 @@ const calculateEndTime = (startTime, minUsed) => {
 }
 
 export const mapTimeOnPosts = (event, sortedPosts) => {
-  let start_time = event.start_time;
+  let start_time = event.start_time_posts;
   const post_time = event.post_time;
   
   return sortedPosts.map(post => {
