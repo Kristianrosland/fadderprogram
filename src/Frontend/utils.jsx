@@ -105,8 +105,8 @@ const calculateEndTime = (startTime, minUsed) => {
       min = "0" + min
   }
   let final_hours = (parseInt(hours_min[0]) + hours) % 24;
-  if (final_hours.toString.length < 2 ) {
-    final_hours = "0" + final_hours
+  if (final_hours < 10 ) {
+    final_hours = "0" + final_hours;
   }
   const final = final_hours + ":" + min;
 
