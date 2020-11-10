@@ -95,23 +95,9 @@ export const selectGroups = ({ groups }, lang) => {
 
 const calculateEndTime = (startTime, minUsed) => {
   const hours_min = startTime.split(":");
-  let hours = Math.floor((parseInt(minUsed) + parseInt(hours_min[1])) / 60);
-
-  let min = parseInt(hours_min[1]) + parseInt(minUsed);
-  if (!(min < 60)) {
-      min -= 60;
-  }
-  if (min < 10){
-      min = "0" + min
-  }
-  let final_hours = (parseInt(hours_min[0]) + hours) % 24;
-  if (final_hours < 10 ) {
-    final_hours = "0" + final_hours;
-  }
-  const final = final_hours + ":" + min;
-
-  return final;
-  
+  let end_hour = parseInt(hours_min[0]) + Math.floor((parseInt(hours_min[1])+ parseInt(minUsed)) / 60);
+  let end_minute = (parseInt(hours_min[1]) + parseInt(minUsed)) % 60;
+  return `${end_hour < 10 ? "0" : ""}${end_hour}:${end_minute < 10 ? "0" : ""}${end_minute}`
 }
 
 export const mapTimeOnPosts = (event, sortedPosts) => {
