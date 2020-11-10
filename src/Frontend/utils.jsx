@@ -95,7 +95,7 @@ export const selectGroups = ({ groups }, lang) => {
 
 const calculateEndTime = (startTime, minUsed) => {
   const hours_min = startTime.split(":");
-  let end_hour = parseInt(hours_min[0]) + Math.floor((parseInt(hours_min[1])+ parseInt(minUsed)) / 60);
+  let end_hour = (parseInt(hours_min[0]) + Math.floor((parseInt(hours_min[1])+ parseInt(minUsed)) / 60)) % 24;
   let end_minute = (parseInt(hours_min[1]) + parseInt(minUsed)) % 60;
   return `${end_hour < 10 ? "0" : ""}${end_hour}:${end_minute < 10 ? "0" : ""}${end_minute}`
 }

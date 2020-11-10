@@ -46,10 +46,13 @@ const EventWithPosts = ({ selectedGroups, posts, setPosts, setPostTime, postTime
           placeholder="00"
           value={ postTime }
           onChange={(_, data) => {
+            for (const c of data.value.split("")) {
+              if (c < "0" || c > "9") return;
+            }
             setPostTime(data.value);
             setErrors({...errors, postTime: false})
           }}
-          type="number"
+          type="text"
           autoComplete="off"
         />
       </Form.Field>

@@ -22,13 +22,10 @@ const textResources = {
   ERROR_GROUPS_NO: "Du må velge gruppe(r) arrangementet gjelder for",
   ERROR_LINK_NO: "Du kan ikke ha lenketekst uten lenke",
   ERROR_POST_GROUPS_ASSIGNED_NO: "Alle grupper må starte på en post",
-  ERROR_POST_START_TIME_NO: "Ugyldig starttid",
+  ERROR_POST_START_TIME_NO: "Starttidspunkt for poster kan ikke være tidligere enn starttidspunkt for event",
   ERROR_POST_TIME_NO: "Ugyldig tid på poster",
   ERROR_POST_TITLE_NO: "Alle poster må ha en tittel",
   ERROR_POST_GROUP_NO: "Alle poster må ha en startgruppe",
-
-  /** Poster error **/
-  ERROR_NAVN_POST: "Du må fylle ut navn på alle postene",
 
   /** PHONE **/
   EMERGENCY_PHONE_NUMBER_NO: "Vakttelefon",

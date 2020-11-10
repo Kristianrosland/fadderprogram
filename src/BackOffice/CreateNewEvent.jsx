@@ -138,7 +138,7 @@ const CreateNewEvent = ({
         ) === -1,
       link: (linkTextEN.length !== 0 || linkTextNO.length !== 0) && !link,
       groups: groups.length === 0,
-      postGroupsAssigned: newSubeventPage && (
+      postGroupsAssigned: newSubeventPage && ( // Sjekk at alle grupper er tildelt en post
           groups.includes("all") ?
           availableGroups
               .filter(group => group !== "all")
@@ -148,8 +148,12 @@ const CreateNewEvent = ({
               .some(group => !posts.map(post => post.startGroup)
               .includes(group))
       ),
-      postStartTime: newSubeventPage && (startTimeHourPosts.length !== 2 || startTimeMinutePosts.length !== 2),
-      postTime: newSubeventPage && postTime.length === 0,
+      postStartTime: newSubeventPage && // Sjekk at starttid poster er fylt ut og ikke er før starttid event
+          (startTimeHourPosts.length !== 2 ||
+           startTimeMinutePosts.length !== 2 ||
+          startTimeHourPosts < startTimeHour ||
+          (startTimeHourPosts ===  startTimeHour && startTimeMinutePosts < startTimeMinute)),
+      postTime: newSubeventPage && parseInt(postTime) < 0,
       postTitle: newSubeventPage && posts.some(post => post.title === ""),
       postGroup: newSubeventPage && posts.some(post => post.startGroup === ""),
     };
@@ -265,12 +269,9 @@ const CreateNewEvent = ({
             obligatoriske.
           </div>
           {/** *********************************************************** **/}
-          {
-            //TODO: For å endre til at data blir sendt til databasen så uncomment linje 237, og kommenter ut linjen over **/
-          }
+
           <Form
             className="create-event-form"
-            //onSubmit={readyForDatabase}
             onSubmit={submit}
             loading={!availableGroups || submitting}
           >
