@@ -3,10 +3,12 @@ import AddPost from "./AddPost";
 import AddEventButton from "./AddEventButton";
 import uuid from "react-uuid";
 import { Form, Input } from "semantic-ui-react";
+import ErrorLabel from "./ErrorLabel";
+import TimeFieldsPost from "./form-fields/TimeFieldsPost";
 
 
 
-const EventWithPosts = ({ selectedGroups, posts, setPosts, setPostTime, postTime, setStartTimePosts, startTimePosts }) => {
+const EventWithPosts = ({ selectedGroups, posts, setPosts, setPostTime, postTime, startTimeHourPosts, setStartTimeHourPosts, startTimeMinutePosts, setStartTimeMinutePosts, errors, setErrors }) => {
   const groupsInUse = posts.map(post => post.startGroup)
   const newPost = {
         id: uuid(),
@@ -15,6 +17,8 @@ const EventWithPosts = ({ selectedGroups, posts, setPosts, setPostTime, postTime
         address: "",
         googleMaps: "",
   }
+
+  const redStar = <span style={{ color: "red" }}>*</span>;
 
   const deletePost = (id) => {
     setPosts(posts.filter((post) => post.id !== id));
@@ -32,39 +36,36 @@ const EventWithPosts = ({ selectedGroups, posts, setPosts, setPostTime, postTime
 
   return (
     <div>
-      
-      <Form.Field>
-        <label className="form-field-header">
-          Tid på hver post (minutter){" "}
-        </label>
+      <label className="form-field-header">
+        Tid på hver post (minutter){redStar}{" "}
+      </label>
+      <Form.Field error={errors.postTime}>
+        {errors.postTime && <ErrorLabel textKey={"ERROR_POST_TIME"} />}
         <Input
           className="time-input"
           placeholder="00"
           value={ postTime }
           onChange={(_, data) => {
             setPostTime(data.value);
+            setErrors({...errors, postTime: false})
           }}
           type="number"
           autoComplete="off"
         />
       </Form.Field>
-      <Form.Field>
-        <label className="form-field-header">
-          Når ønsker du at postene skal starte (HH:MM){" "}
-        </label>
-        <Input
-          className=""
-          placeholder="00:00"
-          value={startTimePosts}
-          onChange={(_, data) => {
-            setStartTimePosts(data.value)
-          }}
-          type="string"
-          autoComplete="off"
+
+      <Form.Field error={errors.postStartTime}>
+        <TimeFieldsPost
+          startTimeHour={startTimeHourPosts}
+          setStartTimeHour={setStartTimeHourPosts}
+          startTimeMinute={startTimeMinutePosts}
+          setStartTimeMinute={setStartTimeMinutePosts}
+          errors={errors}
+          setErrors={setErrors}
         />
       </Form.Field>
 
-      
+      {errors.postGroupsAssigned && <ErrorLabel textKey={"ERROR_POST_GROUPS_ASSIGNED"} />}
       {/** Vis poster som er lagt til */}
       {posts.map((post) => (
         <AddPost
@@ -74,6 +75,8 @@ const EventWithPosts = ({ selectedGroups, posts, setPosts, setPostTime, postTime
           updateCallback={updatePost}
           deleteCallback={deletePost}
           groupsInUse={groupsInUse}
+          errors={errors}
+          setErrors={setErrors}
         />
       ))}
       <div className="add-subposts">

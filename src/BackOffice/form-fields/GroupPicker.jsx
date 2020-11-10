@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Form, Checkbox } from "semantic-ui-react";
 import ErrorLabel from "../ErrorLabel";
 
@@ -11,7 +11,7 @@ const GroupPicker = ({
   editing,
 }) => {
   const redStar = <span style={{ color: "red" }}>*</span>;
-  const allGroupsSelected = groups.indexOf("all") >= 0;
+  const [allGroupsSelected, setAllGroupsSelected] = useState(false); //groups.indexOf("all") >= 0;
 
   const handleCheckbox = (group) => {
     setErrors({ ...errors, groups: false });
@@ -21,8 +21,9 @@ const GroupPicker = ({
       } else {
         setGroups(["duplicate"]);
       }
-    } else if (group === "all" && groups.indexOf("all") === -1) {
-      setGroups(["all"]);
+    } else if (group === "all") {
+      setAllGroupsSelected(!allGroupsSelected);
+      setGroups(allGroupsSelected ? [] : [...availableGroups]);
     } else if (groups.indexOf(group) >= 0) {
       setGroups(groups.filter((g) => g !== group));
     } else if (
