@@ -138,7 +138,16 @@ const CreateNewEvent = ({
         ) === -1,
       link: (linkTextEN.length !== 0 || linkTextNO.length !== 0) && !link,
       groups: groups.length === 0,
-      postGroupsAssigned: newSubeventPage && groups.some(group => !posts.map(post => post.startGroup).includes(group)),
+      postGroupsAssigned: newSubeventPage && (
+          groups.includes("all") ?
+          availableGroups
+              .filter(group => group !== "all")
+              .some(group => !posts.map(post => post.startGroup)
+              .includes(group)) :
+          groups
+              .some(group => !posts.map(post => post.startGroup)
+              .includes(group))
+      ),
       postStartTime: newSubeventPage && (startTimeHourPosts.length !== 2 || startTimeMinutePosts.length !== 2),
       postTime: newSubeventPage && postTime.length === 0,
       postTitle: newSubeventPage && posts.some(post => post.title === ""),
@@ -370,7 +379,11 @@ const CreateNewEvent = ({
 
             {newSubeventPage && (
               <EventWithPosts
-                selectedGroups={groups.sort(groupComparator)}
+                selectedGroups={
+                  groups.includes("all") ?
+                  availableGroups.filter(group => group !== "all").sort(groupComparator) :
+                  groups.sort(groupComparator)
+                }
                 posts={posts}
                 setPosts={setPosts}
                 postTime={postTime}
