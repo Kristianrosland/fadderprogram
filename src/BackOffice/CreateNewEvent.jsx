@@ -367,7 +367,7 @@ const CreateNewEvent = ({
 
             {/** for å få opp muligheten for å lage subevents **/}
 
-            <Checkbox
+            {/**<Checkbox
               label={`Lag et arrangement med subeventes`}
               className="group-checkbox full-width margin-top-medium"
               defaultChecked={newSubeventPage}
@@ -376,7 +376,7 @@ const CreateNewEvent = ({
                   ? setNewSubeventPage(true)
                   : setNewSubeventPage(false)
               }
-            />
+            />**/}
 
             {newSubeventPage && (
               <EventWithPosts
