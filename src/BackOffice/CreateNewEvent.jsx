@@ -153,7 +153,7 @@ const CreateNewEvent = ({
            startTimeMinutePosts.length !== 2 ||
           startTimeHourPosts < startTimeHour ||
           (startTimeHourPosts ===  startTimeHour && startTimeMinutePosts < startTimeMinute)),
-      postTime: newSubeventPage && parseInt(postTime) < 0,
+      postTime: newSubeventPage && (postTime === "" || parseInt(postTime) < 0),
       postTitle: newSubeventPage && posts.some(post => post.title === ""),
       postGroup: newSubeventPage && posts.some(post => post.startGroup === ""),
     };
