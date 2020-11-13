@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Form, Button, Checkbox } from "semantic-ui-react";
 import { translateDay, groupComparator } from "../Frontend/utils";
-import CreateSubevents from "./CreateSubevents";
 import "./createNewEvent.scss";
 import TimeFields from "./form-fields/TimeFields";
 import DayPicker from "./form-fields/DayPicker";
@@ -20,9 +19,6 @@ const CreateNewEvent = ({
   cancelCallback,
   submitCallback,
   updateCallback,
-  submitSubeventCallback,
-  deleteSubeventCallback,
-  addressSuggestions,
 }) => {
   // Denne syntaksen pakker ut existingEvent inn i alle variablene som står under. Ved å ha   = ""  bak så gir vi default-verdier til disse
 
@@ -113,7 +109,6 @@ const CreateNewEvent = ({
     postGroup: false,
   });
   const [submitting, setSubmitting] = useState(false);
-  const [addSubevents, setAddSubevents] = useState(false);
 
   const redStar = <span style={{ color: "red" }}>*</span>;
 
@@ -220,12 +215,6 @@ const CreateNewEvent = ({
     }
   };
 
-  const submitSubevent = (e) => {
-    if (existingEvent) {
-      submitSubeventCallback({ ...e, parent_event_id: existingEvent.id });
-    }
-  };
-
   /** State som sier om vi øsnker et event med subevents, for å kunne få opp en ny side */
   const [newSubeventPage, setNewSubeventPage] = useState(
     editing && existingEvent.posts.length > 0
@@ -252,17 +241,6 @@ const CreateNewEvent = ({
 
   return (
     <div className="flex-column create-event-wrapper">
-      {addSubevents ? (
-        <CreateSubevents
-          existingEvents={
-            existingEvent.subEvents ? existingEvent.subEvents : []
-          }
-          submitCallback={submitSubevent}
-          cancelCallback={() => setAddSubevents(false)}
-          deleteCallback={deleteSubeventCallback}
-          addressSuggestions={addressSuggestions}
-        />
-      ) : (
         <React.Fragment>
           <div className="create-event-header">
             Legg til et nytt event. Felter merket med {redStar} er
@@ -347,27 +325,12 @@ const CreateNewEvent = ({
                 availableGroups={availableGroups}
                 errors={errors}
                 setErrors={setErrors}
-                editing={editing}
               />
-            )}
-
-            {/** Denne vises kun dersom vi endrer på et event, ikke hvis vi oppretter **/}
-            {editing && (
-              <Button
-                type="button"
-                onClick={() => {
-                  setAddSubevents(true);
-                }}
-                className="full-width margin-bottom-small margin-top-small"
-                content="Legg til hendelser"
-              />
-
-              /************* NEW SUBEVENTS********************** */
             )}
 
             {/** for å få opp muligheten for å lage subevents **/}
 
-            {/**<Checkbox
+            <Checkbox
               label={`Lag et arrangement med subeventes`}
               className="group-checkbox full-width margin-top-medium"
               defaultChecked={newSubeventPage}
@@ -376,7 +339,7 @@ const CreateNewEvent = ({
                   ? setNewSubeventPage(true)
                   : setNewSubeventPage(false)
               }
-            />**/}
+            />
 
             {newSubeventPage && (
               <EventWithPosts
@@ -414,7 +377,6 @@ const CreateNewEvent = ({
             />
           </Form>
         </React.Fragment>
-      )}
     </div>
   );
 };
