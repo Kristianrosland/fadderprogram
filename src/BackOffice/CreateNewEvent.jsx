@@ -65,8 +65,12 @@ const CreateNewEvent = ({
         ]
   );
   const [postTime, setPostTime] = useState(existingEvent.post_time ? existingEvent.post_time : "");
-  const [startTimePosts, setStartTimePosts] = useState(existingEvent.start_time_posts ? existingEvent.start_time_posts : "" );
-
+  const [startTimeHourPosts, setStartTimeHourPosts] = useState(
+      existingEvent.start_time_posts ? existingEvent.start_time_posts.split(":")[0] : ""
+  );
+  const [startTimeMinutePosts, setStartTimeMinutePosts] = useState(
+      existingEvent.start_time_posts ? existingEvent.start_time_posts.split(":")[1] : ""
+  );
   /** *************************************************************************** */
 
   const [link, setLink] = useState(
@@ -102,7 +106,11 @@ const CreateNewEvent = ({
     timeStart: false,
     timeEnd: false,
     groups: false,
-    posts: false,
+    postGroupsAssigned: false,
+    postStartTime: false,
+    postTime: false,
+    postTitle: false,
+    postGroup: false,
   });
   const [submitting, setSubmitting] = useState(false);
   const [addSubevents, setAddSubevents] = useState(false);
@@ -130,6 +138,24 @@ const CreateNewEvent = ({
         ) === -1,
       link: (linkTextEN.length !== 0 || linkTextNO.length !== 0) && !link,
       groups: groups.length === 0,
+      postGroupsAssigned: newSubeventPage && ( // Sjekk at alle grupper er tildelt en post
+          groups.includes("all") ?
+          availableGroups
+              .filter(group => group !== "all")
+              .some(group => !posts.map(post => post.startGroup)
+              .includes(group)) :
+          groups
+              .some(group => !posts.map(post => post.startGroup)
+              .includes(group))
+      ),
+      postStartTime: newSubeventPage && // Sjekk at starttid poster er fylt ut og ikke er før starttid event
+          (startTimeHourPosts.length !== 2 ||
+           startTimeMinutePosts.length !== 2 ||
+          startTimeHourPosts < startTimeHour ||
+          (startTimeHourPosts ===  startTimeHour && startTimeMinutePosts < startTimeMinute)),
+      postTime: newSubeventPage && (postTime === "" || parseInt(postTime) < 0),
+      postTitle: newSubeventPage && posts.some(post => post.title === ""),
+      postGroup: newSubeventPage && posts.some(post => post.startGroup === ""),
     };
 
     callback(errs);
@@ -160,7 +186,7 @@ const CreateNewEvent = ({
         groups: groups.sort(groupComparator),
         posts: posts,
         post_time: postTime,
-        start_time_posts: startTimePosts,
+        start_time_posts: `${startTimeHourPosts}:${startTimeMinutePosts}`,
       };
 
       if (address.length >= 3) {
@@ -202,7 +228,7 @@ const CreateNewEvent = ({
 
   /** State som sier om vi øsnker et event med subevents, for å kunne få opp en ny side */
   const [newSubeventPage, setNewSubeventPage] = useState(
-    editing && existingEvent.posts.length > 0 ? true : false
+    editing && existingEvent.posts.length > 0
   );
 
   const fixOrderOnPosts = () => {
@@ -243,12 +269,9 @@ const CreateNewEvent = ({
             obligatoriske.
           </div>
           {/** *********************************************************** **/}
-          {
-            //TODO: For å endre til at data blir sendt til databasen så uncomment linje 237, og kommenter ut linjen over **/
-          }
+
           <Form
             className="create-event-form"
-            //onSubmit={readyForDatabase}
             onSubmit={submit}
             loading={!availableGroups || submitting}
           >
@@ -357,15 +380,21 @@ const CreateNewEvent = ({
 
             {newSubeventPage && (
               <EventWithPosts
-                selectedGroups={groups.sort(groupComparator)}
+                selectedGroups={
+                  groups.includes("all") ?
+                  availableGroups.filter(group => group !== "all").sort(groupComparator) :
+                  groups.sort(groupComparator)
+                }
                 posts={posts}
                 setPosts={setPosts}
-                errors={errors}
-                setErrors={setErrors}
                 postTime={postTime}
                 setPostTime={setPostTime}
-                startTimePosts={startTimePosts}
-                setStartTimePosts={setStartTimePosts}
+                startTimeHourPosts={startTimeHourPosts}
+                setStartTimeHourPosts={setStartTimeHourPosts}
+                startTimeMinutePosts={startTimeMinutePosts}
+                setStartTimeMinutePosts={setStartTimeMinutePosts}
+                errors={errors}
+                setErrors={setErrors}
               />
             )}
 

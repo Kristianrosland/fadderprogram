@@ -3,14 +3,16 @@ import SingleTextField from "./form-fields/SingleTextField";
 import LocationFields from "./form-fields/LocationFields";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-import { Dropdown } from "semantic-ui-react";
+import GroupDropDown from "./form-fields/GroupDropdown";
 
 const AddPost = ({
   selectedGroups,
   post,
   updateCallback,
   deleteCallback,
-  groupsInUse
+  groupsInUse,
+  errors,
+  setErrors
 }) => {
   const [id] = useState(post.id);
   const [title, setTitle] = useState(post.title);
@@ -44,15 +46,6 @@ const AddPost = ({
     [id, title, startGroup, address, googleMaps], 
   );
 
-
-  const [errors, setErrors] = useState({
-    address: false,
-    googleMaps: false,
-    id: false,
-    timeOnEveryPost: false,
-    title: false,
-  });
-
   return (
     <div>
       <div className="add-post-post-groups-and-title">
@@ -60,18 +53,14 @@ const AddPost = ({
           text={title}
           setText={setTitle}
           errors={errors}
-          setErrors={setErrors}
         />
         <div className="dropdown">
-          <label id="add-post-lable-velg-gruppe">Velg startgruppe</label>
-          <Dropdown
-            placeholder="Velg gruppe"
-            value={startGroup}
-            fluid
-            search
-            selection
-            options={groups}
-            onChange={(_, data) => setStartGroup(data.value)}
+          <GroupDropDown
+            groups={groups}
+            group={startGroup}
+            setGroup={setStartGroup}
+            errors={errors}
+            setErrors={setErrors}
           />
         </div>
         

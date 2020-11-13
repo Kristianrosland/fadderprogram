@@ -6,7 +6,6 @@ const SingleTextField = ({
   text,
   setText,
   errors,
-  setErrors,
 }) => {
   // Brukes for å vise at feltet er obligatorisk
   const redStar = <span style={{ color: "red" }}>*</span>;
@@ -15,13 +14,14 @@ const SingleTextField = ({
     <Form.Group grouped className="form-single-input-group">
       <label className="form-field-header">Post {redStar}</label>
 
-      <Form.Field error={errors.title}>
-        {errors.title && <ErrorLabel textKey={"ERROR_NAME_POST"} /> } 
+      <Form.Field error={errors.postTitle && text === "" }>
+
+        {errors.postTitle && text === "" &&<ErrorLabel textKey={"ERROR_POST_TITLE"} /> }
+
         <Input
           value={text}
           onChange={(e) => {
             setText(e.target.value);
-            setErrors({ ...errors, title: false });
           }}
         />
       </Form.Field>
