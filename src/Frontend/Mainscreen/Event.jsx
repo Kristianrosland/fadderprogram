@@ -69,7 +69,7 @@ const Event = ({ data, group }) => {
                 )}
                  {/***********************************/}
 
-                { open && posts && (
+                { open && posts?.length > 1 && (
                     <div className="sub-event-wrapper">
                         { postsWithTime.map( e => <Posts key={e.id} post={e} lang={lang}/>) }
                     </div>
