@@ -9,8 +9,7 @@ const WelcomeScreen = ({
   group,
   setGroup,
   setCookie,
-  groupNames,
-  coronaClosed,
+  groupNames
 }) => {
   const [state] = useContext(AppContext);
   const [selected, setSelected] = useState(group);
@@ -63,7 +62,7 @@ const WelcomeScreen = ({
   return (
     <div className="welcome-screen">
       <div>
-        <h1 className="welcome-screen-main-title corona-title"> {header} </h1>
+        <h1 className="welcome-screen-main-title"> {header} </h1>
         <h3 className="welcome-screen-sub-title"> {subtitle} </h3>
       </div>
       <img
@@ -80,11 +79,10 @@ const WelcomeScreen = ({
           onChange={(v) => setSelected(v)}
           options={groups}
           isSearchable={false}
-          isDisabled={groups.length === 0 || coronaClosed}
+          isDisabled={groups.length === 0}
         />
-        <div className="ready-button ready-button-corona" onClick={submit}>
+        <div className="ready-button" onClick={submit}>
           <p className="ready-button-text">
-            {" "}
             {buttonLabel} <FontAwesomeIcon icon={faChevronRight} />{" "}
           </p>
         </div>

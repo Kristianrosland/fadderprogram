@@ -92,3 +92,22 @@ export const selectGroups = ({ groups }, lang) => {
   const prefix = language === "NO" ? "Gruppe " : "Group ";
   return `${prefix} ${groups.join(", ")}`;
 };
+
+const calculateEndTime = (startTime, minUsed) => {
+  const hours_min = startTime.split(":");
+  let end_hour = (parseInt(hours_min[0]) + Math.floor((parseInt(hours_min[1])+ parseInt(minUsed)) / 60)) % 24;
+  let end_minute = (parseInt(hours_min[1]) + parseInt(minUsed)) % 60;
+  return `${end_hour < 10 ? "0" : ""}${end_hour}:${end_minute < 10 ? "0" : ""}${end_minute}`
+}
+
+export const mapTimeOnPosts = (event, sortedPosts) => {
+  let start_time = event.start_time_posts;
+  const post_time = event.post_time;
+  
+  return sortedPosts.map(post => {
+      const end_time = calculateEndTime(start_time, post_time);
+      const updatedPost = { ...post, start_time: start_time, end_time: end_time }
+      start_time = end_time;
+      return updatedPost
+  })
+}

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Form, Button } from "semantic-ui-react";
+import { Form, Button, Checkbox } from "semantic-ui-react";
 import { translateDay, groupComparator } from "../Frontend/utils";
-import CreateSubevents from "./CreateSubevents";
 import "./createNewEvent.scss";
 import TimeFields from "./form-fields/TimeFields";
 import DayPicker from "./form-fields/DayPicker";
@@ -10,6 +9,8 @@ import DescriptionFields from "./form-fields/DescriptionFields";
 import LocationFields from "./form-fields/LocationFields";
 import LinkFields from "./form-fields/LinkFields";
 import GroupPicker from "./form-fields/GroupPicker";
+import EventWithPosts from "./EventWithPosts";
+import uuid from "react-uuid";
 
 const CreateNewEvent = ({
   editing,
@@ -18,11 +19,9 @@ const CreateNewEvent = ({
   cancelCallback,
   submitCallback,
   updateCallback,
-  submitSubeventCallback,
-  deleteSubeventCallback,
-  addressSuggestions,
 }) => {
   // Denne syntaksen pakker ut existingEvent inn i alle variablene som står under. Ved å ha   = ""  bak så gir vi default-verdier til disse
+
   const {
     title_NO = "",
     title_EN = "",
@@ -46,6 +45,30 @@ const CreateNewEvent = ({
   const [googleMaps, setGoogleMaps] = useState(google_maps);
   const [linkTextNO, setLinkTextNO] = useState(linkText_NO);
   const [linkTextEN, setLinkTextEN] = useState(linkText_EN);
+
+  /** Her er syntaxen til subeventene */
+  const [posts, setPosts] = useState(
+    existingEvent.posts
+      ? existingEvent.posts
+      : [
+          {
+            id: uuid(),
+            title: "",
+            startGroup: "",
+            address: "",
+            googleMaps: "",
+          },
+        ]
+  );
+  const [postTime, setPostTime] = useState(existingEvent.post_time ? existingEvent.post_time : "");
+  const [startTimeHourPosts, setStartTimeHourPosts] = useState(
+      existingEvent.start_time_posts ? existingEvent.start_time_posts.split(":")[0] : ""
+  );
+  const [startTimeMinutePosts, setStartTimeMinutePosts] = useState(
+      existingEvent.start_time_posts ? existingEvent.start_time_posts.split(":")[1] : ""
+  );
+  /** *************************************************************************** */
+
   const [link, setLink] = useState(
     existingEvent.link ? existingEvent.link : ""
   );
@@ -79,9 +102,13 @@ const CreateNewEvent = ({
     timeStart: false,
     timeEnd: false,
     groups: false,
+    postGroupsAssigned: false,
+    postStartTime: false,
+    postTime: false,
+    postTitle: false,
+    postGroup: false,
   });
   const [submitting, setSubmitting] = useState(false);
-  const [addSubevents, setAddSubevents] = useState(false);
 
   const redStar = <span style={{ color: "red" }}>*</span>;
 
@@ -106,6 +133,24 @@ const CreateNewEvent = ({
         ) === -1,
       link: (linkTextEN.length !== 0 || linkTextNO.length !== 0) && !link,
       groups: groups.length === 0,
+      postGroupsAssigned: newSubeventPage && ( // Sjekk at alle grupper er tildelt en post
+          groups.includes("all") ?
+          availableGroups
+              .filter(group => group !== "all")
+              .some(group => !posts.map(post => post.startGroup)
+              .includes(group)) :
+          groups
+              .some(group => !posts.map(post => post.startGroup)
+              .includes(group))
+      ),
+      postStartTime: newSubeventPage && // Sjekk at starttid poster er fylt ut og ikke er før starttid event
+          (startTimeHourPosts.length !== 2 ||
+           startTimeMinutePosts.length !== 2 ||
+          startTimeHourPosts < startTimeHour ||
+          (startTimeHourPosts ===  startTimeHour && startTimeMinutePosts < startTimeMinute)),
+      postTime: newSubeventPage && (postTime === "" || parseInt(postTime) < 0),
+      postTitle: newSubeventPage && posts.some(post => post.title === ""),
+      postGroup: newSubeventPage && posts.some(post => post.startGroup === ""),
     };
 
     callback(errs);
@@ -118,6 +163,11 @@ const CreateNewEvent = ({
     if (formIsValid) {
       setSubmitting(true);
       const isMentorBoard = availableGroups.indexOf("all") >= 0;
+
+      if (newSubeventPage) {
+        fixOrderOnPosts();
+      }
+
       const event = {
         title_NO: titleNO,
         title_EN: titleEN,
@@ -129,6 +179,9 @@ const CreateNewEvent = ({
         from_EN: isMentorBoard ? "the mentor board" : "group leader",
         start_time: `${startTimeHour}:${startTimeMinute}`,
         groups: groups.sort(groupComparator),
+        posts: posts,
+        post_time: postTime,
+        start_time_posts: `${startTimeHourPosts}:${startTimeMinutePosts}`,
       };
 
       if (address.length >= 3) {
@@ -162,35 +215,45 @@ const CreateNewEvent = ({
     }
   };
 
-  const submitSubevent = (e) => {
-    if (existingEvent) {
-      submitSubeventCallback({ ...e, parent_event_id: existingEvent.id });
-    }
+  /** State som sier om vi øsnker et event med subevents, for å kunne få opp en ny side */
+  const [newSubeventPage, setNewSubeventPage] = useState(
+    editing && existingEvent.posts[0].title !== "" // This is just a quick fix should be looked at later
+  );
+  const fixOrderOnPosts = () => {
+    const getGroupOrder = () => {
+      const order = [];
+      posts.forEach((post) => order.unshift(post.startGroup));
+      return order;
+    };
+
+    const assignGroupOrder = () => {
+      const groupOrder = getGroupOrder();
+      posts.forEach((post) => {
+        while (groupOrder[0] !== post.startGroup) {
+          groupOrder.push(groupOrder.shift());
+        }
+        post.order = [...groupOrder];
+      });
+    };
+    assignGroupOrder();
   };
 
   return (
     <div className="flex-column create-event-wrapper">
-      {addSubevents ? (
-        <CreateSubevents
-          existingEvents={
-            existingEvent.subEvents ? existingEvent.subEvents : []
-          }
-          submitCallback={submitSubevent}
-          cancelCallback={() => setAddSubevents(false)}
-          deleteCallback={deleteSubeventCallback}
-          addressSuggestions={addressSuggestions}
-        />
-      ) : (
         <React.Fragment>
           <div className="create-event-header">
             Legg til et nytt event. Felter merket med {redStar} er
             obligatoriske.
           </div>
+          {/** *********************************************************** **/}
+
           <Form
             className="create-event-form"
             onSubmit={submit}
             loading={!availableGroups || submitting}
           >
+            {/** *********************************************************** **/}
+
             {/** TITTEL  **/}
             <TitleFields
               titleNO={titleNO}
@@ -261,19 +324,39 @@ const CreateNewEvent = ({
                 availableGroups={availableGroups}
                 errors={errors}
                 setErrors={setErrors}
-                editing={editing}
               />
             )}
 
-            {/** Denne vises kun dersom vi endrer på et event, ikke hvis vi oppretter **/}
-            {editing && (
-              <Button
-                type="button"
-                onClick={() => {
-                  setAddSubevents(true);
-                }}
-                className="full-width margin-bottom-small margin-top-small"
-                content="Legg til hendelser"
+            {/** for å få opp muligheten for å lage subevents **/}
+
+            <Checkbox
+              label={`Lag et arrangement med subeventes`}
+              className="group-checkbox full-width margin-top-medium"
+              defaultChecked={newSubeventPage}
+              onChange={() =>
+                newSubeventPage === false
+                  ? setNewSubeventPage(true)
+                  : setNewSubeventPage(false)
+              }
+            />
+
+            {newSubeventPage && (
+              <EventWithPosts
+                selectedGroups={
+                  groups.includes("all") ?
+                  availableGroups.filter(group => group !== "all").sort(groupComparator) :
+                  groups.sort(groupComparator)
+                }
+                posts={posts}
+                setPosts={setPosts}
+                postTime={postTime}
+                setPostTime={setPostTime}
+                startTimeHourPosts={startTimeHourPosts}
+                setStartTimeHourPosts={setStartTimeHourPosts}
+                startTimeMinutePosts={startTimeMinutePosts}
+                setStartTimeMinutePosts={setStartTimeMinutePosts}
+                errors={errors}
+                setErrors={setErrors}
               />
             )}
 
@@ -284,6 +367,7 @@ const CreateNewEvent = ({
               className="full-width margin-bottom-small margin-top-medium"
               content="Avbryt"
             />
+
             <Button
               primary
               type="submit"
@@ -292,7 +376,6 @@ const CreateNewEvent = ({
             />
           </Form>
         </React.Fragment>
-      )}
     </div>
   );
 };

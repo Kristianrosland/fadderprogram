@@ -1,141 +1,198 @@
-@import '../Frontend/constants.scss';
+@import "../Frontend/constants.scss";
 
 .create-event-wrapper {
-    width: 100%;
-    height: 100%;
-    align-items: center;
+  width: 100%;
+  height: 100%;
+  align-items: center;
 }
 
 .create-event-header {
-    width: 80%;
-    height: 10%;
-    text-align: center;
-    margin-bottom: 1.8rem;
+  width: 80%;
+  height: 10%;
+  text-align: center;
+  margin-bottom: 1.8rem;
 }
 
 .create-event-form {
-    width: 80%;
-    @media all and (min-width: $breakpoint-desktop) {
-        width: 55%;
-    }
+  width: 80%;
+  @media all and (min-width: $breakpoint-desktop) {
+    width: 55%;
+  }
 }
 
 .form-field-header {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 .form-field-title {
-    font-weight: 300 !important;
+  font-weight: 300 !important;
 }
 
 .form-input-group {
-    margin-bottom: 32px !important;
+  margin-bottom: 32px !important;
 }
 
 .google-maps-link {
-    color: white !important;
+  color: white !important;
 }
 
 .time-input {
-    width: 3.5rem !important;
+  width: 3.5rem !important;
 }
 
 .time-separator {
-    font-size: 1.5rem;
-    vertical-align: center;
-    margin-left: 3px;
-    margin-right: 3px;
-    margin-bottom: 5px;
-    color: $text-lightgray;
+  font-size: 1.5rem;
+  vertical-align: center;
+  margin-left: 3px;
+  margin-right: 3px;
+  margin-bottom: 5px;
+  color: $text-lightgray;
 }
 
 .group-checkbox {
-    width: 45%;
-    margin-top: 3px;
+  width: 45%;
+  margin-top: 3px;
 }
 
 .checkbox-error {
-    label {
-        color: #9f3a38 !important;
-    }
+  label {
+    color: #9f3a38 !important;
+  }
+}
+/** *********************************************************** */
+//TODO: Dette er stylingen til de nye subeventene 
+.add-post-post-groups-and-title {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  @media all and (max-width: $breakpoint-mobile) {
+    flex-direction: column;
+  }
 }
 
+.form-single-input-group {
+  margin-bottom: 0 !important;
+  width: 65%;
+  @media all and (max-width: $breakpoint-mobile) {
+    width: 100%;
+  }
+}
+
+.add-subposts {
+  display: flex;
+  justify-content: center;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+/** ****************************************************** */
+
+.test {
+  padding-right: 65%;
+}
+
+.dropdown {
+  margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  margin-bottom: auto;
+}
+
+#add-post-lable-velg-gruppe {
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+/* ************************************************ */
+
 .add-sub-event-wrapper {
-    width: 80%;
-    @media all and (max-width: $breakpoint-mobile) {
-        width: 90%;
-    }
+  width: 80%;
+  @media all and (max-width: $breakpoint-mobile) {
+    width: 90%;
+  }
 }
 
 .existing-subevent {
-    background-color: $editable-event-background;
-    min-height: 6rem;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    border-radius: 1rem;
+  background-color: $editable-event-background;
+  min-height: 6rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  border-radius: 1rem;
 
-    @media all and (max-width: $breakpoint-mobile) {
-        flex-direction: column !important;
-    }
+  @media all and (max-width: $breakpoint-mobile) {
+    flex-direction: column !important;
+  }
 }
 
 .sub-event-time-label {
-    width: 10%;
-    font-size: 1.1rem;
-    @media all and (max-width: $breakpoint-mobile) {
-        width: 100%;
-        margin-top: 1rem;
-    }
+  width: 10%;
+  font-size: 1.1rem;
+  @media all and (max-width: $breakpoint-mobile) {
+    width: 100%;
+    margin-top: 1rem;
+  }
 }
 
 .sub-event-title-label {
-    font-size: 1.2rem;
-    margin-bottom: 0.33rem;
-    @media all and (max-width: $breakpoint-mobile) {
-        width: 100%;
-    }
+  font-size: 1.2rem;
+  margin-bottom: 0.33rem;
+  @media all and (max-width: $breakpoint-mobile) {
+    width: 100%;
+  }
 }
 
 .sub-event-title-wrapper {
-    width: 18%;
-    @media all and (max-width: $breakpoint-mobile) {
-        width: 100%;
-        margin-top: 1rem;
-    }
+  width: 18%;
+  @media all and (max-width: $breakpoint-mobile) {
+    width: 100%;
+    margin-top: 1rem;
+  }
 }
 
 .sub-event-google-maps {
-    max-width: 60%;
-    word-break: break-all;
-    margin-left: 1rem;
-    @media all and (max-width: $breakpoint-mobile) {
-        max-width: 90%;
-        width: 90%;
-        margin-top: 1rem;
-        margin-left: 0;
-    }
+  max-width: 60%;
+  word-break: break-all;
+  margin-left: 1rem;
+  @media all and (max-width: $breakpoint-mobile) {
+    max-width: 90%;
+    width: 90%;
+    margin-top: 1rem;
+    margin-left: 0;
+  }
 }
 
 .subevent-form {
-    width: 80%;
+  width: 80%;
 }
 
 .test-link-button {
-    margin-top: 0.25rem !important;
-    width: 40%;
-    
-    @media all and (max-width: $breakpoint-mobile) {
-        width: 100%;
-    }
+  margin-top: 0.25rem !important;
+  width: 40%;
+
+  @media all and (max-width: $breakpoint-mobile) {
+    width: 100%;
+  }
 }
 
 .sub-event-trash {
-    margin-left: auto;
-    margin-right: 2.5rem;
-    @media all and (max-width: $breakpoint-mobile) {
-        margin-right: 1rem;
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-    }
+  margin-left: auto;
+  margin-right: 2.5rem;
+  @media all and (max-width: $breakpoint-mobile) {
+    margin-right: 1rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
 }

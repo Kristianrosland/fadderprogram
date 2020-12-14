@@ -52,7 +52,7 @@ const MainScreen = ({ group, events, removeGroup }) => {
       .filter((e) => translateDayIdx(e.day_NO) === day)
       .filter((e) => eventForGroupFilter(e, group))
       .sort(eventTimeComparator)
-      .map((e) => <Event key={e.id} data={e} />)
+      .map((e) => <Event key={e.id} data={e} group={group}/>)
   ) : (
     <>
       {" "}

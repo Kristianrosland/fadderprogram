@@ -3,12 +3,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as SolidIcons from '@fortawesome/free-solid-svg-icons';
 import IconLabel from './IconLabel';
 import { AppContext } from '../App';
-import { eventTimeComparator, selectField, selectTime, selectGroups } from '../utils';
+import { eventTimeComparator, selectField, selectTime, selectGroups, mapTimeOnPosts } from '../utils';
+import Posts from "./Posts";
 import './event.scss';
 
-/****************************/
-/**** SubEvent component ****/
-/****************************/
+/***********************************/
+/**** Gammel SubEvent component ****/
+/***********************************/
 const SubEvent = ({ event, event: { google_maps }, lang }) => {
     const showUrl = google_maps && google_maps.startsWith('https');
 
@@ -26,8 +27,9 @@ const SubEvent = ({ event, event: { google_maps }, lang }) => {
 /*****************************/
 /****** Event component ******/
 /*****************************/
-const Event = ({ data }) => {
+const Event = ({ data, group }) => {
     const event = data;
+    const posts = data.posts
     const [ open, setOpen ] = useState(true);
     const [ state ] = useContext(AppContext);
     const lang = state.lang;
@@ -42,6 +44,10 @@ const Event = ({ data }) => {
     const linkText = selectField(event, 'linkText', lang);
     const chevron = open ? SolidIcons["faChevronUp"] : SolidIcons["faChevronDown"];
 
+    const sortedPosts = !posts ? [] : posts.sort((p1, p2) => p1.order.indexOf(group.value) - p2.order.indexOf(group.value));
+
+    const postsWithTime = mapTimeOnPosts(event, sortedPosts);
+
     return (
         <div className="event-wrapper">
             <div className="event">
@@ -52,11 +58,20 @@ const Event = ({ data }) => {
                 { open && from && <IconLabel icon="faComment" label={from} /> }
                 { open && link && linkText && <IconLabel icon="faLink" label={linkText} link={link}/> }
                 { open && description && <p className="event-description"> { description } </p> }
+                {/***********************************/
+                 /**** Gammel SubEvent component ****/}
                 { open && event.subEvents && event.subEvents.length > 0 && ( 
                     <div className="sub-event-wrapper">
                         { event.subEvents
                             .sort(eventTimeComparator)
                             .map(e => <SubEvent key={`${e.parent_event_id}-${e.title_NO}`} event={e} lang={lang}/>) }
+                    </div>
+                )}
+                 {/***********************************/}
+
+                { open && posts?.length > 1 && (
+                    <div className="sub-event-wrapper">
+                        { postsWithTime.map( e => <Posts key={e.id} post={e} lang={lang}/>) }
                     </div>
                 )}
                 <div className="event-chevron" onClick={() => setOpen(!open)}>

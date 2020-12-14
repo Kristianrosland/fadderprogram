@@ -7,7 +7,7 @@ import DeleteModal from "./DeleteModal";
 import AddEventButton from "./AddEventButton";
 import "./eventManager.scss";
 
-const EventManager = ({ user, events = [], addressSuggestions, firestore }) => {
+const EventManager = ({ user, events = [], firestore }) => {
   const [groups, setGroups] = useState(undefined);
   const [createNew, setCreateNew] = useState(false);
   const [editEvent, setEditEvent] = useState(undefined);
@@ -35,18 +35,11 @@ const EventManager = ({ user, events = [], addressSuggestions, firestore }) => {
           firestore.addEvent(event, user.uid).then(setCreateNew(false));
           window.scrollTo(0, 0);
         }}
-        submitSubeventCallback={(event) => {
-          firestore.addSubEvent(event, user.uid);
-        }}
-        deleteSubeventCallback={(event_id) => {
-          firestore.removeSubEvent(event_id);
-        }}
         updateCallback={(event) => {
           firestore.updateEvent(event).then(setEditEvent(undefined));
           window.scrollTo(0, 0);
         }}
         availableGroups={groups}
-        addressSuggestions={addressSuggestions}
       />
     );
   }

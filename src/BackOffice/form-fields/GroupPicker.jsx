@@ -8,7 +8,6 @@ const GroupPicker = ({
   availableGroups,
   errors,
   setErrors,
-  editing,
 }) => {
   const redStar = <span style={{ color: "red" }}>*</span>;
   const allGroupsSelected = groups.indexOf("all") >= 0;
@@ -63,16 +62,6 @@ const GroupPicker = ({
             }
           />
         ))}
-
-        {/** Denne vises kun dersom man oppretter event, ikke dersom man endrer **/}
-        {!editing && availableGroups.length >= 2 && (
-          <Checkbox
-            label={`Lag et separat event for hver gruppe. Nyttig for events som skal ha egen timeplane per gruppe, eks. Bar-til-bar.`}
-            className="group-checkbox full-width margin-top-medium"
-            onClick={() => handleCheckbox("duplicate")}
-            checked={groups.indexOf("duplicate") >= 0}
-          />
-        )}
       </Form.Field>
     </Form.Group>
   );
