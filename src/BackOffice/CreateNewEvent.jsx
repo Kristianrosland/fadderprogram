@@ -217,9 +217,8 @@ const CreateNewEvent = ({
 
   /** State som sier om vi øsnker et event med subevents, for å kunne få opp en ny side */
   const [newSubeventPage, setNewSubeventPage] = useState(
-    editing && existingEvent.posts.length > 0
+    editing && existingEvent.posts[0].title !== "" // This is just a quick fix should be looked at later
   );
-
   const fixOrderOnPosts = () => {
     const getGroupOrder = () => {
       const order = [];
