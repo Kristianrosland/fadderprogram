@@ -24,7 +24,7 @@
     "react-loading-skeleton": "^1.1.2",
     "react-modal": "^3.9.1",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "3.0.1",
+    "react-scripts": "5.0.1",
     "react-select": "^3.0.4",
     "react-uuid": "^1.0.2",
     "semantic-ui-react": "^2.0.0"
